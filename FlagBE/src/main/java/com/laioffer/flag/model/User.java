@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -17,7 +15,9 @@ public class User implements Serializable {
     @Id
     private String username;
     @JsonIgnore
-    private Integer room;
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
     @JsonIgnore
     private String password;
     @JsonIgnore
@@ -48,11 +48,11 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public Integer getRoom() {
+    public Room getRoom() {
         return room;
     }
 
-    public void setRoom(Integer room) {
+    public void setRoom(Room room) {
         this.room = room;
     }
 
@@ -92,7 +92,7 @@ public class User implements Serializable {
         @JsonProperty("username")
         private String username;
         @JsonProperty("room")
-        private Integer room;
+        private Room room;
         @JsonProperty("password")
         private String password;
         @JsonProperty("email")
@@ -107,7 +107,7 @@ public class User implements Serializable {
             return this;
         }
 
-        public Builder setRoom(Integer room) {
+        public Builder setRoom(Room room) {
             this.room = room;
             return this;
         }
