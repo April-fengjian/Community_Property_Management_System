@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 import java.sql.Date;
+import java.util.List;
 
 
 @Entity
@@ -25,6 +26,9 @@ public class Message implements Serializable {
     @JoinColumn(name = "user_id")
     private User host;
 
+    @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    private List<Comment> comments;
+
     public Message() {}
 
     private Message(Builder builder) {
@@ -33,6 +37,7 @@ public class Message implements Serializable {
         this.time = builder.time;
         this.description = builder.description;
         this.host = builder.host;
+        this.comments = builder.comments;
     }
 
     public Date getTime() {
@@ -91,6 +96,9 @@ public class Message implements Serializable {
         @JsonProperty("host")
         private User host;
 
+        @JsonProperty("comment")
+        private List<Comment> comments;
+
         public Builder setId(Long id) {
             this.message_id = id;
             return this;
@@ -110,6 +118,11 @@ public class Message implements Serializable {
         }
         public Builder setHost(User host) {
             this.host = host;
+            return this;
+        }
+
+        public Builder setComments(List<Comment> comments) {
+            this.comments = comments;
             return this;
         }
         public Message build() {
