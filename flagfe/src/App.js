@@ -64,7 +64,7 @@ class App extends React.Component {
       <Layout style={{ height: "100vh" }}>
         <Header style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{ fontSize: 16, fontWeight: 600, color: "white" }}>
-            Stays Booking
+            Flag Community
           </div>
           {this.state.authed && (
             <div>
