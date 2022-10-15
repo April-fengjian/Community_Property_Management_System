@@ -20,29 +20,29 @@ public class ServiceRepositoryService {
         this.serviceRequestRepository = serviceRequestRepository;
     }
 
-    public List<ServiceRequest> listByUser(String username) {
-        return serviceRequestRepository.findByHost(new User.Builder().setUsername(username).build());
-    }
+//    public List<ServiceRequest> listByUser(String username) {
+//        return serviceRequestRepository.findByHost(new User.Builder().setUsername(username).build());
+//    }
+//
+//    public ServiceRequest findByIdAndHost(Long maintenance_id, String username) throws ServiceRequestNotExistException {
+//        ServiceRequest stay = serviceRequestRepository.findByIdAndHost(maintenance_id, new User.Builder().setUsername(username).build());
+//        if (stay == null) {
+//            throw new ServiceRequestNotExistException("ServiceRequest doesn't exist");
+//        }
+//        return stay;
+//    }
 
-    public ServiceRequest findByIdAndHost(Long maintenance_id, String username) throws ServiceRequestNotExistException {
-        ServiceRequest stay = serviceRequestRepository.findByIdAndHost(maintenance_id, new User.Builder().setUsername(username).build());
-        if (stay == null) {
-            throw new ServiceRequestNotExistException("ServiceRequest doesn't exist");
-        }
-        return stay;
-    }
-
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void updateStatus(String status, Long stayId, String username) throws ServiceRequestNotExistException, StatusUpdateException {
-        ServiceRequest serviceRequest = serviceRequestRepository.findByIdAndHost(stayId, new User.Builder().setUsername(username).build());
-        if (serviceRequest == null) {
-            throw new ServiceRequestNotExistException("ServiceRequest doesn't exist");
-        }
-        int numOfLinesChanged = serviceRequestRepository.changeStatus(status, new User.Builder().setUsername(username).build());
-        if (numOfLinesChanged == 0) {
-            throw new StatusUpdateException("No status change");
-        }
-    }
+//    @Transactional(isolation = Isolation.SERIALIZABLE)
+//    public void updateStatus(String status, Long stayId, String username) throws ServiceRequestNotExistException, StatusUpdateException {
+//        ServiceRequest serviceRequest = serviceRequestRepository.findByIdAndHost(stayId, new User.Builder().setUsername(username).build());
+//        if (serviceRequest == null) {
+//            throw new ServiceRequestNotExistException("ServiceRequest doesn't exist");
+//        }
+//        int numOfLinesChanged = serviceRequestRepository.changeStatus(status, new User.Builder().setUsername(username).build());
+//        if (numOfLinesChanged == 0) {
+//            throw new StatusUpdateException("No status change");
+//        }
+//    }
 
 
 
