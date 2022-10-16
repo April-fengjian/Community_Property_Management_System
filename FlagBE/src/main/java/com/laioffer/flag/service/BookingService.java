@@ -6,7 +6,7 @@ import com.laioffer.flag.model.Booking;
 import com.laioffer.flag.model.Room;
 import com.laioffer.flag.model.User;
 import com.laioffer.flag.repository.BookingRepository;
-import com.laioffer.flag.repository.roomBookingDateRepository;
+//import com.laioffer.flag.repository.roomBookingDateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -20,21 +20,21 @@ import java.util.Set;
 
 @Service
 public class BookingService {
-    private com.laioffer.flag.repository.BookingRepository BookingRepository;
-
-
-    @Autowired
-    public BookingService(BookingRepository BookingRepository) {
-        this.BookingRepository = BookingRepository;
-    }
-
-    public List<Booking> listByGuest(String username) {
-        return BookingRepository.findByGuest(new User.Builder().setUsername(username).build());
-    }
-
-    public List<Booking> listByRoom(Integer roomId) {
-        return BookingRepository.findByRoom(new Room.Builder().setId(roomId).build());
-    }
+//    private com.laioffer.flag.repository.BookingRepository BookingRepository;
+//
+//
+//    @Autowired
+//    public BookingService(BookingRepository BookingRepository) {
+//        this.BookingRepository = BookingRepository;
+//    }
+//
+//    public List<Booking> listByGuest(String username) {
+//        return BookingRepository.findByGuest(new User.Builder().setUsername(username).build());
+//    }
+//
+//    public List<Booking> listByRoom(Integer roomId) {
+//        return BookingRepository.findByRoom(new Room.Builder().setId(roomId).build());
+//    }
 
 //    @Transactional(isolation = Isolation.SERIALIZABLE)
 //    public void add(Booking Booking) throws BookingCollisionException {
@@ -43,11 +43,11 @@ public class BookingService {
 //            throw new BookingCollisionException("Duplicate Booking");
 //        }
 //
-//        List<StayReservedDate> reservedDates = new ArrayList<>();
-//        for (LocalDate date = Booking.getCheckinDate(); date.isBefore(Booking.getCheckoutDate()); date = date.plusDays(1)) {
-//            reservedDates.add(new StayReservedDate(new StayReservedDateKey(Booking.getStay().getId(), date), Booking.getStay()));
-//        }
-//        stayBookingDateRepository.saveAll(reservedDates);
+////        List<StayReservedDate> reservedDates = new ArrayList<>();
+////        for (LocalDate date = Booking.getCheckinDate(); date.isBefore(Booking.getCheckoutDate()); date = date.plusDays(1)) {
+////            reservedDates.add(new StayReservedDate(new StayReservedDateKey(Booking.getStay().getId(), date), Booking.getStay()));
+////        }
+////        roomBookingDateRepository.saveAll(reservedDates);
 //        BookingRepository.save(Booking);
 //    }
 //
@@ -58,7 +58,7 @@ public class BookingService {
 //            throw new BookingNotFoundException("Booking is not available");
 //        }
 //        for (LocalDate date = Booking.getCheckinDate(); date.isBefore(Booking.getCheckoutDate()); date = date.plusDays(1)) {
-//            roomBookingDateRepository.deleteById(new StayReservedDateKey(Booking.getStay().getId(), date));
+//            roomBookingDateRepository.deleteById(new RoomBookingDateKey(Booking.getRoom().getId(), date));
 //        }
 //        BookingRepository.deleteById(BookingId);
 //    }

@@ -1,5 +1,6 @@
 package com.laioffer.flag.controller;
 
+import com.laioffer.flag.exception.InvalidBookingDateException;
 import com.laioffer.flag.model.Booking;
 import com.laioffer.flag.model.User;
 import com.laioffer.flag.service.BookingService;
@@ -23,19 +24,19 @@ public class BookingController {
 //        return BookingService.listByGuest(principal.getName());
 //    }
 //
-//    @PostMapping("/reservations")
-//    public void addReservation(@RequestBody Reservation reservation, Principal principal) {
-//        LocalDate checkinDate = reservation.getCheckinDate();
-//        LocalDate checkoutDate = reservation.getCheckoutDate();
+//    @PostMapping("/bookings")
+//    public void addReservation(@RequestBody Booking booking, Principal principal) {
+//        LocalDate checkinDate = booking.getCheckinDate();
+//        LocalDate checkoutDate = booking.getCheckoutDate();
 //        if (checkinDate.equals(checkoutDate) || checkinDate.isAfter(checkoutDate) || checkinDate.isBefore(LocalDate.now())) {
-//            throw new InvalidReservationDateException("Invalid date for reservation");
+//            throw new InvalidBookingDateException("Invalid date for reservation");
 //        }
-//        reservation.setGuest(new User.Builder().setUsername(principal.getName()).build());
-//        reservationService.add(reservation);
+//        booking.setGuest(new User.Builder().setUsername(principal.getName()).build());
+//        bookingService.add(booking);
 //    }
 //
-//    @DeleteMapping("/reservations/{reservationId}")
-//    public void deleteReservation(@PathVariable Long reservationId, Principal principal) {
-//        bookingService.delete(reservationId, principal.getName());
+//    @DeleteMapping("/bookings/{bookingId}")
+//    public void deleteBooking(@PathVariable Long bookingId, Principal principal) {
+//        bookingService.delete(bookingId, principal.getName());
 //    }
 }
