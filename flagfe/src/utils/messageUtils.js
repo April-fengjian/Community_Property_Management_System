@@ -1,4 +1,6 @@
 
+const domain = '';
+
 export const postNewAnnounce = (data) => {
     const authToken = localStorage.getItem("authToken");
     const announceUrl = `${domain}/announcement/add`;
