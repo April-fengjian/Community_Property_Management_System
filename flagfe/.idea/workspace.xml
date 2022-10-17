@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="495c8d03-4f5a-4689-a4e4-9db6796344a7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/components/Announcement.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Announcement.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PostAnnouncement.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PostAnnouncement.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2GE8lWxFnflrkOdGyQhev9AxZLm" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Lisha/Documents/Lai/202207/Community_Property_Management_System/FlagBE",
+    "nodejs_package_manager_path": "npm"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="495c8d03-4f5a-4689-a4e4-9db6796344a7" name="Changes" comment="" />
+      <created>1665942533583</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665942533583</updated>
+      <workItem from="1665942534780" duration="13000" />
+    </task>
+    <servers />
+  </component>
+</project>
