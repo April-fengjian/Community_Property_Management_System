@@ -6,7 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import javax.persistence.*;
 import java.io.Serializable;
 
-import java.sql.Date;
+//import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -20,7 +21,8 @@ public class Message implements Serializable {
     private Long message_id;
     private String title;
 
-    private Date time;
+    private LocalDate time;
+
     private String description;
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -40,11 +42,11 @@ public class Message implements Serializable {
         this.comments = builder.comments;
     }
 
-    public Date getTime() {
+    public LocalDate getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDate time) {
         this.time = time;
     }
 
@@ -88,7 +90,7 @@ public class Message implements Serializable {
         private String title;
 
         @JsonProperty("time")
-        private Date time;
+        private LocalDate time;
 
         @JsonProperty("description")
         private String description;
@@ -108,7 +110,7 @@ public class Message implements Serializable {
             this.title = title;
             return this;
         }
-        public Builder setTime(Date time) {
+        public Builder setTime(LocalDate time) {
             this.time = time;
             return this;
         }
