@@ -1,35 +1,161 @@
-  import { Comment, List, Tooltip } from 'antd';
-  import React from 'react';
+  import { Avatar, Button, List, Tooltip, Typography, Modal, Space } from 'antd';
+  import React, { useState } from 'react';
+  import moment from 'moment';
+  import {
+    InfoCircleOutlined,
+    InfoOutlined
+  } from "@ant-design/icons";
+
+  const { Title, Text } = Typography;
 
   const comments = [
     {
-      author: 'tenant01',
+      username: 'tenant01',
+      title: 'moving sale',
       content: 'content01',
-      datetime: 'time01'
+      time: moment('2022-10-15').fromNow(),
+      announce_id: '01'
     },
     {
-      author: 'tenant02',
+      username: 'tenant01',
+      title: 'long long long long long long long long long long long long',
+      content: 'content01',
+      time: moment('2022-10-15').fromNow(),
+      announce_id: '01'
+    },
+    {
+      username: 'tenant02',
+      title: 'dog walker needed',
       content: 'content02',
-      datetime: 'time02'
+      time: moment('2022-10-13').fromNow(),
+      announce_id: '02'
+    },
+    {
+      username: 'tenant01',
+      title: 'moving sale',
+      content: 'content01',
+      time: moment('2022-10-15').fromNow(),
+      announce_id: '01'
+    },
+    {
+      username: 'tenant02',
+      title: 'dog walker needed',
+      content: 'content02',
+      time: moment('2022-10-13').fromNow(),
+      announce_id: '02'
+    },
+    {
+      username: 'tenant01',
+      title: 'moving sale',
+      content: 'content01content01content01content01content01content01content01content01content01',
+      time: moment('2022-10-15').fromNow(),
+      announce_id: '01'
+    },
+    {
+      username: 'tenant02',
+      title: 'dog walker needed',
+      content: 'content02',
+      time: moment('2022-10-13').fromNow(),
+      announce_id: '02'
+    },
+    {
+      username: 'tenant01',
+      title: 'moving sale',
+      content: 'content01content01content01content01content01content01content01content01content01',
+      time: moment('2022-10-15').fromNow(),
+      announce_id: '01'
+    },
+    {
+      username: 'tenant02',
+      title: 'dog walker needed',
+      content: 'content02',
+      time: moment('2022-10-13').fromNow(),
+      announce_id: '02'
+    },    {
+      username: 'tenant01',
+      title: 'moving sale',
+      content: 'content01content01content01content01content01content01content01content01content01',
+      time: moment('2022-10-15').fromNow(),
+      announce_id: '01'
+    },
+    {
+      username: 'tenant02',
+      title: 'dog walker needed',
+      content: 'content02',
+      time: moment('2022-10-13').fromNow(),
+      announce_id: '02'
     },
   ];
   const Announcement = () => (
     <List
-    className="comment-list"
-    header={`${comments.length} ${comments.length > 1 ? 'Active Announcements' : 'Active Announcement'}`}
+    className="announce-list"
+    //header={`${comments.length} ${comments.length > 1 ? 'Active Announcements' : 'Active Announcement'}`}
     itemLayout="horizontal"
     dataSource={comments}
     renderItem={(item) => (
-      <li>
-        <Comment
-          author={item.author}
-          avatar='https://joeschmoe.io/api/v1/random'
-          content={item.content}
-          datetime={item.datetime}
+      <List.Item
+        extra={<h4>{item.time}</h4>}
+      >
+        <List.Item.Meta
+            avatar={<Avatar size={40} src='https://joeschmoe.io/api/v1/random' />}
+            // title={<h4 id="center">{item.title}</h4>}
+            title={
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Title level={4}>
+                    {item.title}
+                  </Title>
+                  <AnnouncementInfo title={item.title} content={item.content} time={item.time} />
+                </div>
+            }
         />
-      </li>
+      </List.Item>
     )}
   />
 );
    
 export default Announcement;
+
+
+const AnnouncementInfo = (props)=> {
+  const [modalVisible,setModalVisible] = useState(false);
+ 
+  const openModal = () => {
+    setModalVisible(true);
+  };
+ 
+  const handleCancel = () => {
+    setModalVisible(false);
+  };
+ 
+  return (
+      <>
+        <Tooltip title="View Annoucement Details">
+          <Button className="details"
+            onClick={openModal}
+            style={{ border: "none" }}
+            size="small"
+            color="grey"
+            type="text"
+          >read</Button>
+        </Tooltip>
+        {modalVisible && (
+          <Modal
+            title={props.title}
+            centered={true}
+            visible={modalVisible}
+            destroyOnClose={true}
+            footer={null}
+            onCancel={handleCancel}
+          >
+            <div>
+              <Text strong={true}>{props.content}</Text>
+              <div align="right">
+                <Text type="secondary">Published </Text>
+                <Text type="secondary">{props.time}</Text>
+              </div>
+            </div>
+          </Modal>
+        )}
+      </>
+    );
+}
