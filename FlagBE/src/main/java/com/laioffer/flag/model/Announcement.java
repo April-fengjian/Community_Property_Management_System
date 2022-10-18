@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name="announcement")
@@ -20,9 +21,11 @@ public class Announcement implements Serializable {
 
     private String title;
 
-    private LocalDate date;
+    private LocalTime time;
 
     private String description;
+
+    private String importance;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -33,9 +36,10 @@ public class Announcement implements Serializable {
     private Announcement(Builder builder){
         this.announcementId = builder.announcementId;
         this.title = builder.title;
-        this.date = builder.date;
+        this.time = builder.time;
         this.description = builder.description;
         this.user = builder.user;
+        this.importance = builder.importance;;
     }
 
     public Long getAnnouncementId() {
@@ -46,8 +50,8 @@ public class Announcement implements Serializable {
         return title;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalTime getTime() {
+        return time;
     }
 
     public String getDescription() {
@@ -58,6 +62,10 @@ public class Announcement implements Serializable {
         return user;
     }
 
+    public String getImportance() {
+        return importance;
+    }
+
     public static class Builder {
         @JsonProperty("id")
         private Long announcementId;
@@ -65,12 +73,16 @@ public class Announcement implements Serializable {
         @JsonProperty("title")
         private String title;
 
-        @JsonProperty("date")
-        private LocalDate date;
+        @JsonProperty("time")
+        private LocalTime time;
         @JsonProperty("description")
         private String description;
         @JsonProperty("user")
         private User user;
+
+        @JsonProperty("importance")
+        private String importance;
+
 
         public Builder setId(Long id){
             this.announcementId = id;
@@ -87,13 +99,18 @@ public class Announcement implements Serializable {
             return this;
         }
 
-        public Builder setDate(LocalDate date){
-            this.date = date;
+        public Builder setTime(LocalTime time){
+            this.time = time;
             return this;
         }
 
         public Builder setUser(User user){
             this.user = user;
+            return this;
+        }
+
+        public Builder setImportance(String importance){
+            this.importance = importance;
             return this;
         }
 
