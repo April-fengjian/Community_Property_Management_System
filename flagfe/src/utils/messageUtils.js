@@ -20,7 +20,7 @@ export const postAnnouncement = (data) => {
 };
 // “title”: ”xxx”,
 // “time”: Date,
-// “content”: “...”,
+// “description”: “...”,
   
 export const getAnnouncement = () => {
     const getAnnouncementUrl = `${domain}/announcement/getAll`;
@@ -39,9 +39,10 @@ export const getAnnouncement = () => {
 };
 // “title”: ”xxx”,
 // “time”: Date,
-// “content”: “...”,
-// “username”:”xxx”
-// “announce_id":xx
+// “description”: “...”,
+// “user”:”xxx”
+// “announcementId":xx
+// "importance"
 
 export const deleteAnnouncement = (announceId) => {
     const authToken = localStorage.getItem("authToken");
@@ -58,7 +59,7 @@ export const deleteAnnouncement = (announceId) => {
       }
     });
   };
-//“announce_id:””
+//“announcementId":xx
 
   export const postMessage = (data) => {
     const authToken = localStorage.getItem("authToken");
@@ -79,7 +80,7 @@ export const deleteAnnouncement = (announceId) => {
 };
 // “title”: ”xxx”,
 // “time”: Date,
-// “content”: “...”,
+// “description”: “...”,
   
 export const getMessage = () => {
     const getMessageUrl = `${domain}/message/getAll`;
@@ -98,9 +99,9 @@ export const getMessage = () => {
 };
 // “title”: ”xxx”,
 // “time”: Date,
-// “content”: “...”,
-// “username”:”xxx”  
-// “message_id:””
+// “description”: “...”,
+// “user”:”xxx”
+// “messageId:””
 
 export const getMessageByUser = () => {
     const getMessageByUserUrl = `${domain}/message/`;
@@ -118,9 +119,9 @@ export const getMessageByUser = () => {
 };
 // “title”: ”xxx”,        参考getStaysByHost 前端只给token，后端查询链接加上了?host=sun
 // “time”: Date,
-// “content”: “...”,
-// “username”:”xxx”  
-// “message_id:””
+// “description”: “...”,
+// “user”:”xxx”
+// “messageId:””
 
 export const deleteMessage = (messageId) => {
     const authToken = localStorage.getItem("authToken");
@@ -137,4 +138,4 @@ export const deleteMessage = (messageId) => {
       }
     });
   };
-  //"message_id"
+  //"messageId"
