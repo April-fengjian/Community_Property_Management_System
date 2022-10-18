@@ -1,7 +1,6 @@
 package com.laioffer.flag.controller;
 
-import com.laioffer.flag.exception.UserAlreadyExistException;
-import com.laioffer.flag.exception.UserNotExistException;
+import com.laioffer.flag.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,4 +17,24 @@ public class CustomExceptionHandler {
     public final ResponseEntity<String> handleUserNotExistExceptions(Exception ex, WebRequest request) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
+    @ExceptionHandler(BookingCollisionException.class)
+    public final ResponseEntity<String> handleReservationCollisionExceptions(Exception ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(InvalidBookingDateException.class)
+    public final ResponseEntity<String> handleInvalidReservationDateExceptions(Exception ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BookingNotFoundException.class)
+    public final ResponseEntity<String> handleReservationNotFoundExceptions(Exception ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RoomDeleteException.class)
+    public final ResponseEntity<String> handleStayDeleteExceptions(Exception ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
 }

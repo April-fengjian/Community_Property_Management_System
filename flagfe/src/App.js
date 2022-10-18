@@ -4,6 +4,11 @@ import React from "react";
 import LoginPage from "./components/LoginPage";
 import TenantHomePage from "./components/TenantHomePage";
 import ManagerHomePage from "./components/ManagerHomePage";
+import ServiceRequest from './components/ServiceRequest';
+const items = [{label: "Service Request", key: "service-request"},
+               {label: "Book Room", key: "book-room"},
+               {label: "Payment", key: "payment"},
+               {label: "Message", key:"message"}]
  
 const { Header, Content } = Layout; 
  
@@ -82,6 +87,50 @@ class App extends React.Component {
       </Layout>
     );
   }
+
+// class App extends React.Component{
+//   state = {
+//     authed: true,
+//     asTenant: true,
+//   };
+
+//   renderContent = () => {
+//     if (!this.state.authed) {
+//       return;
+//     }
+ 
+//     if (this.state.asTenant) {
+//       return <ServiceRequest />;
+//     }
+ 
+//     // return <GuestHomePage />;
+//   };
+//   render(){
+//     return (
+//       <Layout>
+//           <Header>
+//           <div className="logo" />
+//           <Menu
+//               theme="dark"
+//               mode="horizontal"
+//               defaultSelectedKeys={['2']}
+//               items={items}
+//           />
+//           </Header>
+//           <Content
+//               className="site-layout-background"
+//               style={{
+//               padding: 24,
+//               minHeight: 480
+//               }}
+//           >
+//             {this.renderContent()}
+//           </Content>
+          
+//       </Layout>
+//     );
+//   }
+  
 }
  
 export default App;

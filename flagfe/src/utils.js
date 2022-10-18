@@ -30,3 +30,4 @@ export const register = (credential, asManager) => {
       }
     });
   };
+
