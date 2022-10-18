@@ -73,6 +73,34 @@ public class ServiceRequest implements Serializable {
         return host;
     }
 
+    public void setMaintenance_id(Long maintenance_id) {
+        this.maintenance_id = maintenance_id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public void setHost(User host) {
+        this.host = host;
+    }
+
     public static class Builder {
         @JsonProperty("maintenance_id")
         private Long maintenance_id;
@@ -130,7 +158,7 @@ public class ServiceRequest implements Serializable {
             return this;
         }
 
-        public ServiceRequest builder() {
+        public ServiceRequest build() {
             return new ServiceRequest(this);
         }
     }
