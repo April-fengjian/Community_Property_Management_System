@@ -1,6 +1,6 @@
 import { Avatar, Button, List, message, Skeleton } from 'antd';
 import React, { useEffect, useState } from 'react';
-import {getAllMessages} from '../utils/messageUtils';
+import {getMessage} from '../utils/messageUtils';
 
 const showMessageCount = 6;
 
@@ -24,7 +24,7 @@ class MessagePage extends React.Component{
         });
 
         try{
-            const resp = await getAllMessages();
+            const resp = await getMessage();
             const curList = resp.slice(0, showMessageCount);
             this.setState({
                 loading: true,
