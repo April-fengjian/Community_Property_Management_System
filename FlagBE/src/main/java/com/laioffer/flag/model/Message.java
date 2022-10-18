@@ -26,7 +26,7 @@ public class Message implements Serializable {
     private String description;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User host;
+    private User user;
 
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private List<Comment> comments;
@@ -38,7 +38,7 @@ public class Message implements Serializable {
         this.title = builder.title;
         this.time = builder.time;
         this.description = builder.description;
-        this.host = builder.host;
+        this.user = builder.user;
         this.comments = builder.comments;
     }
 
@@ -62,8 +62,8 @@ public class Message implements Serializable {
         return description;
     }
 
-    public User getHost() {
-        return host;
+    public User getUser() {
+        return user;
     }
 
     public void setMessage_id(Long message_id) {
@@ -78,8 +78,8 @@ public class Message implements Serializable {
         this.description = description;
     }
 
-    public void setHost(User host) {
-        this.host = host;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public static class Builder {
@@ -95,8 +95,8 @@ public class Message implements Serializable {
         @JsonProperty("description")
         private String description;
 
-        @JsonProperty("host")
-        private User host;
+        @JsonProperty("user")
+        private User user;
 
         @JsonProperty("comment")
         private List<Comment> comments;
@@ -118,8 +118,8 @@ public class Message implements Serializable {
             this.description = description;
             return this;
         }
-        public Builder setHost(User host) {
-            this.host = host;
+        public Builder setUser(User user) {
+            this.user = user;
             return this;
         }
 

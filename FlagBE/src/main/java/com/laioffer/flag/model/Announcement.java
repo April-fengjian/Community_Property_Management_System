@@ -3,7 +3,6 @@ package com.laioffer.flag.model;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -36,13 +35,28 @@ public class Announcement implements Serializable {
         this.title = builder.title;
         this.date = builder.date;
         this.description = builder.description;
+        this.user = builder.user;
     }
 
-    public Long getAnnouncementId(){return announcementId;}
-    public String getTitle(){return title;}
-    public String getDescription(){return description;}
-    public LocalDate getDate(){return date;}
-    public User getUser(){return user;}
+    public Long getAnnouncementId() {
+        return announcementId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public User getUser() {
+        return user;
+    }
 
     public static class Builder {
         @JsonProperty("id")
@@ -57,7 +71,32 @@ public class Announcement implements Serializable {
         private String description;
         @JsonProperty("user")
         private User user;
+
+        public Builder setId(Long id){
+            this.announcementId = id;
+            return this;
+        }
+
+        public Builder setTitle(String title){
+            this.title = title;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder setDate(LocalDate date){
+            this.date = date;
+            return this;
+        }
+
+        public Builder setUser(User user){
+            this.user = user;
+            return this;
+        }
+
+        public Announcement build(){return new Announcement(this);}
     }
-
-
 }
