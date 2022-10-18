@@ -17,7 +17,7 @@ public class Announcement implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long announcementId;
+    private Long id;
 
     private String title;
 
@@ -34,7 +34,7 @@ public class Announcement implements Serializable {
     public Announcement() {}
 
     private Announcement(Builder builder){
-        this.announcementId = builder.announcementId;
+        this.id = builder.id;
         this.title = builder.title;
         this.time = builder.time;
         this.description = builder.description;
@@ -42,8 +42,8 @@ public class Announcement implements Serializable {
         this.importance = builder.importance;;
     }
 
-    public Long getAnnouncementId() {
-        return announcementId;
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -68,7 +68,7 @@ public class Announcement implements Serializable {
 
     public static class Builder {
         @JsonProperty("id")
-        private Long announcementId;
+        private Long id;
 
         @JsonProperty("title")
         private String title;
@@ -85,7 +85,7 @@ public class Announcement implements Serializable {
 
 
         public Builder setId(Long id){
-            this.announcementId = id;
+            this.id = id;
             return this;
         }
 
