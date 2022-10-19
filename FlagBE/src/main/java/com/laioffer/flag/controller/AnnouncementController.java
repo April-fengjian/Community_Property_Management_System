@@ -35,7 +35,7 @@ public class AnnouncementController {
         return announcementService.listAnnouncements();
     }
 
-    @PostMapping(value = "/announcement/{announcementId}")
+    @DeleteMapping(value = "/announcement/{announcementId}")
     public void deleteAnnouncement(@PathVariable Long announcementId) {
         announcementService.deleteAnnouncementById(announcementId);
     }
