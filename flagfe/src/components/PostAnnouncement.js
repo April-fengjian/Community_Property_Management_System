@@ -1,9 +1,9 @@
-//import { addAnnouncement, getAnnouncement } from "../utils/messageUtilsutils";
 import '../App.css';
 import { Avatar, Button, Comment, Form, Input, List, message, Typography } from 'antd';
 import moment from 'moment';
 import React, { useState } from 'react';
 import Message from './Message';
+import { getAnnouncement, postAnnouncement, deleteAnnouncement } from "../utils/messageUtils";
 
 const { Title } = Typography;
 
@@ -58,20 +58,33 @@ const CommentList = ({comments, handleDelete}) => (
 );
 
 const PostAnnouncement = () => {
-  const [comments, setComments] = useState(commentsstatic);             //以后useState[]要调用getAnnouncement函数.json
+  const [comments, setComments] = useState([]);             //以后useState[]要调用getAnnouncement函数.json
   const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
+  
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const response = await getAnnouncement();
+      setComments(response);
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
            
 //   const handleSubmit = async (data) => {   //连后端后会替换下面的onFinish
 //     setSubmitting(true); 
 //     try {
-//       await postNewAnnounce(data);
+//       await postAnnouncement(data);
 //       message.success("Post Successfully");
 //     } catch (error) {
 //       message.error(error.message);
 //     } 
 //        
 //     try {
-//       await getAnnounce(data);
+//       await getAnnouncement();
 //       message.success("Update Successfully");
 //     } catch (error) {
 //       message.error(error.message);

@@ -6,8 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import java.io.Serializable;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="announcement")
@@ -21,7 +20,7 @@ public class Announcement implements Serializable {
 
     private String title;
 
-    private LocalTime time;
+    private LocalDateTime time;
 
     private String description;
 
@@ -50,7 +49,7 @@ public class Announcement implements Serializable {
         return title;
     }
 
-    public LocalTime getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
@@ -66,6 +65,14 @@ public class Announcement implements Serializable {
         return importance;
     }
 
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public static class Builder {
         @JsonProperty("id")
         private Long id;
@@ -74,7 +81,7 @@ public class Announcement implements Serializable {
         private String title;
 
         @JsonProperty("time")
-        private LocalTime time;
+        private LocalDateTime time;
         @JsonProperty("description")
         private String description;
         @JsonProperty("user")
@@ -99,7 +106,7 @@ public class Announcement implements Serializable {
             return this;
         }
 
-        public Builder setTime(LocalTime time){
+        public Builder setTime(LocalDateTime time){
             this.time = time;
             return this;
         }

@@ -23,7 +23,8 @@ export const postAnnouncement = (data) => {
 // “description”: “...”,
   
 export const getAnnouncement = () => {
-    const getAnnouncementUrl = `${domain}/announcement/getAll`;
+    const authToken = localStorage.getItem("authToken");
+    const getAnnouncementUrl = `${domain}/announcements`;
 
     return fetch(getAnnouncementUrl, {
       headers: {
@@ -83,7 +84,8 @@ export const deleteAnnouncement = (announceId) => {
 // “description”: “...”,
   
 export const getMessage = () => {
-    const getMessageUrl = `${domain}/message/getAll`;
+    const authToken = localStorage.getItem("authToken");
+    const getMessageUrl = `${domain}/messages`;
 
     return fetch(getMessageUrl, {
       headers: {
@@ -104,7 +106,8 @@ export const getMessage = () => {
 // “messageId:””
 
 export const getMessageByUser = () => {
-    const getMessageByUserUrl = `${domain}/message/`;
+    const authToken = localStorage.getItem("authToken");
+    const getMessageByUserUrl = `${domain}/messages`;
 
     return fetch(getMessageByUserUrl, {
       headers: {
