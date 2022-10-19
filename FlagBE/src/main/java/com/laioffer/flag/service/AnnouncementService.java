@@ -6,6 +6,8 @@ import com.laioffer.flag.repository.AnnouncementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,15 +28,18 @@ public class AnnouncementService {
 //        dao.findAll(Sort.by("colName").descending());
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void postAnnouncement(Announcement announcement) {
         announcementRepository.save(announcement);
     }
 
-    public void deleteAnnouncementById(Long id) throws AnnouncementNotExistException {
-        Announcement announcement = announcementRepository.findById(id).orElse(null);
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public void deleteAnnouncementById(Long announcementId) throws AnnouncementNotExistException {
+        Announcement announcement = announcementRepository.findById(announcementId).orElse(null);
         if (announcement == null) {
             throw new AnnouncementNotExistException("Announcement doesn't exist");
         }
-        announcementRepository.deleteById(id);
+        announcementRepository.deleteById(announcementId);
     }
 }
