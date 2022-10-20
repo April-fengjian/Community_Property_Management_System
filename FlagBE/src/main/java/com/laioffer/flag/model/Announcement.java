@@ -27,7 +27,7 @@ public class Announcement implements Serializable {
     private String importance;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user")
     private User user; // who's the owner of the stay
 
     public Announcement() {}

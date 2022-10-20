@@ -1,91 +1,20 @@
-  import { Avatar, Button, List, Tooltip, Typography, Modal, Space } from 'antd';
-  import React, { useState } from 'react';
-  import moment from 'moment';
-  import { loadData } from "./PostAnnouncement";
+  import { Avatar, Button, List, Tooltip, Typography, Modal, message } from 'antd';
+  import React, { useState, useEffect } from 'react';
   import { getAnnouncement } from "../utils/messageUtils";
 
   const { Title, Text } = Typography;
 
-  // const comments = [
-  //   {
-  //     username: 'tenant01',
-  //     title: 'moving sale',
-  //     content: 'content01',
-  //     time: moment('2022-10-15').fromNow(),
-  //     announce_id: '01'
-  //   },
-  //   {
-  //     username: 'tenant01',
-  //     title: 'long long long long long long long long long long long long',
-  //     content: 'content01',
-  //     time: moment('2022-10-15').fromNow(),
-  //     announce_id: '01'
-  //   },
-  //   {
-  //     username: 'tenant02',
-  //     title: 'dog walker needed',
-  //     content: 'content02',
-  //     time: moment('2022-10-13').fromNow(),
-  //     announce_id: '02'
-  //   },
-  //   {
-  //     username: 'tenant01',
-  //     title: 'moving sale',
-  //     content: 'content01',
-  //     time: moment('2022-10-15').fromNow(),
-  //     announce_id: '01'
-  //   },
-  //   {
-  //     username: 'tenant02',
-  //     title: 'dog walker needed',
-  //     content: 'content02',
-  //     time: moment('2022-10-13').fromNow(),
-  //     announce_id: '02'
-  //   },
-  //   {
-  //     username: 'tenant01',
-  //     title: 'moving sale',
-  //     content: 'content01content01content01content01content01content01content01content01content01',
-  //     time: moment('2022-10-15').fromNow(),
-  //     announce_id: '01'
-  //   },
-  //   {
-  //     username: 'tenant02',
-  //     title: 'dog walker needed',
-  //     content: 'content02',
-  //     time: moment('2022-10-13').fromNow(),
-  //     announce_id: '02'
-  //   },
-  //   {
-  //     username: 'tenant01',
-  //     title: 'moving sale',
-  //     content: 'content01content01content01content01content01content01content01content01content01',
-  //     time: moment('2022-10-15').fromNow(),
-  //     announce_id: '01'
-  //   },
-  //   {
-  //     username: 'tenant02',
-  //     title: 'dog walker needed',
-  //     content: 'content02',
-  //     time: moment('2022-10-13').fromNow(),
-  //     announce_id: '02'
-  //   },    {
-  //     username: 'tenant01',
-  //     title: 'moving sale',
-  //     content: 'content01content01content01content01content01content01content01content01content01',
-  //     time: moment('2022-10-15').fromNow(),
-  //     announce_id: '01'
-  //   },
-  //   {
-  //     username: 'tenant02',
-  //     title: 'dog walker needed',
-  //     content: 'content02',
-  //     time: moment('2022-10-13').fromNow(),
-  //     announce_id: '02'
-  //   },
-  // ];
   const Announcement = () => {
-    const [comments, setComments] = useState(getAnnouncement());  
+    const [comments, setComments] = useState([]);  
+
+  useEffect(() => {
+    getAnnouncement()
+      .then((response) => {
+        setComments(response)
+      }).catch((err) => {
+        message.error(err.message)
+      });
+  }, [])
 
   return (
       <List
@@ -102,10 +31,10 @@
               // title={<h4 id="center">{item.title}</h4>}
               title={
                   <div style={{ display: "flex", alignItems: "center" }}>
-                    <Title level={4}>
+                    <Title level={4} type={item.importance}>
                       {item.title}
                     </Title>
-                    <AnnouncementInfo title={item.title} content={item.content} time={item.time} />
+                    <AnnouncementInfo title={item.title} discription={item.description} time={item.time} />
                   </div>
               }
           />
@@ -138,7 +67,7 @@ const AnnouncementInfo = (props)=> {
             size="small"
             color="grey"
             type="text"
-          >read</Button>
+          >read more</Button>
         </Tooltip>
         {modalVisible && (
           <Modal
@@ -150,7 +79,7 @@ const AnnouncementInfo = (props)=> {
             onCancel={handleCancel}
           >
             <div>
-              <Text strong={true}>{props.content}</Text>
+              <Text>{props.discription}</Text>
               <div align="right">
                 <Text type="secondary">Published </Text>
                 <Text type="secondary">{props.time}</Text>
