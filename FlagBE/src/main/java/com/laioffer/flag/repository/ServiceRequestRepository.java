@@ -14,9 +14,9 @@ public interface ServiceRequestRepository extends JpaRepository<ServiceRequest, 
     List<ServiceRequest> findByTenant(User tenant);
     List<ServiceRequest> findByProvider(User provider);
     List<ServiceRequest> findServiceRequestsByStatusContaining(String status);
-    //ServiceRequest findByIdAndHost(Long id, User host);
+    ServiceRequest findByIdAndTenant(Long id, User tenant);
 
-//    @Modifying(clearAutomatically = true)
-//    @Query("update ServiceRequest sr set sr.status = :newStatus where sr.host = :host")
-//    int changeStatus(@Param("newStatus") String newStatus, @Param("thisId") User host);
+    @Modifying(clearAutomatically = true)
+    @Query("update ServiceRequest sr set sr.status = :newStatus where sr.tenant = :tenant")
+    int changeStatus(@Param("newStatus") String newStatus, @Param("tenant") User tenant);
 }

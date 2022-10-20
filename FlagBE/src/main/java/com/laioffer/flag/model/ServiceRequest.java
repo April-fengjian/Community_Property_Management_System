@@ -16,7 +16,7 @@ public class ServiceRequest implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long maintenance_id;
+    private Long id;
 
     private String title;
 
@@ -40,7 +40,7 @@ public class ServiceRequest implements Serializable {
     public ServiceRequest() {}
 
     private ServiceRequest(Builder builder) {
-        this.maintenance_id = builder.maintenance_id;
+        this.id = builder.id;
         this.title = builder.title;
         this.status = builder.status;
         this.description = builder.description;
@@ -51,8 +51,8 @@ public class ServiceRequest implements Serializable {
     }
 
 
-    public Long getMaintenance_id() {
-        return maintenance_id;
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -83,8 +83,8 @@ public class ServiceRequest implements Serializable {
         return provider;
     }
 
-    public void setMaintenance_id(Long maintenance_id) {
-        this.maintenance_id = maintenance_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {
@@ -116,8 +116,8 @@ public class ServiceRequest implements Serializable {
     }
 
     public static class Builder {
-        @JsonProperty("maintenance_id")
-        private Long maintenance_id;
+        @JsonProperty("id")
+        private Long id;
 
         @JsonProperty("title")
         private String title;
@@ -140,8 +140,8 @@ public class ServiceRequest implements Serializable {
         @JsonProperty("provider")
         private User provider;
 
-        public Builder setId(Long maintenance_id) {
-            this.maintenance_id = maintenance_id;
+        public Builder setId(Long id) {
+            this.id = id;
             return this;
         }
 
