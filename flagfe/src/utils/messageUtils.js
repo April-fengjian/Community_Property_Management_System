@@ -41,7 +41,7 @@ export const getAnnouncement = () => {
 // “title”: ”xxx”,
 // “time”: Date,
 // “description”: “...”,
-// “user”:”xxx”
+// “username”:”xxx”
 // “announcementId":xx
 // "importance"
 
@@ -102,7 +102,7 @@ export const getMessage = () => {
 // “title”: ”xxx”,
 // “time”: Date,
 // “description”: “...”,
-// “user”:”xxx”
+// “username”:”xxx”
 // “messageId:””
 
 export const getMessageByUser = () => {
@@ -123,7 +123,7 @@ export const getMessageByUser = () => {
 // “title”: ”xxx”,        参考getStaysByHost 前端只给token，后端查询链接加上了?host=sun
 // “time”: Date,
 // “description”: “...”,
-// “user”:”xxx”
+// “username”:”xxx”
 // “messageId:””
 
 export const deleteMessage = (messageId) => {

@@ -1,141 +1,141 @@
 import '../App.css';
-import { Avatar, Button, Comment, Form, Input, List, message, Typography } from 'antd';
-import moment from 'moment';
-import React, { useState } from 'react';
-import Message from './Message';
+import { Button, Comment, Form, Input, List, message, Typography, Spin, Col, Row, Select} from 'antd';
+import React, { useState, useEffect } from 'react';
 import { getAnnouncement, postAnnouncement, deleteAnnouncement } from "../utils/messageUtils";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
+const { Option } = Select;
 
-const commentsstatic = [
-  {
-    username: 'tenant01',
-    title: 'moving sale',
-    content: 'content01',
-    time: moment('2022-10-15').fromNow(),
-    announce_id: '01'
-  },
-  {
-    username: 'tenant02',
-    title: 'dog walker needed',
-    content: 'content02',
-    time: moment('2022-10-13').fromNow(),
-    announce_id: '02'
-  },
-];
 const CommentList = ({comments, handleDelete}) => (
 // “title”: ”xxx”,
 // “time”: Date,
-// “content”: “...”,
-// “username”:”xxx”
-// “announce_id":xx
+// “description”: “...”,
+// “user”:”xxx”
+// “announcementId":xx
+// "importance"
   <List
     className="comment-list"
     footer={`${comments.length} ${comments.length > 1 ? 'Active Announcements' : 'Active Announcement'}`}
     itemLayout="horizontal"
     dataSource={comments}
+    // handleDelete={handleDelete}
     renderItem={(item) => (
       <li>
-        <div> 
-          <div> 
-            <Title level={5}>{item.title}</Title>
-          </div>
-          <div> 
+          <Row> 
+            <Col span={20} className="right-side">
+              <Title level={5} type={item.importance}>{item.title}</Title>
+            </Col>
+            <Col span={4} className="right-side">
+            <div align="right">    
+              {true && (<Button onClick={() => handleDelete(item.id)}>Delete</Button>)}
+            </div>
+            </Col>
+          </Row>
           <Comment
-            author={item.username}
+            author={item.user.username}
             avatar='https://joeschmoe.io/api/v1/random'
-            content={item.content}
+            content={item.description}
             datetime={item.time}
-            />
-          </div>
-          <div align="right">    
-          {true && (<Button onClick={handleDelete} deleteId={item.announce_id}>Delete</Button>)}
-          </div>
-        </div>
+          />
       </li>
     )}
   />
 );
 
 const PostAnnouncement = () => {
-  const [comments, setComments] = useState([]);             //以后useState[]要调用getAnnouncement函数.json
-  const [submitting, setSubmitting] = useState(false);
-  const [loading, setLoading] = useState(false);
-  
-  const loadData = async () => {
-    setLoading(true);
+  const [comments, setComments] = useState([]);           
+  const [isLoad, setIsLoad] = useState(false);
+
+  useEffect(() => {
+    getAnnouncement()
+      .then((response) => {
+        setComments(response)
+      }).catch((err) => {
+        message.error(err.message)
+      });
+    setIsLoad(true);
+  }, [])
+           
+  const handleSubmit = async (data) => {   
+    setIsLoad(false); 
     try {
-      const response = await getAnnouncement();
-      setComments(response);
+      await postAnnouncement(data);
+      message.success("Post Successfully");
+    } catch (error) {
+      message.error(error.message);
+    } 
+       
+    try {
+      await getAnnouncement()
+      .then((response) => {
+        setComments(response)
+      });
+      // message.success("Update Successfully");
     } catch (error) {
       message.error(error.message);
     } finally {
-      setLoading(false);
+      setIsLoad(true);
     }
-  }
-           
-//   const handleSubmit = async (data) => {   //连后端后会替换下面的onFinish
-//     setSubmitting(true); 
-//     try {
-//       await postAnnouncement(data);
-//       message.success("Post Successfully");
-//     } catch (error) {
-//       message.error(error.message);
-//     } 
-//        
-//     try {
-//       await getAnnouncement();
-//       message.success("Update Successfully");
-//     } catch (error) {
-//       message.error(error.message);
-//     } finally {
-//        setSubmitting(false);
-//     }
-//   };
+  };
   
-  const onFinish = (data) => {
-    data ["time"] = moment().format('MMMM Do YYYY, h:mm:ss a');
-    setComments([...comments, data]);
-  }
 
-  const handleDelete = () => {  //param = deleteId
-    console.log("I will delete");
-//     setSubmitting(true); 
-//     try {
-//       await deleteAnnounce(deleteId);
-//       setComments(getAnnouncement);
-//       message.success("Delete Successfully");
-//     } catch (error) {
-//       message.error(error.message);
-//     } finally {
-//        setSubmitting(false);
-//     }
+  const handleDelete = async (deleteId) => {  
+    setIsLoad(false);
+    try {
+      await deleteAnnouncement(deleteId);
+      message.success("Delete Successfully");
+      await getAnnouncement()
+      .then((response) => {
+        setComments(response)
+      });
+      // message.success("Update Successfully");
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setIsLoad(true);
+    }
   };
   return (
     <>
-      {comments.length > 0 && <CommentList comments={comments} handleDelete={handleDelete}/>}
-      <Form 
-        onFinish={onFinish}            
-        labelCol={{
-        flex: '100px',
-        }}
-      >
-        <Form.Item name="title" label="Title" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="content"
-          label="Content"
-          rules={[{ required: true }]}
-        >
-          <Input.TextArea autoSize={{ minRows: 3, maxRows: 6 }} />
-        </Form.Item>
-        <Form.Item>
-          <Button htmlType="submit" loading={submitting} type="primary">
-            Post Announcement
-          </Button>
-        </Form.Item>
-      </Form>
+      {
+        !isLoad ?
+        <div className="spin-box">
+            <Spin tip="Loading..." size="large" />
+        </div>
+        :
+        <>
+            {comments.length > 0 && <CommentList comments={comments} handleDelete={handleDelete}/>}
+            <Form 
+              onFinish={handleSubmit}            
+              labelCol={{
+              flex: '100px',
+              }}
+            >
+              <Form.Item name="title" label="Title" rules={[{ required: true }]}>
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="description"
+                label="Content"
+                rules={[{ required: true }]}
+              >
+                <Input.TextArea autoSize={{ minRows: 3, maxRows: 6 }} />
+              </Form.Item>
+              <Form.Item name="importance" label="Importance" rules={[{ required: true }]}>
+              <Select defaultValue="success" style={{ width: 120 }}>
+                <Option value="success">Low</Option>
+                <Option value="warning">Midum</Option>
+                <Option value="danger">High</Option>
+              </Select>
+              </Form.Item>
+              <Form.Item>
+                <Button htmlType="submit" type="primary">
+                  Post Announcement
+                </Button>
+              </Form.Item>
+            </Form>
+        </>
+      }
     </>
   );
 };
