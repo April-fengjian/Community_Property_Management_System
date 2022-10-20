@@ -122,7 +122,7 @@ const PostAnnouncement = () => {
                 <Input.TextArea autoSize={{ minRows: 3, maxRows: 6 }} />
               </Form.Item>
               <Form.Item name="importance" label="Importance" rules={[{ required: true }]}>
-              <Select defaultValue="success" style={{ width: 120 }}>
+              <Select style={{ width: 120 }}>
                 <Option value="success">Low</Option>
                 <Option value="warning">Midum</Option>
                 <Option value="danger">High</Option>
