@@ -11,8 +11,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface ServiceRequestRepository extends JpaRepository<ServiceRequest, Long> {
-//    List<ServiceRequest> findByHost(User user);
-//    ServiceRequest findByIdAndHost(Long id, User host);
+    List<ServiceRequest> findByTenant(User tenant);
+    List<ServiceRequest> findByProvider(User provider);
+    List<ServiceRequest> findServiceRequestsByStatusContaining(String status);
+    //ServiceRequest findByIdAndHost(Long id, User host);
 
 //    @Modifying(clearAutomatically = true)
 //    @Query("update ServiceRequest sr set sr.status = :newStatus where sr.host = :host")
