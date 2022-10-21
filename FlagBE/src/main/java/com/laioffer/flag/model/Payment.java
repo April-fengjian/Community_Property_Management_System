@@ -24,7 +24,7 @@ public class Payment implements Serializable {
 
     private Integer amount;
 
-    private Boolean status;
+    private String status;
 
     private Date due_date;
 
@@ -73,7 +73,7 @@ public class Payment implements Serializable {
         return description;
     }
     public Integer getAmount() { return amount; }
-    public Boolean getStatus() { return status; }
+    public String getStatus() { return status; }
     public Date getDue_date() { return due_date; }
 
     public User getUser() {
@@ -95,7 +95,7 @@ public class Payment implements Serializable {
 
     public void setAmount(Integer amount) { this.amount = amount; }
 
-    public void setStatus(Boolean status) { this.status = status; }
+    public void setStatus(String status) { this.status = status; }
     public void setDue_date(Date due_date) {this.due_date = due_date; }
 
     public void setUser(User user) {
@@ -105,7 +105,7 @@ public class Payment implements Serializable {
     public void setRoom(Room room) {this.room = room; }
 
     public static class Builder {
-        @JsonProperty("id")
+        @JsonProperty("payment_id")
         private Long id;
 
         @JsonProperty("term")
@@ -115,7 +115,7 @@ public class Payment implements Serializable {
         private LocalDate payment_date;
 
         @JsonProperty("status")
-        private Boolean status;
+        private String status;
         @JsonProperty("amount")
         private Integer amount;
 
@@ -144,7 +144,7 @@ public class Payment implements Serializable {
             return this;
         }
 
-        public Payment.Builder setStatus(Boolean status) {
+        public Payment.Builder setStatus(String status) {
             this.status = status;
             return this;
         }
