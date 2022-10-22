@@ -1,0 +1,36 @@
+head {
+    position: 'fixed';
+    zIndex: 1;
+    width: '100%';
+}
+.request-list {
+    width: 60%;
+    background-color: white;
+    margin-right: 5px;
+    display: inline;
+    position:absolute;
+    left: 5px;
+}
+
+.send-request {
+    width: 35%;
+    background-color: white;
+    margin-left: 5px;
+    padding: 5px;
+    display: inline;
+    position: absolute;
+    right: 5px;
+}
+
+.request-title{
+    font-size: 25px;
+    text-align: center;
+}
+.input-title{
+    font-size: 15px;
+    margin-top: 15px;;
+}
+
+.submit-button{
+    width: 100%;
+}

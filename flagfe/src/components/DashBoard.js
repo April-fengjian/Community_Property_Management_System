@@ -1,13 +1,20 @@
 import Announcement from "./Announcement";
+import { Row, Col, Typography } from 'antd';
+
+const { Text } = Typography;
 
 const DashBoard = () => {
     return (
-        <>
-        <div>
-        Tenant DashBoard Page
-       </div>
-      <Announcement />
-      </>
+      <Row className='main'>
+          <Col span={12} className="left-side">
+              <h1 id="center"> Announcement </h1>
+              <Announcement />
+          </Col>
+          <Col span={12} className="right-side">
+          <div>calendar</div>
+          <div>Service request</div>
+          </Col>
+      </Row>
     )
   }
    

@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import javax.persistence.*;
 import java.io.Serializable;
 
-import java.sql.Date;
+//import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -17,14 +19,15 @@ public class Message implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long message_id;
+    private Long id;
     private String title;
+    @Column(name = "time", columnDefinition = "TIMESTAMP")
+    private LocalDateTime time;
 
-    private Date time;
     private String description;
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User host;
+    @JoinColumn(name = "user")
+    private User user;
 
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private List<Comment> comments;
@@ -32,24 +35,24 @@ public class Message implements Serializable {
     public Message() {}
 
     private Message(Builder builder) {
-        this.message_id = builder.message_id;
+        this.id = builder.id;
         this.title = builder.title;
         this.time = builder.time;
         this.description = builder.description;
-        this.host = builder.host;
+        this.user = builder.user;
         this.comments = builder.comments;
     }
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
-    public Long getMessage_id() {
-        return message_id;
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -60,12 +63,12 @@ public class Message implements Serializable {
         return description;
     }
 
-    public User getHost() {
-        return host;
+    public User getUser() {
+        return user;
     }
 
-    public void setMessage_id(Long message_id) {
-        this.message_id = message_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {
@@ -76,31 +79,31 @@ public class Message implements Serializable {
         this.description = description;
     }
 
-    public void setHost(User host) {
-        this.host = host;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public static class Builder {
         @JsonProperty("id")
-        private Long message_id;
+        private Long id;
 
         @JsonProperty("title")
         private String title;
 
         @JsonProperty("time")
-        private Date time;
+        private LocalDateTime time;
 
         @JsonProperty("description")
         private String description;
 
-        @JsonProperty("host")
-        private User host;
+        @JsonProperty("user")
+        private User user;
 
         @JsonProperty("comment")
         private List<Comment> comments;
 
         public Builder setId(Long id) {
-            this.message_id = id;
+            this.id = id;
             return this;
         }
 
@@ -108,7 +111,7 @@ public class Message implements Serializable {
             this.title = title;
             return this;
         }
-        public Builder setTime(Date time) {
+        public Builder setTime(LocalDateTime time) {
             this.time = time;
             return this;
         }
@@ -116,8 +119,8 @@ public class Message implements Serializable {
             this.description = description;
             return this;
         }
-        public Builder setHost(User host) {
-            this.host = host;
+        public Builder setUser(User user) {
+            this.user = user;
             return this;
         }
 
