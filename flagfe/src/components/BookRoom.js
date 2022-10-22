@@ -6,7 +6,6 @@ import { message, Tabs, List, Typography,
   Image,
   Carousel,
   Button,
-
   Form,
   InputNumber,
   DatePicker} from "antd";
@@ -14,6 +13,7 @@ import {
   LeftCircleFilled,
   RightCircleFilled,
 } from "@ant-design/icons";
+import '../styles/BookRoom.css'
 
 const { Text } = Typography;
 const { TabPane } = Tabs;

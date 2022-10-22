@@ -45,3 +45,20 @@ export const searchStays = (query) => {
       return response.json();
   });
 };
+
+export const uploadStay = (data) => {
+  const authToken = localStorage.getItem("authToken");
+  const uploadStayUrl = `${domain}/stays`;
+ 
+  return fetch(uploadStayUrl, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+    body: data,
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Fail to upload stay");
+    }
+  });
+};
