@@ -11,10 +11,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface ServiceRequestRepository extends JpaRepository<ServiceRequest, Long> {
-//    List<ServiceRequest> findByHost(User user);
-//    ServiceRequest findByIdAndHost(Long id, User host);
+    List<ServiceRequest> findByTenant(User tenant);
+    List<ServiceRequest> findByProvider(User provider);
+    List<ServiceRequest> findServiceRequestsByStatusContaining(String status);
+    ServiceRequest findByIdAndTenant(Long id, User tenant);
 
-//    @Modifying(clearAutomatically = true)
-//    @Query("update ServiceRequest sr set sr.status = :newStatus where sr.host = :host")
-//    int changeStatus(@Param("newStatus") String newStatus, @Param("thisId") User host);
+    @Modifying(clearAutomatically = true)
+    @Query("update ServiceRequest sr set sr.status = :newStatus where sr.tenant = :tenant")
+    int changeStatus(@Param("newStatus") String newStatus, @Param("tenant") User tenant);
 }

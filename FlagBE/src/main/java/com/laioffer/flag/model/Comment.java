@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -17,9 +18,13 @@ public class Comment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long comment_id;
-    private String comment;
-    private Date time;
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user")
+    private User user;
+    private String description;
+    private LocalDateTime time;
     @ManyToOne
     @JoinColumn(name = "message_id")
     @JsonIgnore
@@ -28,21 +33,23 @@ public class Comment implements Serializable {
     public Comment() {}
 
     public Comment(Builder builder) {
-        this.comment_id = builder.comment_id;
-        this.comment = builder.comment;
+        this.id = builder.id;
+        this.description = builder.description;
         this.time = builder.time;
         this.message = builder.message;
     }
 
-    public void setComment_id(Long comment_id) {
-        this.comment_id = comment_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setUser(User user) { this.user = user;}
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
@@ -50,15 +57,17 @@ public class Comment implements Serializable {
         this.message = message;
     }
 
-    public Long getComment_id() {
-        return comment_id;
+    public Long getId() {
+        return id;
     }
 
-    public String getComment() {
-        return comment;
+    public User getUser() { return user;}
+
+    public String getDescription() {
+        return description;
     }
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
@@ -67,24 +76,25 @@ public class Comment implements Serializable {
     }
 
     public static class Builder {
-        @JsonProperty("comment_id")
-        private Long comment_id;
+        @JsonProperty("id")
+        private Long id;
 
-        @JsonProperty("comment")
-        private String comment;
+        private String user;
+        @JsonProperty("description")
+        private String description;
 
         @JsonProperty("time")
-        private Date time;
+        private LocalDateTime time;
 
         @JsonProperty("message")
         private Message message;
 
-        public Builder setComment(String comment) {
-            this.comment = comment;
+        public Builder setDescription(String description) {
+            this.description = description;
             return this;
         }
 
-        public Builder setTime(Date time) {
+        public Builder setTime(LocalDateTime time) {
             this.time = time;
             return this;
         }
