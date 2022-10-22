@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 //import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -20,8 +21,8 @@ public class Message implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
-
-    private LocalDate time;
+    @Column(name = "time", columnDefinition = "TIMESTAMP")
+    private LocalDateTime time;
 
     private String description;
     @ManyToOne
@@ -42,15 +43,15 @@ public class Message implements Serializable {
         this.comments = builder.comments;
     }
 
-    public LocalDate getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(LocalDate time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
-    public Long getMessage_id() {
+    public Long getId() {
         return id;
     }
 
@@ -66,7 +67,7 @@ public class Message implements Serializable {
         return user;
     }
 
-    public void setMessage_id(Long message_id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -90,7 +91,7 @@ public class Message implements Serializable {
         private String title;
 
         @JsonProperty("time")
-        private LocalDate time;
+        private LocalDateTime time;
 
         @JsonProperty("description")
         private String description;
@@ -110,7 +111,7 @@ public class Message implements Serializable {
             this.title = title;
             return this;
         }
-        public Builder setTime(LocalDate time) {
+        public Builder setTime(LocalDateTime time) {
             this.time = time;
             return this;
         }

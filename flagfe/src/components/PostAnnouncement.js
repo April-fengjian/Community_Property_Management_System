@@ -2,6 +2,7 @@ import '../App.css';
 import { Button, Comment, Form, Input, List, message, Typography, Spin, Col, Row, Select} from 'antd';
 import React, { useState, useEffect } from 'react';
 import { getAnnouncement, postAnnouncement, deleteAnnouncement } from "../utils/messageUtils";
+import moment from "moment";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -11,7 +12,7 @@ const CommentList = ({comments, handleDelete}) => (
 // “time”: Date,
 // “description”: “...”,
 // “user”:”xxx”
-// “announcementId":xx
+// “id":xx
 // "importance"
   <List
     className="comment-list"
@@ -35,7 +36,7 @@ const CommentList = ({comments, handleDelete}) => (
             author={item.user.username}
             avatar='https://joeschmoe.io/api/v1/random'
             content={item.description}
-            datetime={item.time}
+            datetime={moment.utc(item.time).format('MM/DD/YY HH:mm:ss')}
           />
       </li>
     )}
