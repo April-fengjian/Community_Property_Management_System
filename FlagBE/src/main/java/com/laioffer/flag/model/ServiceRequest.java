@@ -9,7 +9,7 @@ import java.sql.Date;
 
 
 @Entity
-@Table(name = "service_request3")
+@Table(name = "FLAG_service_request")
 @JsonDeserialize(builder = ServiceRequest.Builder.class)
 public class ServiceRequest implements Serializable {
     private static final long serialVersionUID = 1L;

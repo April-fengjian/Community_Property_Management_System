@@ -34,8 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/announcement/*").hasAuthority("ROLE_MANAGER")
                 //.antMatchers("/announcement/*").hasAuthority("ROLE_MANAGER")
                 //.antMatchers("/serviceRequest/*").hasAuthority("ROLE_TENANT")
-                .antMatchers("/bookings").permitAll()
-                .antMatchers("/bookings/*").permitAll()
+                .antMatchers("/bookings").hasAuthority("ROLE_TENANT")
+                .antMatchers("/bookings/*").hasAuthority("ROLE_TENANT")
                 .antMatchers("/rooms").permitAll()
                 .antMatchers("/rooms/*").permitAll()
 

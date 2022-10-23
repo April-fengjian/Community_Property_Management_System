@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "room14")
+@Table(name = "FLAG_room")
 @JsonDeserialize(builder = Room.Builder.class)
 public class Room implements Serializable {
     private static final long serialVersionUID = 1L;

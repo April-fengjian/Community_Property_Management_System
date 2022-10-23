@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "booking6")
+@Table(name = "FLAG_booking")
 @JsonDeserialize(builder = Booking.Builder.class)
 public class Booking implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -23,11 +23,11 @@ public class Booking implements Serializable {
     @JsonProperty("checkout_date")
     private LocalDate checkoutDate;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
 
