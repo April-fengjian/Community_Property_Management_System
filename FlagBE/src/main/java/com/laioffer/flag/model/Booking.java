@@ -8,14 +8,14 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "booking")
+@Table(name = "booking5")
 @JsonDeserialize(builder = Booking.Builder.class)
 public class Booking implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @JsonProperty("checkin_date")
     private LocalDate checkinDate;
@@ -25,7 +25,7 @@ public class Booking implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User guest;
+    private User user;
 
     @OneToOne
     @JoinColumn(name = "room_id")
@@ -37,11 +37,11 @@ public class Booking implements Serializable {
         this.id = builder.id;
         this.checkinDate = builder.checkinDate;
         this.checkoutDate = builder.checkoutDate;
-        this.guest = builder.guest;
+        this.user = builder.user;
         this.room = builder.room;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -54,11 +54,11 @@ public class Booking implements Serializable {
     }
 
     public User getGuest() {
-        return guest;
+        return user;
     }
 
-    public Booking setGuest(User guest) {
-        this.guest = guest;
+    public Booking setGuest(User user) {
+        this.user = user;
         return this;
     }
 
@@ -68,7 +68,7 @@ public class Booking implements Serializable {
 
     public static class Builder {
         @JsonProperty("id")
-        private Integer id;
+        private Long id;
 
         @JsonProperty("checkin_date")
         private LocalDate checkinDate;
@@ -76,13 +76,13 @@ public class Booking implements Serializable {
         @JsonProperty("checkout_date")
         private LocalDate checkoutDate;
 
-        @JsonProperty("guest")
-        private User guest;
+        @JsonProperty("user")
+        private User user;
 
         @JsonProperty("room")
         private Room room;
 
-        public Builder setId(Integer id) {
+        public Builder setId(Long id) {
             this.id = id;
             return this;
         }
@@ -97,8 +97,8 @@ public class Booking implements Serializable {
             return this;
         }
 
-        public Builder setGuest(User guest) {
-            this.guest = guest;
+        public Builder setGuest(User user) {
+            this.user = user;
             return this;
         }
 

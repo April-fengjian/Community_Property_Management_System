@@ -9,87 +9,103 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "room")
+@Table(name = "room13")
 @JsonDeserialize(builder = Room.Builder.class)
-public class Room implements Serializable{
+public class Room implements Serializable {
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer room_id;
+    private Long id;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("maxcapacity")
+    private int maxcapacity;
 
-    private String room_name;
-
-    private Integer max_capacity;
-
-    private String image_url;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_id",referencedColumnName = "room_id")
-    private Booking booking;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @JsonIgnore
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    private List<RoomReservedDate> reservedDates;
 
     public Room() {}
 
     private Room(Builder builder) {
-        this.room_id = builder.room_id;
-        this.room_name = builder.room_name;
-        this.max_capacity = builder.max_capacity;
-        this.image_url = builder.image_url;
+        this.id = builder.id;
+        this.name = builder.name;
+        this.maxcapacity = builder.maxcapacity;
+        this.user = builder.user;
+        this.reservedDates = builder.reservedDates;
     }
 
-    public Integer getId() {
-        return room_id;
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
-        return room_name;
+        return name;
     }
 
-    public Integer getMaxCapacity() {
-        return max_capacity;
+    public int getCapacity() {
+        return maxcapacity;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public List<RoomReservedDate> getReservedDates() {
+        return reservedDates;
+    }
+
 
 
     public static class Builder {
 
-        @JsonProperty("room_id")
-        private Integer room_id;
+        @JsonProperty("id")
+        private Long id;
 
-        @JsonProperty("room_name")
-        private String room_name;
+        @JsonProperty("name")
+        private String name;
 
-        @JsonProperty("max_capacity")
-        private Integer max_capacity;
+        @JsonProperty("maxcapacity")
+        private int maxcapacity;
 
-        @JsonProperty("image_url")
-        private String image_url;
+        @JsonProperty("user")
+        private User user;
+        @JsonProperty("dates")
+        private List<RoomReservedDate> reservedDates;
 
-
-        public Builder setId(Integer room_id) {
-            this.room_id = room_id;
+        public Builder setId(Long id) {
+            this.id = id;
             return this;
         }
 
-        public Builder setName(String room_name) {
-            this.room_name = room_name;
+        public Builder setName(String name) {
+            this.name = name;
             return this;
         }
 
-        public Builder setDescription(Integer max_capacity) {
-            this.max_capacity = max_capacity;
+        public Builder setCapacity(int maxcapacity) {
+            this.maxcapacity = maxcapacity;
             return this;
         }
 
-        public Builder setAddress(String image_url) {
-            this.image_url = image_url;
+        public Builder setUser(User user) {
+            this.user = user;
             return this;
         }
 
-
+        public Builder setReservedDates(List<RoomReservedDate> reservedDates) {
+            this.reservedDates = reservedDates;
+            return this;
+        }
 
 
         public Room build() {
             return new Room(this);
         }
     }
+
 }

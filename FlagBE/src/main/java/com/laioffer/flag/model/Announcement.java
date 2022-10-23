@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="announcement")
+@Table(name="announcement2")
 @JsonDeserialize(builder = Announcement.Builder.class) // tell Jackson
 public class Announcement implements Serializable {
     private static final long serialVersionUID = 1L;
