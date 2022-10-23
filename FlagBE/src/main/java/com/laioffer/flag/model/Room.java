@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "room13")
+@Table(name = "room14")
 @JsonDeserialize(builder = Room.Builder.class)
 public class Room implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -22,9 +22,9 @@ public class Room implements Serializable {
     @JsonProperty("maxcapacity")
     private int maxcapacity;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
     @JsonIgnore
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private List<RoomReservedDate> reservedDates;
@@ -35,7 +35,7 @@ public class Room implements Serializable {
         this.id = builder.id;
         this.name = builder.name;
         this.maxcapacity = builder.maxcapacity;
-        this.user = builder.user;
+//        this.user = builder.user;
         this.reservedDates = builder.reservedDates;
     }
 
@@ -51,9 +51,9 @@ public class Room implements Serializable {
         return maxcapacity;
     }
 
-    public User getUser() {
-        return user;
-    }
+//    public User getUser() {
+//        return user;
+//    }
 
     public List<RoomReservedDate> getReservedDates() {
         return reservedDates;
@@ -72,8 +72,8 @@ public class Room implements Serializable {
         @JsonProperty("maxcapacity")
         private int maxcapacity;
 
-        @JsonProperty("user")
-        private User user;
+//        @JsonProperty("user")
+//        private User user;
         @JsonProperty("dates")
         private List<RoomReservedDate> reservedDates;
 
@@ -92,10 +92,10 @@ public class Room implements Serializable {
             return this;
         }
 
-        public Builder setUser(User user) {
-            this.user = user;
-            return this;
-        }
+//        public Builder setUser(User user) {
+//            this.user = user;
+//            return this;
+//        }
 
         public Builder setReservedDates(List<RoomReservedDate> reservedDates) {
             this.reservedDates = reservedDates;

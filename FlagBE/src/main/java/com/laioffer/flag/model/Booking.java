@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "booking5")
+@Table(name = "booking6")
 @JsonDeserialize(builder = Booking.Builder.class)
 public class Booking implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "flag_user3")
+@Table(name = "flag_user4")
 @JsonDeserialize(builder = User.Builder.class)
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;

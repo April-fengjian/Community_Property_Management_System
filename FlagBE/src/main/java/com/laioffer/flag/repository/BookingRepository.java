@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
@@ -17,7 +18,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     Booking findByIdAndUser(Long id, User user); // for deletion
 
-    List<Booking> findByRoomAndCheckoutDateAfter(Room room, LocalDate date);
+    List<Booking> findByRoomAndCheckoutDateAfter(Optional<Room> room, LocalDate date);
 
 
 }

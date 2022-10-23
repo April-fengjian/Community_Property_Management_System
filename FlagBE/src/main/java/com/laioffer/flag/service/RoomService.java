@@ -7,7 +7,6 @@ import com.laioffer.flag.exception.RoomDeleteException;
 import com.laioffer.flag.exception.RoomNotExistException;
 import com.laioffer.flag.model.Booking;
 import com.laioffer.flag.model.Room;
-import com.laioffer.flag.model.User;
 import com.laioffer.flag.repository.BookingRepository;
 import com.laioffer.flag.repository.RoomBookingDateRepository;
 import com.laioffer.flag.repository.RoomRepository;
@@ -18,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoomService {
@@ -38,12 +38,12 @@ public class RoomService {
 
 
 
-    public List<Room> listByUser(String username) {
-        return roomRepository.findByUser(new User.Builder().setUsername(username).build());
-    }
+//    public List<Room> listByUser(String username) {
+//        return roomRepository.findByUser(new User.Builder().setUsername(username).build());
+//    }
 
-    public Room findByIdAndUser(Long roomId, String username) throws RoomNotExistException {
-        Room room = roomRepository.findByIdAndUser(roomId, new User.Builder().setUsername(username).build());
+    public Optional<Room> findById(Long roomId) throws RoomNotExistException {
+        Optional<Room> room = roomRepository.findById(roomId);
         if (room == null) {
             throw new RoomNotExistException("Room doesn't exist");
         }
@@ -57,8 +57,8 @@ public class RoomService {
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void delete(Long roomId, String username) throws RoomNotExistException, RoomDeleteException {
-        Room room = roomRepository.findByIdAndUser(roomId, new User.Builder().setUsername(username).build());
+    public void delete(Long roomId) throws RoomNotExistException, RoomDeleteException {
+        Optional<Room> room = roomRepository.findById(roomId);
         if (room == null) {
             throw new RoomNotExistException("Room doesn't exist");
         }
