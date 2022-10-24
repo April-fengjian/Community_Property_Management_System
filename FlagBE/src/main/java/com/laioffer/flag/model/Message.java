@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "FLAG_message")
+@Table(name = "message")
 @JsonDeserialize(builder = Message.Builder.class)
 public class Message implements Serializable {
     private static final long serialVersionUID = 1L;

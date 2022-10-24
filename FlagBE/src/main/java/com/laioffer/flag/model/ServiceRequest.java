@@ -9,7 +9,7 @@ import java.sql.Date;
 
 
 @Entity
-@Table(name = "FLAG_service_request")
+@Table(name = "service_request")
 @JsonDeserialize(builder = ServiceRequest.Builder.class)
 public class ServiceRequest implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -175,8 +175,9 @@ public class ServiceRequest implements Serializable {
             return this;
         }
 
-        public void setProvider(User provider) {
+        public Builder setProvider(User provider) {
             this.provider = provider;
+            return this;
         }
 
         public ServiceRequest build() {

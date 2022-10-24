@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "FLAG_room_reserved_date")
+@Table(name = "room_reserved_date")
 public class RoomReservedDate implements Serializable {
     private static final long serialVersionUID = 1L;
 
