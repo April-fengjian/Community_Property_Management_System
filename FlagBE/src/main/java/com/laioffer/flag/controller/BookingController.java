@@ -40,4 +40,10 @@ public class BookingController {
     public void deleteBooking(@PathVariable Long bookingId, Principal principal) {
         bookingService.delete(bookingId, principal.getName());
     }
+
+    @PostMapping("/bookings/{bookingId}")
+    public void modifyBooking(@RequestBody Booking booking, @PathVariable Long bookingId, Principal principal) {
+        this.deleteBooking(bookingId, principal);
+        this.addBooking(booking, principal);
+    }
 }
