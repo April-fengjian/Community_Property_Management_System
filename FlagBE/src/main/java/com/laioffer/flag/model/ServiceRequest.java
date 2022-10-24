@@ -16,7 +16,7 @@ public class ServiceRequest implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long maintenance_id;
+    private Long id;
 
     private String title;
 
@@ -29,24 +29,30 @@ public class ServiceRequest implements Serializable {
     private Date time;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User host;
+    @JoinColumn(name = "tenant_id")
+    private User tenant;
+
+    @ManyToOne
+    @JoinColumn(name = "provider_id")
+    private User provider;
 
 
     public ServiceRequest() {}
 
     private ServiceRequest(Builder builder) {
-        this.maintenance_id = builder.maintenance_id;
+        this.id = builder.id;
         this.title = builder.title;
         this.status = builder.status;
         this.description = builder.description;
         this.category = builder.category;
         this.time = builder.time;
-        this.host = builder.host;
+        this.tenant = builder.tenant;
+        this.provider = builder.provider;
     }
 
-    public Long getMaintenance_id() {
-        return maintenance_id;
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -69,13 +75,49 @@ public class ServiceRequest implements Serializable {
         return time;
     }
 
-    public User getHost() {
-        return host;
+    public User getTenant() {
+        return tenant;
+    }
+
+    public User getProvider() {
+        return provider;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public void setTenant(User tenant) {
+        this.tenant = tenant;
+    }
+
+    public void setProvider(User provider) {
+        this.provider = provider;
     }
 
     public static class Builder {
-        @JsonProperty("maintenance_id")
-        private Long maintenance_id;
+        @JsonProperty("id")
+        private Long id;
 
         @JsonProperty("title")
         private String title;
@@ -92,11 +134,14 @@ public class ServiceRequest implements Serializable {
         @JsonProperty("time")
         private Date time;
 
-        @JsonProperty("host")
-        private User host;
+        @JsonProperty("tenant")
+        private User tenant;
 
-        public Builder setId(Long maintenance_id) {
-            this.maintenance_id = maintenance_id;
+        @JsonProperty("provider")
+        private User provider;
+
+        public Builder setId(Long id) {
+            this.id = id;
             return this;
         }
 
@@ -125,12 +170,17 @@ public class ServiceRequest implements Serializable {
             return this;
         }
 
-        public Builder setHost(User host) {
-            this.host = host;
+        public Builder setTenant(User tenant) {
+            this.tenant = tenant;
             return this;
         }
 
-        public ServiceRequest builder() {
+        public Builder setProvider(User provider) {
+            this.provider = provider;
+            return this;
+        }
+
+        public ServiceRequest build() {
             return new ServiceRequest(this);
         }
     }
