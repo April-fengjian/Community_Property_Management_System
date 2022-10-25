@@ -1,7 +1,8 @@
 const domain = '';
 export const getReservations = () => {  //no input, 
     const authToken = localStorage.getItem("authToken");//get local user token to identify user
-    const listReservationsUrl = `${domain}/reservations`;
+    // const listReservationsUrl = `${domain}/reservations`;
+    const listReservationsUrl = `${domain}/bookings`;
     return fetch(listReservationsUrl, {headers: {Authorization: `Bearer ${authToken}`}}).then((response) => {
         if (response.status !== 200) {
             throw Error("Fail to get reservation list");
