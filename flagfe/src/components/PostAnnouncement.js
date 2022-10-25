@@ -1,5 +1,5 @@
 import '../App.css';
-import { Button, Comment, Form, Input, List, message, Typography, Spin, Col, Row, Select} from 'antd';
+import { Avatar, Button, Comment, Form, Input, List, message, Typography, Spin, Col, Row, Select} from 'antd';
 import React, { useState, useEffect } from 'react';
 import { getAnnouncement, postAnnouncement, deleteAnnouncement } from "../utils/messageUtils";
 import moment from "moment";
@@ -34,7 +34,7 @@ const CommentList = ({comments, handleDelete}) => (
           </Row>
           <Comment className="message-content"
             author={item.user.username}
-            avatar='https://joeschmoe.io/api/v1/random'
+            avatar={<Avatar src={item.user.avatar} />}
             content={item.description}
             datetime={moment.utc(item.time).format('MM/DD/YY HH:mm:ss')}
           />
