@@ -28,7 +28,7 @@
           extra={<h4>{moment.utc(item.time).format('MM/DD/YY HH:mm:ss')}</h4>}
         >
           <List.Item.Meta
-              avatar={<Avatar size={40} src='https://joeschmoe.io/api/v1/random' />}
+              avatar={<Avatar src={item.user.avatar} />}
               // title={<h4 id="center">{item.title}</h4>}
               title={
                   <div style={{ display: "flex", alignItems: "center" }}>
@@ -79,7 +79,7 @@ const AnnouncementInfo = (props)=> {
             footer={null}
             onCancel={handleCancel}
           >
-            <div>
+            <div className="message-content">
               <Text>{props.discription}</Text>
               <div align="right">
                 <Text type="secondary">Published </Text>

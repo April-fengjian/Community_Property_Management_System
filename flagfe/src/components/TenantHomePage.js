@@ -6,7 +6,6 @@ import DashBoard from './DashBoard';
 import ServiceRequest from './ServiceRequest';
 import BookRoom from './BookRoom';
 import Payment from './Payment';
-import Message from './Message';
 import PostMessage from './PostMessage';
  
 const { TabPane } = Tabs;
