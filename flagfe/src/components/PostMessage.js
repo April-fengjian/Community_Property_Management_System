@@ -69,7 +69,6 @@ const PostMessage = () => {
     .then((response) => {
         if(response.length === 0) {
             message.success("end of all messages!");
-            setComments([]);
             noMoreData = true;
         } else {
             setComments(comments.concat(response));
@@ -138,13 +137,13 @@ const PostMessage = () => {
   };
 
   const handleFilter = () => {
-    noMoreData = false;
     if (!mine) {
         getFreshMyData();
       } else {
         getFreshData();
     }
     setMine(a => !a);
+    noMoreData = false;
   };
 
   return (
