@@ -4,12 +4,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "room_reserved_date")
-public class RoomReservedDate implements Serializable {
+@Table(name = "room_reserved_date_time")
+public class RoomReservedDateTime implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private RoomReservedDateKey id;
+    private RoomReservedDateTimeKey id;
 
     // column room_id also is a forenign key of table room
     @MapsId("room_id")
@@ -17,14 +17,14 @@ public class RoomReservedDate implements Serializable {
     private Room room;
 
 
-    public RoomReservedDate() {}
+    public RoomReservedDateTime() {}
 
-    public RoomReservedDate(RoomReservedDateKey id, Room room) {
+    public RoomReservedDateTime(RoomReservedDateTimeKey id, Room room) {
         this.id = id;
         this.room = room;
     }
 
-    public RoomReservedDateKey getId() {
+    public RoomReservedDateTimeKey getId() {
         return id;
     }
 

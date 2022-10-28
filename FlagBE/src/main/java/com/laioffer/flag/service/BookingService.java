@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,14 +39,14 @@ public class BookingService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void add(Booking booking) throws BookingCollisionException {
-        Set<Long> roomIds = roomBookingDateRepository.findByIdInAndDateBetween(Arrays.asList(booking.getRoom().getId()), booking.getCheckinDate(), booking.getCheckoutDate().minusDays(1));
+        Set<Long> roomIds = roomBookingDateRepository.findByIdInAndDateTimeBetween(Arrays.asList(booking.getRoom().getId()), booking.getCheckinDateTime(), booking.getCheckoutDateTime().minusMinutes(30));
         if (!roomIds.isEmpty()) {
             throw new BookingCollisionException("Duplicate booking");
         }
 
-        List<RoomReservedDate> reservedDates = new ArrayList<>();
-        for (LocalDate date = booking.getCheckinDate(); date.isBefore(booking.getCheckoutDate()); date = date.plusDays(1)) {
-            reservedDates.add(new RoomReservedDate(new RoomReservedDateKey(booking.getRoom().getId(), date), booking.getRoom()));
+        List<RoomReservedDateTime> reservedDates = new ArrayList<>();
+        for (LocalDateTime date = booking.getCheckinDateTime(); date.isBefore(booking.getCheckoutDateTime()); date = date.plusMinutes(30)) {
+            reservedDates.add(new RoomReservedDateTime(new RoomReservedDateTimeKey(booking.getRoom().getId(), date), booking.getRoom()));
         }
         roomBookingDateRepository.saveAll(reservedDates);
         bookingRepository.save(booking);
@@ -58,8 +58,8 @@ public class BookingService {
         if (booking == null) {
             throw new BookingNotFoundException("Booking is not available");
         }
-        for (LocalDate date = booking.getCheckinDate(); date.isBefore(booking.getCheckoutDate()); date = date.plusDays(1)) {
-            roomBookingDateRepository.deleteById(new RoomReservedDateKey(booking.getRoom().getId(), date));
+        for (LocalDateTime date = booking.getCheckinDateTime(); date.isBefore(booking.getCheckoutDateTime()); date = date.plusMinutes(30)) {
+            roomBookingDateRepository.deleteById(new RoomReservedDateTimeKey(booking.getRoom().getId(), date));
         }
         bookingRepository.deleteById(bookingId);
     }

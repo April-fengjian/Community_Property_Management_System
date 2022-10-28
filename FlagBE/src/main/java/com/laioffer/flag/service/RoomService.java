@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +63,7 @@ public class RoomService {
         if (room == null) {
             throw new RoomNotExistException("Room doesn't exist");
         }
-        List<Booking> bookings = bookingRepository.findByRoomAndCheckoutDateAfter(room, LocalDate.now());
+        List<Booking> bookings = bookingRepository.findByRoomAndCheckoutDateTimeAfter(room, LocalDateTime.now());
         if (bookings != null && bookings.size() > 0) {
             throw new RoomDeleteException("Cannot delete room with active booking");
         }
