@@ -11,11 +11,14 @@ import java.util.Optional;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    //List<Room> findByUser(User user);
+//    List<Room> findByUser(User user);
 
 //    Room findByIdAndUser(Long id, User host);
 
     Optional<Room> findById(Long id);
+
+    @Override
+    List<Room> findAll();
 
     List<Room> findByIdInAndMaxcapacityGreaterThanEqual(List<Long> ids, int maxcapacity);
 }

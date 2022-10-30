@@ -40,7 +40,7 @@ export class StayDetailInfoButton extends React.Component {
    
     render() {
       const { stay } = this.props;
-      const { name, description, address, guest_number } = stay;
+      const { name, maxcapacity } = stay;
       const { modalVisible } = this.state;
       return (
         <>
@@ -62,12 +62,12 @@ export class StayDetailInfoButton extends React.Component {
               onCancel={this.handleCancel}
             >
               <Space direction="vertical">
-                <Text strong={true}>Description</Text>
-                <Text type="secondary">{description}</Text>
-                <Text strong={true}>Address</Text>
-                <Text type="secondary">{address}</Text>
+                {/* <Text strong={true}>Description</Text>
+                <Text type="secondary">{description}</Text> */}
+                {/* <Text strong={true}>Address</Text>
+                <Text type="secondary">{address}</Text> */}
                 <Text strong={true}>Guest Number</Text>
-                <Text type="secondary">{guest_number}</Text>
+                <Text type="secondary">{maxcapacity}</Text>
               </Space>
             </Modal>
           )}
@@ -143,11 +143,11 @@ export class StayDetailInfoButton extends React.Component {
                                     prevArrow={<LeftCircleFilled />}
                                     nextArrow={<RightCircleFilled />}
                                 >
-                                    {item.images.map((image, index) => (
+                                    {/* {item.images.map((image, index) => (
                                         <div key={index}>
                                             <Image src={image.url} width="100%" />
                                         </div>
-                                    ))}
+                                    ))} */}
                                 </Carousel>
                             }
                         </Card>
@@ -172,21 +172,21 @@ export class StayDetailInfoButton extends React.Component {
    
     handleSubmit = async (values) => {
       const formData = new FormData();
-      const { files } = this.fileInputRef.current;
+      // const { files } = this.fileInputRef.current;
    
-      if (files.length > 5) {
-        message.error("You can at most upload 5 pictures.");
-        return;
-      }
+      // if (files.length > 5) {
+      //   message.error("You can at most upload 5 pictures.");
+      //   return;
+      // }
    
-      for (let i = 0; i < files.length; i++) {
-        formData.append("images", files[i]);
-      }
+      // for (let i = 0; i < files.length; i++) {
+      //   formData.append("images", files[i]);
+      // }
    
       formData.append("name", values.name);
-      formData.append("address", values.address);
-      formData.append("description", values.description);
-      formData.append("guest_number", values.guest_number);
+      // formData.append("address", values.address);
+      // formData.append("description", values.description);
+      formData.append("maxcapacity", values.maxcapacity);
    
       this.setState({
         loading: true,
@@ -211,34 +211,34 @@ export class StayDetailInfoButton extends React.Component {
           onFinish={this.handleSubmit}
           style={{ maxWidth: 1000, margin: "auto" }}
         >
-          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+          <Form.Item name="name" label="Room number" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item name="address" label="Address" rules={[{ required: true }]}>
+          {/* <Form.Item name="address" label="Address" rules={[{ required: true }]}>
             <Input />
-          </Form.Item>
-          <Form.Item
+          </Form.Item> */}
+          {/* <Form.Item
             name="description"
             label="Description"
-            rules={[{ required: true }]}
+            rules={[{ required: false }]}
           >
             <Input.TextArea autoSize={{ minRows: 2, maxRows: 6 }} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
-            name="guest_number"
-            label="Guest Number"
+            name="maxcapacity"
+            label="Max capacity"
             rules={[{ required: true, type: "number", min: 1 }]}
           >
             <InputNumber />
           </Form.Item>
-          <Form.Item name="picture" label="Picture" rules={[{ required: true }]}>
+          {/* <Form.Item name="picture" label="Picture" rules={[{ required: true }]}>
             <input
               type="file"
               accept="image/png, image/jpeg"
               ref={this.fileInputRef}
               multiple={true}
             />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <Button type="primary" htmlType="submit" loading={this.state.loading}>
               Submit
@@ -252,10 +252,10 @@ export class StayDetailInfoButton extends React.Component {
   const ManagerStayPage = () => {
     return (
       <Tabs defaultActiveKey="1" destroyInactiveTabPane={true}>
-        <TabPane tab="My Stays" key="1">
+        <TabPane tab="Rooms" key="1">
           <MyStays />
         </TabPane>
-        <TabPane tab="Upload Stay" key="2">
+        <TabPane tab="Add Room" key="2">
           <UploadStay />
         </TabPane>
       </Tabs>

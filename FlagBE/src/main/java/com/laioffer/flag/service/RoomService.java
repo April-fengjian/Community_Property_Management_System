@@ -7,6 +7,7 @@ import com.laioffer.flag.exception.RoomDeleteException;
 import com.laioffer.flag.exception.RoomNotExistException;
 import com.laioffer.flag.model.Booking;
 import com.laioffer.flag.model.Room;
+import com.laioffer.flag.model.User;
 import com.laioffer.flag.repository.BookingRepository;
 import com.laioffer.flag.repository.RoomBookingDateRepository;
 import com.laioffer.flag.repository.RoomRepository;
@@ -39,9 +40,9 @@ public class RoomService {
 
 
 
-//    public List<Room> listByUser(String username) {
-//        return roomRepository.findByUser(new User.Builder().setUsername(username).build());
-//    }
+    public List<Room> findAll() {
+        return roomRepository.findAll();
+    }
 
     public Optional<Room> findById(Long roomId) throws RoomNotExistException {
         Optional<Room> room = roomRepository.findById(roomId);
