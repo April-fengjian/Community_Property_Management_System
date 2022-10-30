@@ -13,7 +13,7 @@ export const getReservations = () => {  //no input,
 
 export const getStaysByHost = () => {
   const authToken = localStorage.getItem("authToken");
-  const listStaysUrl = `${domain}/stays/`;
+  const listStaysUrl = `${domain}/rooms/`;
  
   return fetch(listStaysUrl, {
     headers: {
@@ -49,7 +49,7 @@ export const searchStays = (query) => {
 
 export const uploadStay = (data) => {
   const authToken = localStorage.getItem("authToken");
-  const uploadStayUrl = `${domain}/stays`;
+  const uploadStayUrl = `${domain}/rooms`;
  
   return fetch(uploadStayUrl, {
     method: "POST",
