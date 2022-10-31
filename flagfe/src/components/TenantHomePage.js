@@ -6,7 +6,7 @@ import DashBoard from './DashBoard';
 import ServiceRequest from './ServiceRequest';
 import BookRoom from './BookRoom';
 import Payment from './Payment';
-import Message from './Message';
+import PostMessage from './PostMessage';
  
 const { TabPane } = Tabs;
   
@@ -27,7 +27,7 @@ class TenantHomePage extends React.Component {
             <Payment />
         </TabPane>
         <TabPane tab="Message Forum" key="5">
-            <Message />
+            <PostMessage />
         </TabPane>
       </Tabs>
     );

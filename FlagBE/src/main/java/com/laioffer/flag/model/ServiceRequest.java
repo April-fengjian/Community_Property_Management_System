@@ -175,8 +175,9 @@ public class ServiceRequest implements Serializable {
             return this;
         }
 
-        public void setProvider(User provider) {
+        public Builder setProvider(User provider) {
             this.provider = provider;
+            return this;
         }
 
         public ServiceRequest build() {

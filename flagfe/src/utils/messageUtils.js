@@ -23,20 +23,20 @@ export const postAnnouncement = (data) => {
 // “description”: “...”,
   
 export const getAnnouncement = () => {
-    const authToken = localStorage.getItem("authToken");
-    const getAnnouncementUrl = `${domain}/announcements`;
+  const authToken = localStorage.getItem("authToken");
+  const getAnnouncementUrl = `${domain}/announcements`;
 
-    return fetch(getAnnouncementUrl, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    }).then((response) => {
-      if (response.status !== 200) {
-        throw Error("Fail to get announcement");
-      }
-   
-      return response.json();
-    });
+  return fetch(getAnnouncementUrl, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Fail to get announcement");
+    }
+ 
+    return response.json();
+  });
 };
 // “title”: ”xxx”,
 // “time”: Date,
@@ -64,7 +64,7 @@ export const deleteAnnouncement = (announceId) => {
 
   export const postMessage = (data) => {
     const authToken = localStorage.getItem("authToken");
-    const postMessageUrl = `${domain}/message/add`;
+    const postMessageUrl = `${domain}/message/post`;
 
     return fetch(postMessageUrl, {
       method: "POST",
@@ -99,15 +99,31 @@ export const getMessage = () => {
       return response.json();
     });
 };
-// “title”: ”xxx”,
-// “time”: Date,
-// “description”: “...”,
-// “username”:”xxx”
-// “messageId:””
 
-export const getMessageByUser = () => {
+export const getTopMessage = (lastTime) => {
+  const authToken = localStorage.getItem("authToken");
+  const getMessageUrl = `${domain}/messages/top?time=${lastTime}`;
+
+  return fetch(getMessageUrl, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Fail to get message");
+    } 
+    return response.json();
+  });
+};
+// “title”: ”xxx”,
+// “time”: "3000-10-21T10:09:51",
+// “description”: “...”,
+// “user”:”xxx”
+// “id:””
+
+export const getMyMessage = () => {
     const authToken = localStorage.getItem("authToken");
-    const getMessageByUserUrl = `${domain}/messages`;
+    const getMessageByUserUrl = `${domain}/myMessages`;
 
     return fetch(getMessageByUserUrl, {
       headers: {
@@ -119,6 +135,21 @@ export const getMessageByUser = () => {
       }   
       return response.json();
     });
+};
+export const getMyTopMessage = (lastTime) => {
+  const authToken = localStorage.getItem("authToken");
+  const getTopMessageByUserUrl = `${domain}/myMessages/top?time=${lastTime}`;
+
+  return fetch(getTopMessageByUserUrl, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Fail to get message");
+    }   
+    return response.json();
+  });
 };
 // “title”: ”xxx”,        参考getStaysByHost 前端只给token，后端查询链接加上了?host=sun
 // “time”: Date,

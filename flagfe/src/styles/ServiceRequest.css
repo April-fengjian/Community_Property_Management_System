@@ -34,3 +34,20 @@ head {
 .submit-button{
     width: 100%;
 }
+
+.cancel-button{
+    height: 30px;
+    width: 150px;
+    font-size: 13px;
+    left: 350px;
+}
+
+.expanded-detail{
+    min-height: 65px;
+}
+
+.filter{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    left: 400px;
+}

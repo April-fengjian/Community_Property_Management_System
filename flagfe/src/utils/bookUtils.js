@@ -1,7 +1,8 @@
 const domain = '';
 export const getReservations = () => {  //no input, 
     const authToken = localStorage.getItem("authToken");//get local user token to identify user
-    const listReservationsUrl = `${domain}/reservations`;
+    // const listReservationsUrl = `${domain}/reservations`;
+    const listReservationsUrl = `${domain}/bookings`;
     return fetch(listReservationsUrl, {headers: {Authorization: `Bearer ${authToken}`}}).then((response) => {
         if (response.status !== 200) {
             throw Error("Fail to get reservation list");
@@ -12,7 +13,7 @@ export const getReservations = () => {  //no input,
 
 export const getStaysByHost = () => {
   const authToken = localStorage.getItem("authToken");
-  const listStaysUrl = `${domain}/stays/`;
+  const listStaysUrl = `${domain}/rooms/`;
  
   return fetch(listStaysUrl, {
     headers: {
@@ -43,5 +44,22 @@ export const searchStays = (query) => {
           throw Error("Fail to search stays");
       }
       return response.json();
+  });
+};
+
+export const uploadStay = (data) => {
+  const authToken = localStorage.getItem("authToken");
+  const uploadStayUrl = `${domain}/rooms`;
+ 
+  return fetch(uploadStayUrl, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+    body: data,
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Fail to upload stay");
+    }
   });
 };

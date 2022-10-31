@@ -1,6 +1,7 @@
   import { Avatar, Button, List, Tooltip, Typography, Modal, message } from 'antd';
   import React, { useState, useEffect } from 'react';
   import { getAnnouncement } from "../utils/messageUtils";
+  import moment from "moment";
 
   const { Title, Text } = Typography;
 
@@ -24,17 +25,17 @@
       dataSource={comments}
       renderItem={(item) => (
         <List.Item
-          extra={<h4>{item.time}</h4>}
+          extra={<h4>{moment.utc(item.time).format('MM/DD/YY HH:mm:ss')}</h4>}
         >
           <List.Item.Meta
-              avatar={<Avatar size={40} src='https://joeschmoe.io/api/v1/random' />}
+              avatar={<Avatar src={item.user.avatar} />}
               // title={<h4 id="center">{item.title}</h4>}
               title={
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <Title level={4} type={item.importance}>
                       {item.title}
                     </Title>
-                    <AnnouncementInfo title={item.title} discription={item.description} time={item.time} />
+                    <AnnouncementInfo title={item.title} discription={item.description} time={moment.utc(item.time).format('MM/DD/YY HH:mm:ss')} />
                   </div>
               }
           />
@@ -78,7 +79,7 @@ const AnnouncementInfo = (props)=> {
             footer={null}
             onCancel={handleCancel}
           >
-            <div>
+            <div className="message-content">
               <Text>{props.discription}</Text>
               <div align="right">
                 <Text type="secondary">Published </Text>

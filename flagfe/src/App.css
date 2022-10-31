@@ -55,3 +55,7 @@ text-align: right;
   height: 600px;
   overflow-y: scroll;
 }
+
+.message-content {
+white-space: pre-line;
+}

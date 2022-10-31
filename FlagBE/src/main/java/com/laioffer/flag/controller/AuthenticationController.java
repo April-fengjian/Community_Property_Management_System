@@ -5,6 +5,7 @@ import com.laioffer.flag.model.User;
 import com.laioffer.flag.model.UserRole;
 import com.laioffer.flag.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,4 +33,5 @@ public class AuthenticationController {
     public Token authenticateProvider(@RequestBody User user) {
         return authenticationService.authenticate(user, UserRole.ROLE_PROVIDER);
     }
+
 }

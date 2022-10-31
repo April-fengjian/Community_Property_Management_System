@@ -34,6 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/announcement/*").hasAuthority("ROLE_MANAGER")
                 //.antMatchers("/announcement/*").hasAuthority("ROLE_MANAGER")
                 //.antMatchers("/serviceRequest/*").hasAuthority("ROLE_TENANT")
+                .antMatchers("/search").hasAuthority("ROLE_TENANT")
+                .antMatchers("/bookings").hasAuthority("ROLE_TENANT")
+                .antMatchers("/bookings/*").hasAuthority("ROLE_TENANT")
+                .antMatchers("/rooms").hasAuthority("ROLE_MANAGER")
+                .antMatchers("/rooms").permitAll()
+                .antMatchers("/rooms/*").permitAll()
+
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -53,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("SELECT username, password, enabled FROM flag_user WHERE username = ?")
+                .usersByUsernameQuery("SELECT username, password, enabled FROM user WHERE username = ?")
                 .authoritiesByUsernameQuery("SELECT username, authority FROM authority WHERE username = ?");
     }
 

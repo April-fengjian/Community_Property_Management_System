@@ -5,6 +5,7 @@ import {
   import ManagerStayPage from "./BookRoom_Manager";
   import PostAnnouncement from "./PostAnnouncement";
   import ServiceTasks from "./ServiceTasks";
+  import PostMessage from './PostMessage';
 
    
   const { TabPane } = Tabs;  
@@ -21,6 +22,9 @@ import {
           </TabPane>
           <TabPane tab="Stay upload" key="3">
             <ManagerStayPage />
+          </TabPane>
+          <TabPane tab="Message Forum" key="5">
+            <PostMessage />
           </TabPane>
         </Tabs>
       );

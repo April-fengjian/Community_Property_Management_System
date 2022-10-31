@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+@RestController
 public class BookingController {
     private BookingService bookingService;
 
@@ -19,24 +20,24 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-//    @GetMapping(value = "/bookings")
-//    public List<Booking> listReservations(Principal principal) {
-//        return BookingService.listByGuest(principal.getName());
-//    }
-//
-//    @PostMapping("/bookings")
-//    public void addReservation(@RequestBody Booking booking, Principal principal) {
-//        LocalDate checkinDate = booking.getCheckinDate();
-//        LocalDate checkoutDate = booking.getCheckoutDate();
-//        if (checkinDate.equals(checkoutDate) || checkinDate.isAfter(checkoutDate) || checkinDate.isBefore(LocalDate.now())) {
-//            throw new InvalidBookingDateException("Invalid date for reservation");
-//        }
-//        booking.setGuest(new User.Builder().setUsername(principal.getName()).build());
-//        bookingService.add(booking);
-//    }
-//
-//    @DeleteMapping("/bookings/{bookingId}")
-//    public void deleteBooking(@PathVariable Long bookingId, Principal principal) {
-//        bookingService.delete(bookingId, principal.getName());
-//    }
+    @GetMapping(value = "/bookings")
+    public List<Booking> listBookings(Principal principal) {
+        return bookingService.listByUser(principal.getName());
+    }
+
+    @PostMapping("/bookings")
+    public void addBooking(@RequestBody Booking booking, Principal principal) {
+        LocalDateTime checkinDate = booking.getCheckinDateTime();
+        LocalDateTime checkoutDate = booking.getCheckoutDateTime();
+        if (checkinDate.equals(checkoutDate) || checkinDate.isAfter(checkoutDate) || checkinDate.isBefore(LocalDateTime.now())) {
+            throw new InvalidBookingDateException("Invalid date for booking");
+        }
+        booking.setGuest(new User.Builder().setUsername(principal.getName()).build());
+        bookingService.add(booking);
+    }
+
+    @DeleteMapping("/bookings/{bookingId}")
+    public void deleteBooking(@PathVariable Long bookingId, Principal principal) {
+        bookingService.delete(bookingId, principal.getName());
+    }
 }

@@ -1,12 +1,11 @@
 import React from "react";
-import { getReservations, searchStays } from "../utils/bookUtils";
+import { getReservations, getStaysByHost, searchStays } from "../utils/bookUtils";
 import { StayDetailInfoButton } from "./BookRoom_Manager";
 import { message, Tabs, List, Typography,
   Card,
   Image,
   Carousel,
   Button,
-
   Form,
   InputNumber,
   DatePicker} from "antd";
@@ -14,6 +13,7 @@ import {
   LeftCircleFilled,
   RightCircleFilled,
 } from "@ant-design/icons";
+import '../styles/BookRoom.css'
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
@@ -30,7 +30,8 @@ class SearchStays extends React.Component {
     });
  
     try {
-      const resp = await searchStays(query);
+      // const resp = await searchStays(query);
+      const resp = await getStaysByHost();
       this.setState({
         data: resp,
       });
@@ -112,11 +113,11 @@ class SearchStays extends React.Component {
                     prevArrow={<LeftCircleFilled />}
                     nextArrow={<RightCircleFilled />}
                   >
-                    {item.images.map((image, index) => (
+                    {/* {item.images.map((image, index) => (
                       <div key={index}>
                         <Image src={image.url} width="100%" />
                       </div>
-                    ))}
+                    ))} */}
                   </Carousel>
                 }
               </Card>
@@ -185,7 +186,7 @@ class MyReservations extends React.Component {
 const GuestHomePage = () => {
   return (
     <Tabs defaultActiveKey="1" destroyInactiveTabPane={true}>
-      <TabPane tab="Search Stays" key="1">
+      <TabPane tab="Search Rooms" key="1">
         <SearchStays/>
       </TabPane>
       <TabPane tab="My Reservations" key="2">

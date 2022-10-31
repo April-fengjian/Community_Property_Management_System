@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "flag_user")
+@Table(name = "user")
 @JsonDeserialize(builder = User.Builder.class)
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -27,6 +27,8 @@ public class User implements Serializable {
     @JsonIgnore
     private boolean enabled;
 
+    private String avatar;
+
     public User() {
 
     }
@@ -38,6 +40,7 @@ public class User implements Serializable {
         this.email = builder.email;
         this.phone = builder.phone;
         this.enabled = builder.enabled;
+        this.avatar = builder.avatar;
     }
 
     public String getUsername() {
@@ -84,6 +87,10 @@ public class User implements Serializable {
         return enabled;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
@@ -101,6 +108,8 @@ public class User implements Serializable {
         private Long phone;
         @JsonProperty("enabled")
         private boolean enabled;
+        
+        private String avatar;
 
         public Builder setUsername(String username) {
             this.username = username;
@@ -132,8 +141,10 @@ public class User implements Serializable {
             return this;
         }
 
+
         public User build() {
             return new User(this);
         }
+
     }
 }
