@@ -4,6 +4,7 @@ import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { PoweroffOutlined } from '@ant-design/icons';
 import '../styles/ServiceRequest.css'
 import { sendRequest, getTenantRequest, cancelRequest, getRequestByStatus } from "../utils/serviceUtils";
+import { render } from "@testing-library/react";
 const { TextArea } = Input;
 // const data = [{key: 1,title: "This is title", status: "Submitted", category: "Public", description: "This is Description xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxx xxxxxxxxx xxx xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxx xxxxxxxxxxxxxxxxxx"},
 // {key: 2,title: "This is title", status: "Submitted", category: "Public", description: "This is Description"}]
@@ -148,7 +149,24 @@ class RequestList extends React.Component {
             });
         }
     };
-    
+    handleCancel = async(id,e) => {
+        // e.preventDefault()
+        // console.log(id)
+        // cancelRequest(id)
+        this.setState({
+            loading: true,
+        });
+        try {
+            await cancelRequest(id);
+            message.success("Your request has been cancel");
+        } catch (error) {
+            message.error(error.message);
+        } finally {
+            this.setState({
+                loading: false,
+            });
+        }
+    }
     render(){
         return (
             <div>
@@ -156,7 +174,7 @@ class RequestList extends React.Component {
                     expandable={{expandedRowRender: (record) => (
                             <div style={{ margin: 0 }}>
                                 <div>{record.description}</div>
-                                <Button className="cancel-button" onClick={cancelRequest(record.id)}>Cancel Request</Button>
+                                <Button className="cancel-button" onClick={this.handleCancel.bind(this, record.id)} >Cancel Request</Button>
                             </div>),}}
                     dataSource = {this.state.data} />
             </div>  
@@ -184,32 +202,32 @@ class Filter extends React.Component{
           ]}
         />
     );
-    changeData = async (status) => {
-        this.setState({
-            loading: true,
-        });
+    // changeData = async (status) => {
+    //     this.setState({
+    //         loading: true,
+    //     });
 
-        try {
+    //     try {
             
-            const resp = await getRequestByStatus(status)
-            for (let i = 0; i< resp.length; i++) {
-                resp[i]["key"] = i
+    //         const resp = await getRequestByStatus(status)
+    //         for (let i = 0; i< resp.length; i++) {
+    //             resp[i]["key"] = i
                     
-            }
-            this.setState({
-                data: resp,
-            }); 
-        } catch (error) {
-            message.error(error.message);
-        } finally {
-            this.setState({
-                loading: false,
-            });
-        }
-    };
-    handleFilterClick=(e)=>  {
+    //         }
+    //         this.setState({
+    //             data: resp,
+    //         }); 
+    //     } catch (error) {
+    //         message.error(error.message);
+    //     } finally {
+    //         this.setState({
+    //             loading: false,
+    //         });
+    //     }
+    // };
+    handleFilterClick(e){
         console.log('click', e.key);
-        this.changeData(e.key)
+        // this.changeData(e.key)
     }
     render(){
         return (
