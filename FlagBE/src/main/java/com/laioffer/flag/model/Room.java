@@ -27,7 +27,7 @@ public class Room implements Serializable {
 //    private User user;
     @JsonIgnore
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private List<RoomReservedDate> reservedDates;
+    private List<RoomReservedDateTime> reservedDates;
 
     public Room() {}
 
@@ -55,7 +55,7 @@ public class Room implements Serializable {
 //        return user;
 //    }
 
-    public List<RoomReservedDate> getReservedDates() {
+    public List<RoomReservedDateTime> getReservedDates() {
         return reservedDates;
     }
 
@@ -75,7 +75,7 @@ public class Room implements Serializable {
 //        @JsonProperty("user")
 //        private User user;
         @JsonProperty("dates")
-        private List<RoomReservedDate> reservedDates;
+        private List<RoomReservedDateTime> reservedDates;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -97,7 +97,7 @@ public class Room implements Serializable {
 //            return this;
 //        }
 
-        public Builder setReservedDates(List<RoomReservedDate> reservedDates) {
+        public Builder setReservedDates(List<RoomReservedDateTime> reservedDates) {
             this.reservedDates = reservedDates;
             return this;
         }

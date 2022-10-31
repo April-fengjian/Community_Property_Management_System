@@ -1,17 +1,17 @@
-import { Button, Comment, Form, Input, List, message, Typography, Col, Row, Divider, Skeleton } from 'antd';
+import { Button, Comment, Form, Input, List, message, Typography, Col, Row, Divider, Avatar } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import React, { useEffect, useState } from 'react';
-import { deleteMessage, getMyMessage, postMessage, getTopMessage, getMyTopMessage } from '../utils/messageUtils';
+import { deleteMessage, postMessage, getTopMessage, getMyTopMessage } from '../utils/messageUtils';
 import moment from "moment";
 
 const { Title } = Typography;
 
 const PostMessage = () => {
   const [comments, setComments] = useState([]);
-//   const [data, setData] = useState([]);
-//   const [myData, setMyData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [mine, setMine] = useState(false);
+  const [form] = Form.useForm();
+
   let noMoreData = false;
   Array.prototype.peek = function () {
     if (this.length === 0) {
@@ -39,7 +39,26 @@ const PostMessage = () => {
     })
     setLoading(false);
   };
-
+  const getFreshData = () => {
+    if (loading) {
+        return;
+      }
+    setLoading(true);
+    const lastTime = "3000-10-21T10:09:51";
+    getTopMessage(lastTime)
+    .then((response) => {
+        if(response.length === 0) {
+            message.success("end of all messages!");
+            noMoreData = true;
+        } else {
+            setComments(response);
+            message.success(`${response.length} more messages loaded!`);
+        }
+    }).catch((err) => {
+        message.error(err.message)
+    })
+    setLoading(false);
+  };
   const getMyData = () => {
     if (loading) {
         return;
@@ -60,52 +79,71 @@ const PostMessage = () => {
     })
     setLoading(false);
   }
+  const getFreshMyData = () => {
+    if (loading) {
+        return;
+      }
+    setLoading(true);
+    const lastTimeMine = "3000-10-21T10:09:51";
+    getMyTopMessage(lastTimeMine)
+    .then((response) => {
+        if(response.length === 0) {
+            message.success("end of all messages!");
+            setComments([]);
+            noMoreData = true;
+        } else {
+            setComments(response);
+            message.success(`${response.length} more messages loaded!`);
+        }
+    }).catch((err) => {
+        message.error(err.message)
+    })
+    setLoading(false);
+  }
 
   useEffect(() => {
     getData();
   }, []);
 
   const handleSubmit = async (input) => {   
+    form.resetFields(); 
     try {
       await postMessage(input);
       message.success("Post Successfully");
     } catch (error) {
       message.error(error.message);
-    }        
+    }  
     try {
-       setComments([]);
        noMoreData = false;
       if (!mine) {
-        getData();
+        getFreshData();
       } else {
-        getMyData();
+        getFreshMyData();
       }
     } catch (error) {
       message.error(error.message);
-    }
+    }     
   };
   
   const handleDelete = async (deleteId) => {  
     try {
       await deleteMessage(deleteId);
       message.success("Delete Successfully");
-      setComments([]);
       noMoreData = false;
-      getMyData();
+      getFreshMyData();
     } catch (error) {
       message.error(error.message);
     } 
   };
 
   const handleFilter = () => {
-    setComments([]);
-    noMoreData = false;
     if (!mine) {
-        getMyData();
+        getFreshMyData();
       } else {
-        getData();
+        getFreshData();
     }
     setMine(a => !a);
+    noMoreData = false;
   };
 
   return (
@@ -144,9 +182,9 @@ const PostMessage = () => {
                   </div>
                   </Col>
                 </Row>
-                <Comment
+                <Comment className="message-content"
                   author={item.user.username}
-                  avatar='https://joeschmoe.io/api/v1/random'
+                  avatar={<Avatar src={item.user.avatar} />}
                   content={item.description}
                   datetime={moment.utc(item.time).format('MM/DD/YY HH:mm:ss')}
                 />
@@ -157,6 +195,7 @@ const PostMessage = () => {
     </div>
     <Divider plain> Post New Message </Divider>
     <Form 
+        form ={form}
         onFinish={handleSubmit}            
         labelCol={{
         flex: '100px',

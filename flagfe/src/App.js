@@ -5,6 +5,7 @@ import LoginPage from "./components/LoginPage";
 import TenantHomePage from "./components/TenantHomePage";
 import ManagerHomePage from "./components/ManagerHomePage";
 import ServiceRequest from './components/ServiceRequest';
+import picture from './picture.jpg';
 const items = [{label: "Service Request", key: "service-request"},
                {label: "Book Room", key: "book-room"},
                {label: "Payment", key: "payment"},
@@ -66,9 +67,11 @@ class App extends React.Component {
  
   render() {
     return (
+      <>
+      <div style={{ backgroundImage: `url(${picture})`, opacity: 0.15, width:"100%", height:"100%", position: "absolute", top: "0px", left: "0px"}}></div>
       <Layout style={{ height: "100vh" }}>
         <Header style={{ display: "flex", justifyContent: "space-between" }}>
-          <div style={{ fontSize: 16, fontWeight: 600, color: "white" }}>
+          <div style={{ fontSize: 24, fontWeight: 600, color: "white" }}>
             Flag Community
           </div>
           {this.state.authed && (
@@ -85,6 +88,7 @@ class App extends React.Component {
           {this.renderContent()}  
         </Content>
       </Layout>
+      </>
     );
   }
 

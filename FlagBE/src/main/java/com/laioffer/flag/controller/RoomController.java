@@ -23,10 +23,10 @@ public class RoomController {
     }
 
 
-//    @GetMapping(value = "/rooms")
-//    public List<Room> listRooms(Principal principal) {
-//        return roomService.listByUser(principal.getName());
-//    }
+    @GetMapping(value = "/rooms")
+    public List<Room> listRooms(Principal principal) {
+        return roomService.findAll();
+    }
 
     @GetMapping(value = "/rooms/{roomId}")
     public Optional<Room> getRoom(@PathVariable Long roomId) {

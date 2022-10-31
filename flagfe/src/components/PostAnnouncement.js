@@ -1,10 +1,10 @@
 import '../App.css';
-import { Button, Comment, Form, Input, List, message, Typography, Spin, Col, Row, Select} from 'antd';
+import { Avatar, Button, Comment, Form, Input, List, message, Typography, Spin, Col, Row, Select} from 'antd';
 import React, { useState, useEffect } from 'react';
 import { getAnnouncement, postAnnouncement, deleteAnnouncement } from "../utils/messageUtils";
 import moment from "moment";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 const { Option } = Select;
 
 const CommentList = ({comments, handleDelete}) => (
@@ -32,9 +32,9 @@ const CommentList = ({comments, handleDelete}) => (
             </div>
             </Col>
           </Row>
-          <Comment
+          <Comment className="message-content"
             author={item.user.username}
-            avatar='https://joeschmoe.io/api/v1/random'
+            avatar={<Avatar src={item.user.avatar} />}
             content={item.description}
             datetime={moment.utc(item.time).format('MM/DD/YY HH:mm:ss')}
           />
@@ -46,6 +46,7 @@ const CommentList = ({comments, handleDelete}) => (
 const PostAnnouncement = () => {
   const [comments, setComments] = useState([]);           
   const [isLoad, setIsLoad] = useState(false);
+  const [form] = Form.useForm();
 
   useEffect(() => {
     getAnnouncement()
@@ -57,7 +58,8 @@ const PostAnnouncement = () => {
     setIsLoad(true);
   }, [])
            
-  const handleSubmit = async (data) => {   
+  const handleSubmit = async (data) => {  
+    form.resetFields();  
     setIsLoad(false); 
     try {
       await postAnnouncement(data);
