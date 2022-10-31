@@ -29,5 +29,5 @@ export const register = (credential, asManager) => {
         throw Error("Fail to register");
       }
     });
-  };
+};
 

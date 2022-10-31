@@ -45,3 +45,9 @@ head {
 .expanded-detail{
     min-height: 65px;
 }
+
+.filter{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    left: 400px;
+}

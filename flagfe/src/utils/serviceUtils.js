@@ -30,4 +30,37 @@ export const getTenantRequest = () => {
         }
         return response.json();
     });
+};
+export const cancelRequest = (id) => {
+    const authToken = localStorage.getItem("authToken");
+    const cancelRequestUrl = `${domain}/serviceRequest/cancelRequest`;
+
+    return fetch(cancelRequestUrl,{
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+        },
+        body: id,
+    }).then((response) =>{
+        if (response.status !== 200) {
+            throw Error("Fail to cancel request")
+        }
+    });
+}
+export const getRequestByStatus = (status) => {
+    const authToken = localStorage.getItem("authToken");
+    const getRequestUrl = `${domain}/serviceRequest/getAllByStatus/${status}`;
+
+    return fetch(getRequestUrl, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        },
+    }).then((response) => {
+        if (response.status !== 200){
+            throw Error("Fail to get your request list")
+        }
+        return response.json();
+    });
+
 }

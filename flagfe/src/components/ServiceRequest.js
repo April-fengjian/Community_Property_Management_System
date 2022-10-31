@@ -1,12 +1,12 @@
 import React, { useState }from "react";
 import { Form, Menu, Input, Button, Dropdown, Space, Select, message, List, Typography, Table } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { PoweroffOutlined } from '@ant-design/icons';
 import '../styles/ServiceRequest.css'
-import { sendRequest, getTenantRequest } from "../utils/serviceUtils";
+import { sendRequest, getTenantRequest, cancelRequest, getRequestByStatus } from "../utils/serviceUtils";
 const { TextArea } = Input;
-const data = [{title: "This is title", status: "Submitted", category: "Public", description: "This is Description xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxx xxxxxxxxx xxx xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxx xxxxxxxxxxxxxxxxxx"},
-{title: "This is title", status: "Submitted", category: "Public", description: "This is Description"}]
+// const data = [{key: 1,title: "This is title", status: "Submitted", category: "Public", description: "This is Description xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxx xxxxxxxxx xxx xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxx xxxxxxxxxxxxxxxxxx"},
+// {key: 2,title: "This is title", status: "Submitted", category: "Public", description: "This is Description"}]
 const columns = [
     {
       title: 'Title',
@@ -39,10 +39,16 @@ class SendRequest extends React.Component{
     }
     handleSubmit = async (values) => {
         console.log(values)
-        const requestData = new FormData()
-        requestData.append("title",values.title)
-        requestData.append("category",values.category)
-        requestData.append("description",values.description)
+        // const requestData = new FormData()
+        // requestData.append("title",values.title)
+        // requestData.append("category",values.category)
+        // requestData.append("description",values.description)
+        const requestData = {
+            "title": values.title,
+            "category": values.category,
+            "description": values.description,
+            "status": "submitted"
+        }
         this.setState({
             loading: true,
         });
@@ -114,6 +120,7 @@ class RequestList extends React.Component {
         loading: false,
         data : []
     }
+    
     componentDidMount() {
         this.loadData();
     }
@@ -124,10 +131,15 @@ class RequestList extends React.Component {
         });
 
         try {
-            const resp = await getTenantRequest();
+            
+            const resp = await getTenantRequest()
+            for (let i = 0; i< resp.length; i++) {
+                resp[i]["key"] = i
+                    
+            }
             this.setState({
                 data: resp,
-            });
+            }); 
         } catch (error) {
             message.error(error.message);
         } finally {
@@ -139,23 +151,88 @@ class RequestList extends React.Component {
     
     render(){
         return (
-            <Table columns={columns}
-                expandable={{expandedRowRender: (record) => (
-                        <div style={{ margin: 0 }}>
-                            <div>{record.description}</div>
-                            <Button className="cancel-button">Cancel Request</Button>
-                        </div>),}}
-                dataSource = {data} />
-                
+            <div>
+                <Table columns={columns}
+                    expandable={{expandedRowRender: (record) => (
+                            <div style={{ margin: 0 }}>
+                                <div>{record.description}</div>
+                                <Button className="cancel-button" onClick={cancelRequest(record.id)}>Cancel Request</Button>
+                            </div>),}}
+                    dataSource = {this.state.data} />
+            </div>  
         )
     }
 
+}
+class Filter extends React.Component{
+    menu = (
+        <Menu
+          onClick={this.handleFilterClick}
+          items={[
+            {
+              label: 'show only submitted request',
+              key: 'submitted',
+            },
+            {
+              label: 'show only processing request',
+              key: 'processing',
+            },
+            {
+              label: 'show only finish request',
+              key: 'finish',
+            },
+          ]}
+        />
+    );
+    changeData = async (status) => {
+        this.setState({
+            loading: true,
+        });
+
+        try {
+            
+            const resp = await getRequestByStatus(status)
+            for (let i = 0; i< resp.length; i++) {
+                resp[i]["key"] = i
+                    
+            }
+            this.setState({
+                data: resp,
+            }); 
+        } catch (error) {
+            message.error(error.message);
+        } finally {
+            this.setState({
+                loading: false,
+            });
+        }
+    };
+    handleFilterClick=(e)=>  {
+        console.log('click', e.key);
+        this.changeData(e.key)
+    }
+    render(){
+        return (
+            <Dropdown overlay={this.menu} className="filter">
+                <Button>
+                    <Space>
+                    Filter
+                    <DownOutlined />
+                    </Space>
+                </Button>
+            </Dropdown>
+        );
+        
+    }
 }
 
 class ServiceRequest extends React.Component{
     render() {
         return (
             <div>
+                <div>
+                    <Filter />
+                </div>
                 <div className="request-list">
                     <RequestList />
                 </div>

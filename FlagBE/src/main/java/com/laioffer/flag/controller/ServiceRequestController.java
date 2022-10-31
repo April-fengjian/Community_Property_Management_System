@@ -36,11 +36,17 @@ public class ServiceRequestController {
         return serviceRequestService.listByProvider(principal.getName());
     }
 
-    @GetMapping("/serviceRequest/getAllByStatus")
-    public List<ServiceRequest> getAllByStatus(@RequestParam String status) {
+    @GetMapping("/serviceRequest/getAllByStatus/{status}")
+    public List<ServiceRequest> getAllByStatus(@PathVariable String status,Principal principal) {
         if (status.isEmpty()) {
             return serviceRequestService.listByAll();
         }
         return serviceRequestService.listByStatus(status);
     }
+
+    @DeleteMapping("/serviceRequest/cancelRequest")
+    public void cancelRequest(@RequestBody Long requestId, Principal principal) {
+        serviceRequestService.cancelRequest(requestId);
+    }
+
 }

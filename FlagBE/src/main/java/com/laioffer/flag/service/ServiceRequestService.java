@@ -36,4 +36,9 @@ public class ServiceRequestService {
     public List<ServiceRequest> listByAll() {
         return serviceRequestRepository.findAll();
     }
+
+    public void cancelRequest(Long id) {
+        serviceRequestRepository.deleteById(id);
+    }
+
 }
