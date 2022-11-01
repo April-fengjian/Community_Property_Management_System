@@ -31,10 +31,6 @@ public class PaymentService {
         return paymentRepository.findByUser(new User.Builder().setUsername(username).build());
     }
 
-<<<<<<< Updated upstream
-
-
-=======
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void deletePaymentById(Long announcementId) throws PaymentNotExistException {
         Payment payment = paymentRepository.findById(announcementId).orElse(null);
@@ -43,5 +39,4 @@ public class PaymentService {
         }
         paymentRepository.deleteById(announcementId);
     }
->>>>>>> Stashed changes
 }
