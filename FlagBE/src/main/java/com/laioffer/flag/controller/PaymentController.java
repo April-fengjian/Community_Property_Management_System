@@ -29,4 +29,14 @@ public class PaymentController {
     public List<Payment> getRequestByUser(Principal principal) {
         return paymentService.listByUser(principal.getName());
     }
+
+    @GetMapping("/payment")
+    public List<Payment> getPayment(Principal principal) {
+        return paymentService.listByUser(principal.getName());
+    }
+
+    @GetMapping("/payment")
+    public List<Payment> getPaymentStates(Principal principal) {
+        return paymentService.listByUser(principal.getName());
+    }
 }

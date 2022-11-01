@@ -26,4 +26,6 @@ public class PaymentService {
         return paymentRepository.findByUser(new User.Builder().setUsername(username).build());
     }
 
+
+
 }

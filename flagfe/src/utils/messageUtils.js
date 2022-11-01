@@ -23,20 +23,20 @@ export const postAnnouncement = (data) => {
 // “description”: “...”,
   
 export const getAnnouncement = () => {
-    const authToken = localStorage.getItem("authToken");
-    const getAnnouncementUrl = `${domain}/announcements`;
+  const authToken = localStorage.getItem("authToken");
+  const getAnnouncementUrl = `${domain}/announcements`;
 
-    return fetch(getAnnouncementUrl, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    }).then((response) => {
-      if (response.status !== 200) {
-        throw Error("Fail to get announcement");
-      }
-   
-      return response.json();
-    });
+  return fetch(getAnnouncementUrl, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Fail to get announcement");
+    }
+ 
+    return response.json();
+  });
 };
 // “title”: ”xxx”,
 // “time”: Date,
