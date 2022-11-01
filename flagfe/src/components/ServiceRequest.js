@@ -48,7 +48,7 @@ class SendRequest extends React.Component{
             "title": values.title,
             "category": values.category,
             "description": values.description,
-            "status": "submitted"
+            "status": "processing"
         }
         this.setState({
             loading: true,

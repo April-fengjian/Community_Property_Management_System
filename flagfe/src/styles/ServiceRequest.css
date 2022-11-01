@@ -5,11 +5,13 @@ head {
 }
 .request-list {
     width: 60%;
+    /* height: 550px; */
     background-color: white;
     margin-right: 5px;
     display: inline;
     position:absolute;
     left: 5px;
+    overflow: scroll;
 }
 
 .send-request {
