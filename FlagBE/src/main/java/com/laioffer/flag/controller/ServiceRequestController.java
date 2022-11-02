@@ -26,6 +26,10 @@ public class ServiceRequestController {
         serviceRequestService.addRequest(serviceRequest);
     }
 
+    @GetMapping("/serviceRequest/getAllRequest")
+    public List<ServiceRequest> getAllRequest(Principal principal) {
+        return serviceRequestService.listByAll();
+    }
     @GetMapping("/serviceRequest/getTenantRequest")
     public List<ServiceRequest> getRequestByTenant(Principal principal) {
         return serviceRequestService.listByTenant(principal.getName());

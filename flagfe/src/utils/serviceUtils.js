@@ -64,3 +64,18 @@ export const getRequestByStatus = (status) => {
     });
 
 }
+export const getAllRequest = () => {
+    const authToken = localStorage.getItem("authToken");
+    const getRequestUrl = `${domain}/serviceRequest/getAllRequest`;
+
+    return fetch(getRequestUrl, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        },
+    }).then((response) => {
+        if (response.status !== 200){
+            throw Error("Fail to get your request list")
+        }
+        return response.json();
+    });
+}

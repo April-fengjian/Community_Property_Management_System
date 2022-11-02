@@ -16,7 +16,7 @@ import {
           <TabPane tab="ServiceTasks" key="1">
             <ServiceTasks />
           </TabPane>
-          <TabPane tab="this is provider" key="2">
+          {/* <TabPane tab="this is provider" key="2">
             
           </TabPane>
           <TabPane tab="Book Room" key="3">
@@ -24,7 +24,7 @@ import {
           </TabPane>
           <TabPane tab="Message Forum" key="5">
             <PostMessage />
-          </TabPane>
+          </TabPane> */}
         </Tabs>
       );
     }
