@@ -50,6 +50,9 @@ text-align: center;
 #right{
 text-align: right;
 }
+#high{
+  height: 760px;
+}
 
 #extra{
   height: 600px;
@@ -71,3 +74,4 @@ white-space: pre-line;
   border-radius: 2px;
   background-color: transparent;
 }
+

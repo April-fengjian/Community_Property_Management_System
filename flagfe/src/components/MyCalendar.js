@@ -5,8 +5,8 @@ const MyCalendar = () => {
     console.log(value.format('YYYY-MM-DD'), mode);
   };
   return (
-    <div className="site-calendar-demo-card">
-      <Calendar fullscreen={false} onPanelChange={onPanelChange} />
+    <div className="site-calendar-demo-card" style={{backgroundColor:'transparent'}}>
+      <Calendar fullscreen={false} onPanelChange={onPanelChange} style={{backgroundColor:'transparent'}} />
     </div>
   );
 };
