@@ -37,6 +37,9 @@ public class BookingService {
         return bookingRepository.findByRoom(new Room.Builder().setId(roomId).build());
     }
 
+    public List<Booking> listAll() {
+        return bookingRepository.findAll();
+    }
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void add(Booking booking) throws BookingCollisionException {
         Set<Long> roomIds = roomBookingDateRepository.findByIdInAndDateTimeBetween(Arrays.asList(booking.getRoom().getId()), booking.getCheckinDateTime(), booking.getCheckoutDateTime().minusMinutes(30));
