@@ -51,5 +51,6 @@ head {
 .filter{
     margin-top: 15px;
     margin-bottom: 15px;
-    left: 400px;
+    margin-right: 15px;
+    /* left: 300px; */
 }

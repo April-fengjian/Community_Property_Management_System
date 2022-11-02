@@ -42,7 +42,7 @@ class ShowRequest extends React.Component{
 
   render(){
     return (
-      <div style={{height: '300px',width: '409px',backgroundColor: 'white', position: 'absolute',bottom:'0px', marginLeft:'30px', overflow: 'scroll'}}>
+      <div style={{height: '300px',width: '100%', marginTop:'30px', overflow: 'scroll'}}>
         <List
           header={<div>Your Request Status</div>}
           bordered
