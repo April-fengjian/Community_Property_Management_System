@@ -48,7 +48,7 @@ class SendRequest extends React.Component{
             "title": values.title,
             "category": values.category,
             "description": values.description,
-            "status": "processing"
+            "status": "submitted"
         }
         this.setState({
             loading: true,
@@ -119,8 +119,33 @@ class SendRequest extends React.Component{
 class RequestList extends React.Component {
     state = {
         loading: false,
-        data : []
+        data : [],
+        filter: 'Filter'
     }
+
+    menu = (
+        <Menu
+          onClick={(e)=>this.handleFilterClick(e)}
+          items={[
+            {
+                label: 'show all request',
+                key: 'all',
+              },
+            {
+              label: 'show only submitted request',
+              key: 'submitted',
+            },
+            {
+              label: 'show only processing request',
+              key: 'processing',
+            },
+            {
+              label: 'show only finish request',
+              key: 'finish',
+            },
+          ]}
+        />
+    );
     
     componentDidMount() {
         this.loadData();
@@ -149,7 +174,31 @@ class RequestList extends React.Component {
             });
         }
     };
-    handleCancel = async(id,e) => {
+    changeData = async(key) => {
+        this.setState({
+            loading: true,
+        });
+
+        try {
+            
+            const resp = await getRequestByStatus(key)
+            for (let i = 0; i< resp.length; i++) {
+                resp[i]["key"] = i
+                    
+            }
+            this.setState({
+                data: resp,
+                filter: key
+            }); 
+        } catch (error) {
+            message.error(error.message);
+        } finally {
+            this.setState({
+                loading: false,
+            });
+        }
+    }
+    handleCancel = async(id) => {
         // e.preventDefault()
         // console.log(id)
         // cancelRequest(id)
@@ -167,14 +216,39 @@ class RequestList extends React.Component {
             });
         }
     }
+    
+    handleFilterClick = (e) => {
+        console.log('click', e.key);
+        if (e.key === 'all') {
+            this.loadData()
+            this.setState({
+                filter: 'all'
+            })
+        } else {
+            this.changeData(e.key)
+        }
+        
+    }
     render(){
         return (
             <div>
-                <Table columns={columns}
+                <div align='right' className="filter">
+                    <Dropdown overlay={this.menu}>
+                        <Button>
+                            <Space>
+                            {this.state.filter}
+                            <DownOutlined />
+                            </Space>
+                        </Button>
+                    </Dropdown>
+                </div>
+                
+                <Table columns={columns} size='small'
                     expandable={{expandedRowRender: (record) => (
                             <div style={{ margin: 0 }}>
                                 <div>{record.description}</div>
-                                <Button className="cancel-button" onClick={this.handleCancel.bind(this, record.id)} >Cancel Request</Button>
+                                {/* <Button className="cancel-button" onClick={this.handleCancel.bind(this, record.id)} >Cancel Request</Button> */}
+                                <Button className="cancel-button" onClick={()=> this.handleCancel(record.id)} >Cancel Request</Button>
                             </div>),}}
                     dataSource = {this.state.data} />
             </div>  
@@ -239,8 +313,7 @@ class Filter extends React.Component{
                     </Space>
                 </Button>
             </Dropdown>
-        );
-        
+        );   
     }
 }
 
@@ -248,9 +321,9 @@ class ServiceRequest extends React.Component{
     render() {
         return (
             <div>
-                <div>
+                {/* <div>
                     <Filter />
-                </div>
+                </div> */}
                 <div className="request-list">
                     <RequestList />
                 </div>
