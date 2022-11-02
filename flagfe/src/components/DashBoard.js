@@ -1,5 +1,6 @@
 import Announcement from "./Announcement";
-import { Row, Col, Typography } from 'antd';
+import { Row, Col, Typography, Calendar } from 'antd';
+import MyCalendar from "./MyCalendar";
 import { message, List } from 'antd';
 import { getRequestByStatus } from "../utils/serviceUtils";
 import React from "react";
@@ -66,8 +67,12 @@ const DashBoard = () => {
               <Announcement />
           </Col>
           <Col span={12} className="right-side">
-          <div>calendar</div>
+            <Row span={8} style={{height:"50%"}}>
+          <MyCalendar />
+          </Row>
+           <Row span={16} style={{height:"50%"}}>
           <ShowRequest />
+          </Row>
           </Col>
         </Row>
       </div>

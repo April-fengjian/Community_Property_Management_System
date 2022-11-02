@@ -18,6 +18,7 @@ public class Booking implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String title;
     @JsonProperty("checkin_date_time")
     private LocalDateTime checkinDateTime;
 
@@ -40,6 +41,7 @@ public class Booking implements Serializable {
         this.checkoutDateTime = builder.checkoutDateTime;
         this.user = builder.user;
         this.room = builder.room;
+        this.title = builder.title;
     }
 
     public Long getId() {
@@ -57,6 +59,8 @@ public class Booking implements Serializable {
     public User getGuest() {
         return user;
     }
+
+    public String getTitle() {return title; }
 
     public Booking setGuest(User user) {
         this.user = user;
@@ -82,6 +86,8 @@ public class Booking implements Serializable {
 
         @JsonProperty("room")
         private Room room;
+        @JsonProperty("title")
+        private String title;
 
         public Builder setId(Long id) {
             this.id = id;
