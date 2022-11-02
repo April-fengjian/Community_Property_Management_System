@@ -53,6 +53,10 @@ text-align: right;
 #high{
   height: 760px;
 }
+.myCalendarHeight{
+  height: 350px;
+  width: 100%;
+}
 
 #extra{
   height: 600px;

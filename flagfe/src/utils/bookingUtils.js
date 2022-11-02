@@ -44,3 +44,14 @@ export const getReservations = (query) => {
         return response.json();
     });
 };
+
+export const getMyReservations = () => { 
+  const authToken = localStorage.getItem("authToken");
+  const getMyReservationsUrl = `${domain}/bookings/user`;
+  return fetch(getMyReservationsUrl, {headers: {Authorization: `Bearer ${authToken}`}}).then((response) => {
+      if (response.status !== 200) {
+          throw Error("Fail to get reservation list");
+      }
+      return response.json();
+  });
+};

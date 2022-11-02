@@ -1,12 +1,13 @@
 import React from "react";
-import { Form, Button, Input, Space, Checkbox, message } from "antd";
+import { Form, Button, Input, Space, Select, message } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { login, register } from "../utils";
+
+const { Option } = Select;
  
 class LoginPage extends React.Component {
   formRef = React.createRef();  //创建一个容器，77行知道去哪里要到数据，32行要到数据
   state = {
-    asManager: false,
     loading: false,
   };
  
@@ -28,9 +29,8 @@ class LoginPage extends React.Component {
     });
  
     try {
-      const { asManager } = this.state;
-      const resp = await login(formInstance.getFieldsValue(true), asManager);   
-      this.props.handleLoginSuccess(resp.token, asManager);     
+      const resp = await login(formInstance.getFieldsValue(true));   
+      this.props.handleLoginSuccess(resp.token, formInstance.getFieldsValue(true).role);     
     } catch (error) {
       message.error(error.message);
     } finally {
@@ -54,7 +54,7 @@ class LoginPage extends React.Component {
     });
  
     try {
-      await register(formInstance.getFieldsValue(true), this.state.asManager);
+      await register(formInstance.getFieldsValue(true));
       message.success("Register Successfully");
     } catch (error) {
       message.error(error.message);
@@ -63,12 +63,6 @@ class LoginPage extends React.Component {
         loading: false,
       });
     }
-  };
- 
-  handleCheckboxOnChange = (e) => {
-    this.setState({
-      asManager: e.target.checked,
-    });
   };
  
   render() {
@@ -104,15 +98,16 @@ class LoginPage extends React.Component {
               placeholder="Password"
             />
           </Form.Item>
+        <Form.Item name="role" label="Role" rules={[{ required: true }]}>
+              <Select style={{ width: 120 }}>
+                <Option value="tenant">Tenant</Option>
+                <Option value="manager">Manager</Option>
+                <Option value="provider">Provider</Option>
+              </Select>
+        </Form.Item>
         </Form>
+        <div align="right">
         <Space>
-          <Checkbox
-            disabled={this.state.loading}
-            checked={this.state.asManager}
-            onChange={this.handleCheckboxOnChange}
-          >
-            As Manager
-          </Checkbox>
           <Button
             onClick={this.handleLogin}
             disabled={this.state.loading}
@@ -130,6 +125,7 @@ class LoginPage extends React.Component {
             Register
           </Button>
         </Space>
+        </div>
       </div>
     );
   }
