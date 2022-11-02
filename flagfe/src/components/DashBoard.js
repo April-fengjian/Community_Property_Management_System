@@ -66,7 +66,7 @@ const DashBoard = () => {
               <h1 id="center"> Announcement </h1>
               <Announcement />
           </Col>
-          <Col span={12} className="right-side">
+          <Col span={12} className="right-side" id="high">
             <Row span={8} style={{height:"50%"}}>
           <MyCalendar />
           </Row>
