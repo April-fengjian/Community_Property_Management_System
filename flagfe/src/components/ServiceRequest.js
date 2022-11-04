@@ -6,8 +6,7 @@ import '../styles/ServiceRequest.css'
 import { sendRequest, getTenantRequest, cancelRequest, getRequestByStatus } from "../utils/serviceUtils";
 import { render } from "@testing-library/react";
 const { TextArea } = Input;
-// const data = [{key: 1,title: "This is title", status: "Submitted", category: "Public", description: "This is Description xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxx xxxxxxxxx xxx xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxx xxxxxxxxxxxxxxxxxx"},
-// {key: 2,title: "This is title", status: "Submitted", category: "Public", description: "This is Description"}]
+
 const columns = [
     {
       title: 'Title',

@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Menu, Input, Button, Dropdown, Space, Select, message, List, Typography, Table } from 'antd';
-import {getAllRequest} from "../utils/serviceUtils";
+import {getRequestByProvider,getRequestByStatus,assignRequest, finishRequest} from "../utils/serviceUtils";
 class AllRequests extends React.Component{
   columns = [
     {
@@ -45,7 +45,7 @@ class AllRequests extends React.Component{
 
     try {
         
-        const resp = await getAllRequest()
+        const resp = await getRequestByStatus("submitted")
         for (let i = 0; i< resp.length; i++) {
             resp[i]["key"] = i
                 
@@ -60,7 +60,25 @@ class AllRequests extends React.Component{
             loading: false,
         });
     }
-};
+  };
+  handleMarking = async (id,status) => {
+    console.log(id)
+    this.setState({
+      loading: true,
+    });
+
+    try {
+        
+        const resp = await assignRequest(id)
+
+    } catch (error) {
+        message.error(error.message);
+    } finally {
+        this.setState({
+            loading: false,
+        });
+    }
+  };
   render(){
     return (
       <div>
@@ -68,8 +86,87 @@ class AllRequests extends React.Component{
             expandable={{expandedRowRender: (record) => (
                     <div style={{ margin: 0 }}>
                         <div>{record.description}</div>
-                        {/* <Button className="cancel-button" onClick={this.handleCancel.bind(this, record.id)} >Cancel Request</Button> */}
-                        <Button className="cancel-button" onClick={()=> this.handleCancel(record.id)} >Cancel Request</Button>
+                        <div align="right">
+                        <Button onClick={()=> this.handleMarking(record.id,record.status)} >Mark as Processing</Button>
+                        </div>
+                        
+                        {/* <Button className="cancel-button" onClick={()=> this.handleCancel(record.id)} >Cancel Request</Button> */}
+                    </div>),}}
+            dataSource = {this.state.data} />
+      </div>  
+    )
+  }
+}
+class MyRequest extends React.Component{
+  columns = [
+    {
+      title: 'My Request',
+      dataIndex: 'title',
+      key: 'title',
+    },
+  ]
+  state = {
+    loading: false,
+    data : [],
+  }
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  loadData = async () => {
+    this.setState({
+        loading: true,
+    });
+
+    try {
+        
+        const resp = await getRequestByProvider()
+        for (let i = 0; i< resp.length; i++) {
+            resp[i]["key"] = i
+                
+        }
+        this.setState({
+            data: resp,
+        }); 
+    } catch (error) {
+        message.error(error.message);
+    } finally {
+        this.setState({
+            loading: false,
+        });
+    }
+  };
+  handleMarking = async (id) => {
+    console.log(id)
+    this.setState({
+      loading: true,
+    });
+
+    try {
+        
+        const resp = await finishRequest(id)
+
+    } catch (error) {
+        message.error(error.message);
+    } finally {
+        this.setState({
+            loading: false,
+        });
+    }
+  };
+  render(){
+    return (
+      <div>
+          <Table columns={this.columns} size='small'
+            expandable={{expandedRowRender: (record) => (
+                    <div style={{ margin: 0 }}>
+                        <div>{record.description}</div>
+                        <div align="right">
+                        <Button onClick={()=> this.handleMarking(record.id)} >Mark as Finish</Button>
+                        </div>
+                        
+                        {/* <Button className="cancel-button" onClick={()=> this.handleCancel(record.id)} >Cancel Request</Button> */}
                     </div>),}}
             dataSource = {this.state.data} />
       </div>  
@@ -87,7 +184,7 @@ class ServiceTasks extends React.Component{
                   <AllRequests />
               </div>
               <div className="send-request">
-                  My request
+                  <MyRequest />
               </div>
           </div>
           

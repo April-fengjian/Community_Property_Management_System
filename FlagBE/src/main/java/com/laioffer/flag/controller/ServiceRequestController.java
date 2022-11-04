@@ -52,5 +52,14 @@ public class ServiceRequestController {
     public void cancelRequest(@RequestBody Long requestId, Principal principal) {
         serviceRequestService.cancelRequest(requestId);
     }
+    @PostMapping("/serviceRequest/assignRequest")
+    public void assignRequest(@RequestBody Long id, Principal principal) {
+        serviceRequestService.assignRequest(id, principal.getName() );
+    }
+
+    @PostMapping("/serviceRequest/finishRequest")
+    public void finishRequest(@RequestBody Long id, Principal principal) {
+        serviceRequestService.finishRequest(id);
+    }
 
 }

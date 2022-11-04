@@ -1,12 +1,17 @@
 package com.laioffer.flag.service;
 
+import com.laioffer.flag.exception.ServiceRequestNotExistException;
+import com.laioffer.flag.exception.StatusUpdateException;
 import com.laioffer.flag.model.ServiceRequest;
 import com.laioffer.flag.model.User;
 import com.laioffer.flag.repository.ServiceRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServiceRequestService {
@@ -39,6 +44,17 @@ public class ServiceRequestService {
 
     public void cancelRequest(Long id) {
         serviceRequestRepository.deleteById(id);
+    }
+    public void assignRequest(Long id, String name) {
+        ServiceRequest request = serviceRequestRepository.findById(id).orElse(null);
+        request.setProvider(new User.Builder().setUsername(name).build());
+        request.setStatus("processing");
+        serviceRequestRepository.save(request);
+    }
+    public void finishRequest(Long id) {
+        ServiceRequest request = serviceRequestRepository.findById(id).orElse(null);
+        request.setStatus("finish");
+        serviceRequestRepository.save(request);
     }
 
 }

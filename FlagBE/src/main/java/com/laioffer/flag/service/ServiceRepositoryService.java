@@ -29,16 +29,16 @@ public class ServiceRepositoryService {
         return stay;
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void updateStatus(String status, Long stayId, String username) throws ServiceRequestNotExistException, StatusUpdateException {
-        ServiceRequest serviceRequest = serviceRequestRepository.findByIdAndTenant(stayId, new User.Builder().setUsername(username).build());
-        if (serviceRequest == null) {
-            throw new ServiceRequestNotExistException("ServiceRequest doesn't exist");
-        }
-        int numOfLinesChanged = serviceRequestRepository.changeStatus(status, new User.Builder().setUsername(username).build());
-        if (numOfLinesChanged == 0) {
-            throw new StatusUpdateException("No status change");
-        }
-    }
+//    @Transactional(isolation = Isolation.SERIALIZABLE)
+//    public void updateStatus(String status, Long stayId, String username) throws ServiceRequestNotExistException, StatusUpdateException {
+//        ServiceRequest serviceRequest = serviceRequestRepository.findByIdAndTenant(stayId, new User.Builder().setUsername(username).build());
+//        if (serviceRequest == null) {
+//            throw new ServiceRequestNotExistException("ServiceRequest doesn't exist");
+//        }
+//        int numOfLinesChanged = serviceRequestRepository.changeStatus(status, new User.Builder().setUsername(username).build());
+//        if (numOfLinesChanged == 0) {
+//            throw new StatusUpdateException("No status change");
+//        }
+//    }
 
 }

@@ -79,3 +79,55 @@ export const getAllRequest = () => {
         return response.json();
     });
 }
+
+export const assignRequest = (id) => {
+    const authToken = localStorage.getItem("authToken");
+    const assignRequestUrl = `${domain}/serviceRequest/assignRequest`;
+
+    return fetch(assignRequestUrl, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+        },
+        body: id,
+    }).then((response) => {
+        if (response.status !== 200){
+            throw Error("Fail to mark this request")
+        }
+    });
+}
+
+export const finishRequest = (id) => {
+    const authToken = localStorage.getItem("authToken");
+    const finishRequestUrl = `${domain}/serviceRequest/finishRequest`;
+
+    return fetch(finishRequestUrl, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+        },
+        body: id,
+    }).then((response) => {
+        if (response.status !== 200){
+            throw Error("Fail to mark this request")
+        }
+    });
+}
+
+export const getRequestByProvider = () => {
+    const authToken = localStorage.getItem("authToken");
+    const getRequestUrl = `${domain}/serviceRequest/getProviderRequest`;
+
+    return fetch(getRequestUrl, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        },
+    }).then((response) => {
+        if (response.status !== 200){
+            throw Error("Fail to get your request list")
+        }
+        return response.json();
+    });
+}
