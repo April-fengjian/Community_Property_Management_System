@@ -27,6 +27,8 @@ public class Invoice implements Serializable {
     private LocalDate dueDate;
 
     private LocalDate paymentDate;
+    @JsonProperty("lateBillId")
+    private Long lateBillId;
 
     @ManyToOne
     @JoinColumn(name = "unit")
@@ -45,6 +47,7 @@ public class Invoice implements Serializable {
         this.dueDate = builder.dueDate;
         this.paymentDate = builder.paymentDate;
         this.unit = builder.unit;
+        this.lateBillId = builder.lateBillId;
     }
 
     public LocalDate getPaymentDate() {
@@ -84,6 +87,8 @@ public class Invoice implements Serializable {
     public void setInvoiceDate(LocalDate invoiceDate) {this.invoiceDate = invoiceDate; }
     public void setUnit(Unit unit) {this.unit = unit; }
 
+    public void setLateBillId(Long lateBillId) {  this.lateBillId = lateBillId; }
+
     public static class Builder {
         @JsonProperty("invoice_id")
         private Long id;
@@ -109,6 +114,9 @@ public class Invoice implements Serializable {
 
         @JsonProperty("unit")
         private Unit unit;
+
+        @JsonProperty("late_bill_id")
+        private Long lateBillId;
 
 
         public Builder setId(Long id) {
@@ -149,6 +157,12 @@ public class Invoice implements Serializable {
             this.unit = unit;
             return this;
         }
+
+        public Builder setLateBillId(Long lateBillId) {
+            this.lateBillId = lateBillId;
+            return this;
+        }
+
         public Invoice build() {
             return new Invoice(this);
         }

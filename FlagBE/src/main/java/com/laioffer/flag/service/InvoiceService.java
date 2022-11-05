@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.List;
 
 @Service
@@ -45,8 +47,8 @@ public class InvoiceService {
             return invoiceRepository.findAll(Sort.by("dueDate").ascending());
         } else if ( status.equals("overdue")) {
             return invoiceRepository.findByStatusAndDueDateBefore("unpaid", LocalDate.now(), Sort.by("dueDate").ascending());
-//        } else if ( status.equals(("late"))) {
-//            return invoiceRepository.findByStatusAndPaymentDateAfterDueDate("paid", Sort.by("dueDate").ascending());
+        } else if ( status.equals(("late"))) {
+            return invoiceRepository.findLate();
         } else {
             return invoiceRepository.findByStatus(status, Sort.by("dueDate").ascending());
         }
@@ -55,6 +57,27 @@ public class InvoiceService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void postInvoice(Invoice invoice) {
         invoiceRepository.save(invoice);
+    }
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public void billLateFee(Long id) {
+        Invoice invoice = invoiceRepository.findById(id).orElse(null);
+        if (invoice == null) {
+            throw new InvoiceNotExistException("Invoice doesn't exist");
+        } else {
+            Invoice lateFee = new Invoice();
+            int lateDays = Period.between(invoice.getDueDate(), invoice.getPaymentDate()).getDays();
+            Integer lateAmount = (int) (0.05 * lateDays * invoice.getAmount());
+            lateFee.setAmount(lateAmount);
+            lateFee.setTerm("late fee of " + invoice.getTerm());
+            lateFee.setDescription(lateFee.getTerm());
+            lateFee.setDueDate(LocalDate.now().plusDays(7));
+            lateFee.setUnit(invoice.getUnit());
+            lateFee.setStatus("unpaid");
+            lateFee.setInvoiceDate(LocalDate.now());
+            postInvoice(lateFee);
+            invoice.setLateBillId(lateFee.getId());
+            invoiceRepository.save(invoice);
+        }
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)

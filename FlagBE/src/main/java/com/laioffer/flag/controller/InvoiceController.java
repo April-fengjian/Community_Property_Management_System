@@ -19,13 +19,16 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
+//    @PostMapping("/invoice/create")             //create regular bil
+//    public void postInvoice(@RequestBody Invoice invoice) {
+//        invoice.setStatus("unpaid");
+//        invoice.setInvoiceDate(LocalDate.now());
+//        invoiceService.postInvoice(invoice);
+//    }
     @PostMapping("/invoice/create")
-    public void postInvoice(@RequestBody Invoice invoice) {
-        invoice.setStatus("unpaid");
-        invoice.setInvoiceDate(LocalDate.now());
-        invoiceService.postInvoice(invoice);
+    public void postInvoice(@RequestParam("id") Long id) {
+        invoiceService.billLateFee(id);
     }
-
     @GetMapping("/invoice/myList/all")
     public List<Invoice> listMyInvoice(Principal principal) {
         return invoiceService.listInvoiceByUser(principal.getName());

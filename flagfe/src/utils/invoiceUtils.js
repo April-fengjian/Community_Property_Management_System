@@ -57,7 +57,7 @@ export const getMyInvoiceByStatus = (status) => {
 };
 export const postInvoice = (data) => {
     const authToken = localStorage.getItem("authToken");
-    const postInvoiceUrl = `${domain}/invoice/create`;
+    const postInvoiceUrl = `${domain}/invoice/create?id=${data}`;
 
     return fetch(postInvoiceUrl, {
       method: "POST",

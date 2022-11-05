@@ -1,12 +1,8 @@
-import { getMyInvoice, getInvoiceByStatus, payMyInvoice } from "../utils/invoiceUtils";
+import { postInvoice, getInvoiceByStatus, payMyInvoice } from "../utils/invoiceUtils";
 import React, { useState }from "react";
 import { Form, Menu, Input, Button, Dropdown, Space, Select, message, List, Row, Table, Col } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
-import { PoweroffOutlined } from '@ant-design/icons';
 import '../styles/ServiceRequest.css'
-import { sendRequest, getTenantRequest, cancelRequest, getRequestByStatus } from "../utils/serviceUtils";
-import { render } from "@testing-library/react";
-const { TextArea } = Input;
 const  columns = [
     {
         title: 'Title',
@@ -63,10 +59,10 @@ class InvoiceList extends React.Component {
                 label: 'show only overdue invoices',
                 key: 'overdue',
             },
-            // {
-            //     label: 'show only late invoices',
-            //     key: 'late',
-            // }
+            {
+                label: 'show only late invoices',
+                key: 'late',
+            }
           ]}
         />
     );
@@ -122,23 +118,23 @@ class InvoiceList extends React.Component {
             });
         }
     }
-    // handlePayInvoice = async(id) => {
+    handleCreateLateFee = async(id) => {
 
-    //     this.setState({
-    //         loading: true,
-    //     });
-    //     try {
-    //         await payMyInvoice(id);
-    //         message.success("Your payment has been recived!");
-    //         await this.loadData();
-    //     } catch (error) {
-    //         message.error(error.message);
-    //     } finally {
-    //         this.setState({
-    //             loading: false,
-    //         });
-    //     }
-    // }
+        this.setState({
+            loading: true,
+        });
+        try {
+            await postInvoice(id);
+            message.success("Late fee invoice has been billed!");
+            await this.changeData("late")
+        } catch (error) {
+            message.error(error.message);
+        } finally {
+            this.setState({
+                loading: false,
+            });
+        }
+    }
     
     handleFilterClick = (e) => {
         console.log('click', e.key);
@@ -171,9 +167,10 @@ class InvoiceList extends React.Component {
                         <Row>
                             <Col span={16}>
                                 <h4 id="center">{record.description} for Room {record.unit.id}.</h4>
+                                {this.state.filter === "late" && record.lateBillId !== null && (<h4 id="center">Late fee was billed on invoice # {record.lateBillId}.</h4>)} 
                             </Col>
                             <Col span={8}>
-                                {/* {record.paymentDate === null && (<Button className="cancel-button" onClick={()=> this.handlePayInvoice(record.id)} >Pay Now</Button>)} */}
+                                {this.state.filter === "late" && record.lateBillId === null && (<Button className="cancel-button" onClick={()=> this.handleCreateLateFee(record.id)} >Bill Late Fee</Button>)}
                             </Col>
                         </Row>),}}
                     dataSource = {this.state.data} />
