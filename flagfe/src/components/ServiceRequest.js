@@ -118,6 +118,7 @@ class RequestList extends React.Component {
     state = {
         loading: false,
         data : [],
+        allRequest: [],
         filter: 'Filter'
     }
 
@@ -163,6 +164,7 @@ class RequestList extends React.Component {
             }
             this.setState({
                 data: resp,
+                allRequest: resp,
             }); 
         } catch (error) {
             message.error(error.message);
@@ -198,7 +200,7 @@ class RequestList extends React.Component {
     // }
     changeData = (newStatus) => {
         const newData = [];
-        const oldData = this.state.data;
+        const oldData = this.state.allRequest;
         for (let i = 0; i < oldData.length; i++) {
             if(oldData[i]["status"] === newStatus){
                 newData.push(oldData[i])
@@ -206,6 +208,7 @@ class RequestList extends React.Component {
         }
         this.setState({
             data: newData,
+            filter: newStatus,
         });
     }
     handleCancel = async(id) => {
