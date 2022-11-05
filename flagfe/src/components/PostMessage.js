@@ -155,7 +155,7 @@ const PostMessage = () => {
     <div
       id="scrollableDiv"
       style={{
-        height: 600,
+        height: 500,
         overflow: 'auto',
         padding: '0 16px',
         // border: '1px solid rgba(140, 140, 140, 0.35)',

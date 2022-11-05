@@ -1,5 +1,6 @@
 import Announcement from "./Announcement";
 import { Row, Col, Typography } from 'antd';
+import MyCalendar from "./MyCalendar";
 import { message, List } from 'antd';
 import { getRequestByStatus } from "../utils/serviceUtils";
 import React from "react";
@@ -41,9 +42,9 @@ class ShowRequest extends React.Component{
 
   render(){
     return (
-      <div style={{height: '300px',width: '409px',backgroundColor: 'white', position: 'absolute',bottom:'0px', marginLeft:'30px', overflow: 'scroll'}}>
+      <div style={{height: '300px',width: '100%', marginTop:'30px', overflow: 'scroll'}}>
         <List
-          header={<div>Your Request Status</div>}
+          header={<div align="center">Your Request Status</div>}
           bordered
           dataSource={this.state.data}
           renderItem={(item) => (
@@ -65,9 +66,13 @@ const DashBoard = () => {
               <h1 id="center"> Announcement </h1>
               <Announcement />
           </Col>
-          <Col span={12} className="right-side">
-          <div>calendar</div>
+          <Col span={12} className="right-side" id="high">
+            <Row span={8} style={{height:"50%"}}>
+          <MyCalendar />
+          </Row>
+           <Row span={16} style={{height:"50%"}}>
           <ShowRequest />
+          </Row>
           </Col>
         </Row>
       </div>

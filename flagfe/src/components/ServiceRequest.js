@@ -6,8 +6,7 @@ import '../styles/ServiceRequest.css'
 import { sendRequest, getTenantRequest, cancelRequest, getRequestByStatus } from "../utils/serviceUtils";
 import { render } from "@testing-library/react";
 const { TextArea } = Input;
-// const data = [{key: 1,title: "This is title", status: "Submitted", category: "Public", description: "This is Description xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxx xxxxxxxxx xxx xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxx xxxxxxxxxxxxxxxxxx"},
-// {key: 2,title: "This is title", status: "Submitted", category: "Public", description: "This is Description"}]
+
 const columns = [
     {
       title: 'Title',
@@ -34,7 +33,6 @@ class SendRequest extends React.Component{
     state = {
         loading: false
     }
-
     handleCategoryClick = (label) => {
         console.log('click', label);
     }
@@ -48,7 +46,7 @@ class SendRequest extends React.Component{
             "title": values.title,
             "category": values.category,
             "description": values.description,
-            "status": "processing"
+            "status": "submitted"
         }
         this.setState({
             loading: true,
@@ -119,8 +117,34 @@ class SendRequest extends React.Component{
 class RequestList extends React.Component {
     state = {
         loading: false,
-        data : []
+        data : [],
+        allRequest: [],
+        filter: 'Filter'
     }
+
+    menu = (
+        <Menu
+          onClick={(e)=>this.handleFilterClick(e)}
+          items={[
+            {
+                label: 'show all request',
+                key: 'all',
+              },
+            {
+              label: 'show only submitted request',
+              key: 'submitted',
+            },
+            {
+              label: 'show only processing request',
+              key: 'processing',
+            },
+            {
+              label: 'show only finish request',
+              key: 'finish',
+            },
+          ]}
+        />
+    );
     
     componentDidMount() {
         this.loadData();
@@ -140,6 +164,7 @@ class RequestList extends React.Component {
             }
             this.setState({
                 data: resp,
+                allRequest: resp,
             }); 
         } catch (error) {
             message.error(error.message);
@@ -149,7 +174,44 @@ class RequestList extends React.Component {
             });
         }
     };
-    handleCancel = async(id,e) => {
+    // changeData = async(key) => {
+    //     this.setState({
+    //         loading: true,
+    //     });
+
+    //     try {
+            
+    //         const resp = await getRequestByStatus(key)
+    //         for (let i = 0; i< resp.length; i++) {
+    //             resp[i]["key"] = i
+                    
+    //         }
+    //         this.setState({
+    //             data: resp,
+    //             filter: key
+    //         }); 
+    //     } catch (error) {
+    //         message.error(error.message);
+    //     } finally {
+    //         this.setState({
+    //             loading: false,
+    //         });
+    //     }
+    // }
+    changeData = (newStatus) => {
+        const newData = [];
+        const oldData = this.state.allRequest;
+        for (let i = 0; i < oldData.length; i++) {
+            if(oldData[i]["status"] === newStatus){
+                newData.push(oldData[i])
+            }
+        }
+        this.setState({
+            data: newData,
+            filter: newStatus,
+        });
+    }
+    handleCancel = async(id) => {
         // e.preventDefault()
         // console.log(id)
         // cancelRequest(id)
@@ -158,6 +220,7 @@ class RequestList extends React.Component {
         });
         try {
             await cancelRequest(id);
+            await this.loadData();
             message.success("Your request has been cancel");
         } catch (error) {
             message.error(error.message);
@@ -167,14 +230,41 @@ class RequestList extends React.Component {
             });
         }
     }
+    
+    handleFilterClick = (e) => {
+        console.log('click', e.key);
+        if (e.key === 'all') {
+            this.loadData()
+            this.setState({
+                filter: 'all'
+            })
+        } else {
+            this.changeData(e.key)
+        }
+        
+    }
     render(){
         return (
             <div>
-                <Table columns={columns}
+                <div align='right' className="filter">
+                    <Dropdown overlay={this.menu}>
+                        <Button>
+                            <Space>
+                            {this.state.filter}
+                            <DownOutlined />
+                            </Space>
+                        </Button>
+                    </Dropdown>
+                </div>
+                
+                <Table columns={columns} size='small'
                     expandable={{expandedRowRender: (record) => (
                             <div style={{ margin: 0 }}>
                                 <div>{record.description}</div>
-                                <Button className="cancel-button" onClick={this.handleCancel.bind(this, record.id)} >Cancel Request</Button>
+                                {/* <Button className="cancel-button" onClick={this.handleCancel.bind(this, record.id)} >Cancel Request</Button> */}
+                                <div align="right">
+                                    <Button onClick={()=> this.handleCancel(record.id)} >Cancel Request</Button>
+                                </div>
                             </div>),}}
                     dataSource = {this.state.data} />
             </div>  
@@ -239,18 +329,21 @@ class Filter extends React.Component{
                     </Space>
                 </Button>
             </Dropdown>
-        );
-        
+        );   
     }
 }
 
 class ServiceRequest extends React.Component{
+    state = {
+        reload: false
+    }
+
     render() {
         return (
             <div>
-                <div>
+                {/* <div>
                     <Filter />
-                </div>
+                </div> */}
                 <div className="request-list">
                     <RequestList />
                 </div>
