@@ -59,7 +59,7 @@ public class InvoiceService {
             throw new InvoiceNotExistException("Invoice doesn't exist");
         } else {
             LocalDate currentLocalDate = LocalDate.now();
-            invoice.setInvoiceDate(currentLocalDate);
+            invoice.setPaymentDate(currentLocalDate);
             invoice.setStatus(status);
             invoiceRepository.save(invoice);
         }
