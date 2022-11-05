@@ -86,6 +86,7 @@ class InvoiceList extends React.Component {
             this.setState({
                 data: resp,
             }); 
+            message.success("Invoice list loaded!");
         } catch (error) {
             message.error(error.message);
         } finally {

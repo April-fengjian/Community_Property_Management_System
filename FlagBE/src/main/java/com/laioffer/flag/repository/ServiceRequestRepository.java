@@ -14,7 +14,7 @@ import java.util.List;
 public interface ServiceRequestRepository extends JpaRepository<ServiceRequest, Long> {
     List<ServiceRequest> findByTenant(User tenant, Sort sort);
     List<ServiceRequest> findByProvider(User provider, Sort sort);
-    List<ServiceRequest> findServiceRequestsByStatusContaining(String status, Sort sort);
+    List<ServiceRequest> findServiceRequestsByStatusAndTenant(String status, User tenant, Sort sort);
     ServiceRequest findByIdAndTenant(Long id, User tenant);
 
     @Modifying(clearAutomatically = true)

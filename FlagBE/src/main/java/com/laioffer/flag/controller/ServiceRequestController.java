@@ -45,8 +45,9 @@ public class ServiceRequestController {
         if (status.isEmpty()) {
             return serviceRequestService.listByAll();
         }
-        return serviceRequestService.listByStatus(status);
+        return serviceRequestService.listByStatus(status, principal.getName());
     }
+
 
     @DeleteMapping("/serviceRequest/cancelRequest")
     public void cancelRequest(@RequestBody Long requestId, Principal principal) {
