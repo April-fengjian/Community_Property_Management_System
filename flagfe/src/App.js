@@ -65,7 +65,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-      <div style={{ backgroundImage: `url(${picture})`, opacity: 0.05, width:"100%", height:"100%", position: "absolute", top: "0px", left: "0px"}}></div>
+      {/* <div style={{ backgroundImage: `url(${picture})`, opacity: 0.05, width:"100%", height:"100%", position: "absolute", top: "0px", left: "0px"}}></div> */}
       <Layout style={{ height: "100vh" }}>
         <Header style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{ fontSize: 24, fontWeight: 600, color: "white" }}>

@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Button, Input, Space, Select, message } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { login, register } from "../utils";
+import picture from '../resources/picture.jpg';
 
 const { Option } = Select;
  
@@ -68,6 +69,7 @@ class LoginPage extends React.Component {
   render() {
     return (
       <div style={{ width: 500, margin: "20px auto" }}>
+        <div style={{ backgroundImage: `url(${picture})`, opacity: 0.9, width:"100%", height:"100%", position: "absolute", top: "64px", left: "0px"}}></div>
         <Form ref={this.formRef} onFinish={this.onFinish}>
           <Form.Item
             name="username"
