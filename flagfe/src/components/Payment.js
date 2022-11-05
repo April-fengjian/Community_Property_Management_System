@@ -1,51 +1,86 @@
-import React, { useState }from "react";
-import { Form, Menu, Input, Button, Dropdown, Space, Select, message, List, Typography, Table } from 'antd';
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
-import { PoweroffOutlined } from '@ant-design/icons';
+
+import { Comment, ColumnsType,Col, Row, Divider, Avatar, Skeleton,Form, Menu, Input, Button, Dropdown, Space, Select, message, List, Typography, Table } from 'antd';
+import React, { useEffect, useState } from 'react';
 import '../styles/ServiceRequest.css'
 import { sendRequest, getTenantRequest, cancelRequest, getRequestByStatus } from "../utils/serviceUtils";
+import {deletePayment,getUserPayment} from "../utils/paymentUtils";
 import { render } from "@testing-library/react";
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 const { TextArea } = Input;
-// const data = [{key: 1,title: "This is title", status: "Submitted", category: "Public", description: "This is Description xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxx xxxxxxxxx xxx xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxx xxxxxxxxxxxxxxxxxx"},
-// {key: 2,title: "This is title", status: "Submitted", category: "Public", description: "This is Description"}]
+const showMessageCount = 6;
 const columns = [
+   
     {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'titel',
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
     },
     {
-      title: 'DeadLine',
-      dataIndex: 'time',
-      key: 'time',
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
     },
+    
+    {
+      title: 'Payment Due',
+      dataIndex: 'due_date',
+      key: 'due_date',
+    },
+
+    {
+        title: 'Payment ID',
+        dataIndex: 'payment_id',
+        key: 'payment_id',
+      },
+      
+
 ];
-class SendRequest extends React.Component{
-    state = {
-        loading: false
+class Payment extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            loading: false,
+            data: [],
+            list: [],
+        }
     }
 
-    handleCategoryClick = (label) => {
-        console.log('click', label);
+    componentDidMount(){
+        this.loadData();
     }
-    handleSubmit = async (values) => {
-        console.log(values)
-        // const requestData = new FormData()
-        // requestData.append("title",values.title)
-        // requestData.append("category",values.category)
-        // requestData.append("description",values.description)
-        const requestData = {
-            "title": values.title,
-            "category": values.category,
-            "description": values.description,
-            "status": "submitted"
+
+    loadData = async () =>{
+        this.setState({
+            loading: true,
+        });
+
+        try{
+            const resp = await getUserPayment();
+            const curList = resp.slice(0, showMessageCount);
+            this.setState({
+                loading: true,
+                data: resp, // data contains all the messages, list only show the selected ones
+                list: curList
+            });
+        }catch(error){
+            message.error('error.message');
+        }finally{
+            this.setState({
+                loading: false,
+            });
         }
+    }
+    handleCancel = async(id) => {
+        // e.preventDefault()
+        // console.log(id)
+        // cancelRequest(id)
         this.setState({
             loading: true,
         });
         try {
-            await sendRequest(requestData);
-            message.success("Your payment has been sent");
+            await deletePayment(id);
+            message.success("Your Payment is successful.");
         } catch (error) {
             message.error(error.message);
         } finally {
@@ -55,60 +90,36 @@ class SendRequest extends React.Component{
         }
     }
 
-    category = (
-        <Menu 
-            onClick={this.handleCategoryClick}
-            items = {[
-                {label: "Private", key: 1},
-                {label: "Public", key: 2},
-                {label: "Others", key: 3}
-            ]}
-        />
-    );
-     
-    render() {
-        return (
-            <div>
-                <div className="request-title">Payment Summary</div>
-                <Form name="request-form" layout="vertical" onFinish={this.handleSubmit}>
-                    <Form.Item className="input-title" name="title" label="Total Payment: ">
-                        <h1> $ 2011.19 </h1>
-                    </Form.Item>
-                    
-                    
-                    <Form.Item>
-                        <Button className="submit-button" loading={this.state.loading} type="primary" htmlType="Payment Submit">
-                        submit
-                        </Button>
-                    </Form.Item>
-                    
-                </Form>
-                
-            </div>
+    onLoadMore = () =>{
+        this.setState({
+            loading: true,
+        });
 
-        );
+        const data = this.state.data;
+        const list = this.state.list;
+        const curList = data.slice(0, showMessageCount + list.length);
+        this.setState({
+            list: curList,
+            loading: false,
+        });
     }
-}
-
-
-class ServiceRequest extends React.Component{
-    render() {
+    
+    render(){
         return (
             <div>
-             
-                <div className="request-list">
-                  <h1>Welcome to the Payment Method.</h1>
-                  <h1>Payment Due on the 1st of each month.</h1>
-                  <h1>15% Process Fee with credit card.</h1>
-                  <h1>50$ for late submit.</h1>
-                  <h1>Have a good day!</h1>
-                </div>
-                <div className="send-request">
-                    <SendRequest />
-                </div>
-            </div>
+         
+            <Table columns={columns} size='small'
             
+                    expandable={{expandedRowRender: (record) => (
+                            <div >
+                                <Button className="cancel-button"  onClick={()=> this.handleCancel(record.payment_id)} >Make Payment</Button>
+                            </div>),}}
+                    dataSource = {this.state.data} />
+            </div>
         );
     }
 }
-export default ServiceRequest;
+export default Payment;
+
+
+
