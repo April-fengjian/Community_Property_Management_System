@@ -68,15 +68,15 @@ class AllRequests extends React.Component{
     });
 
     try {
-        
-        const resp = await assignRequest(id)
-
+      await assignRequest(id)
+      message.success("Your have mark this request");
+      this.loadData();
     } catch (error) {
         message.error(error.message);
     } finally {
-        this.setState({
-            loading: false,
-        });
+      this.setState({
+          loading: false,
+      });
     }
   };
   render(){
@@ -122,12 +122,16 @@ class MyRequest extends React.Component{
     try {
         
         const resp = await getRequestByProvider()
+        const list = []
         for (let i = 0; i< resp.length; i++) {
+          if (resp[i]["status"] === "processing"){
             resp[i]["key"] = i
-                
+            list.push(resp[i])
+          }
         }
+        console.log(list)
         this.setState({
-            data: resp,
+            data: list,
         }); 
     } catch (error) {
         message.error(error.message);
@@ -144,15 +148,15 @@ class MyRequest extends React.Component{
     });
 
     try {
-        
-        const resp = await finishRequest(id)
-
+      await finishRequest(id)
+      message.success("Your have finish this request");
+      this.loadData();
     } catch (error) {
         message.error(error.message);
     } finally {
-        this.setState({
-            loading: false,
-        });
+      this.setState({
+          loading: false,
+      });
     }
   };
   render(){

@@ -33,7 +33,6 @@ class SendRequest extends React.Component{
     state = {
         loading: false
     }
-
     handleCategoryClick = (label) => {
         console.log('click', label);
     }
@@ -173,29 +172,41 @@ class RequestList extends React.Component {
             });
         }
     };
-    changeData = async(key) => {
-        this.setState({
-            loading: true,
-        });
+    // changeData = async(key) => {
+    //     this.setState({
+    //         loading: true,
+    //     });
 
-        try {
+    //     try {
             
-            const resp = await getRequestByStatus(key)
-            for (let i = 0; i< resp.length; i++) {
-                resp[i]["key"] = i
+    //         const resp = await getRequestByStatus(key)
+    //         for (let i = 0; i< resp.length; i++) {
+    //             resp[i]["key"] = i
                     
+    //         }
+    //         this.setState({
+    //             data: resp,
+    //             filter: key
+    //         }); 
+    //     } catch (error) {
+    //         message.error(error.message);
+    //     } finally {
+    //         this.setState({
+    //             loading: false,
+    //         });
+    //     }
+    // }
+    changeData = (newStatus) => {
+        const newData = [];
+        const oldData = this.state.data;
+        for (let i = 0; i < oldData.length; i++) {
+            if(oldData[i]["status"] === newStatus){
+                newData.push(oldData[i])
             }
-            this.setState({
-                data: resp,
-                filter: key
-            }); 
-        } catch (error) {
-            message.error(error.message);
-        } finally {
-            this.setState({
-                loading: false,
-            });
         }
+        this.setState({
+            data: newData,
+        });
     }
     handleCancel = async(id) => {
         // e.preventDefault()
@@ -206,6 +217,7 @@ class RequestList extends React.Component {
         });
         try {
             await cancelRequest(id);
+            await this.loadData();
             message.success("Your request has been cancel");
         } catch (error) {
             message.error(error.message);
@@ -247,7 +259,9 @@ class RequestList extends React.Component {
                             <div style={{ margin: 0 }}>
                                 <div>{record.description}</div>
                                 {/* <Button className="cancel-button" onClick={this.handleCancel.bind(this, record.id)} >Cancel Request</Button> */}
-                                <Button className="cancel-button" onClick={()=> this.handleCancel(record.id)} >Cancel Request</Button>
+                                <div align="right">
+                                    <Button onClick={()=> this.handleCancel(record.id)} >Cancel Request</Button>
+                                </div>
                             </div>),}}
                     dataSource = {this.state.data} />
             </div>  
@@ -317,6 +331,10 @@ class Filter extends React.Component{
 }
 
 class ServiceRequest extends React.Component{
+    state = {
+        reload: false
+    }
+
     render() {
         return (
             <div>
