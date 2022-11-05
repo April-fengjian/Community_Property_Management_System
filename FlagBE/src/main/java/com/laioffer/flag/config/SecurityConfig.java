@@ -40,7 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/rooms").hasAuthority("ROLE_MANAGER")
                 .antMatchers("/rooms").permitAll()
                 .antMatchers("/rooms/*").permitAll()
-
+                .antMatchers("/invoice/create").hasAuthority("ROLE_MANAGER")
+                .antMatchers("/invoice/list").permitAll()
+                .antMatchers("/invoice/my*").hasAuthority("ROLE_TENANT")
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
