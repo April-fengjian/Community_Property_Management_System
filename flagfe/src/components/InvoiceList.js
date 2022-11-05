@@ -1,4 +1,4 @@
-import { getMyInvoice, getMyInvoiceByStatus, payMyInvoice } from "../utils/invoiceUtils";
+import { getMyInvoice, getInvoiceByStatus, payMyInvoice } from "../utils/invoiceUtils";
 import React, { useState }from "react";
 import { Form, Menu, Input, Button, Dropdown, Space, Select, message, List, Row, Table, Col } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
@@ -35,7 +35,7 @@ const  columns = [
     },
   ];
 
-class MyInvoiceList extends React.Component {
+class InvoiceList extends React.Component {
 
       state = {
         loading: false,
@@ -59,6 +59,14 @@ class MyInvoiceList extends React.Component {
               label: 'show only paid invoices',
               key: 'paid',
             },
+            {
+                label: 'show only overdue invoices',
+                key: 'overdue',
+            },
+            // {
+            //     label: 'show only late invoices',
+            //     key: 'late',
+            // }
           ]}
         />
     );
@@ -74,7 +82,7 @@ class MyInvoiceList extends React.Component {
 
         try {
             
-            const resp = await getMyInvoice()
+            const resp = await getInvoiceByStatus("all")
             for (let i = 0; i< resp.length; i++) {
                 resp[i]["key"] = i
                     
@@ -97,7 +105,7 @@ class MyInvoiceList extends React.Component {
 
         try {
             
-            const resp = await getMyInvoiceByStatus(key)
+            const resp = await getInvoiceByStatus(key)
             for (let i = 0; i< resp.length; i++) {
                 resp[i]["key"] = i
                     
@@ -114,34 +122,34 @@ class MyInvoiceList extends React.Component {
             });
         }
     }
-    handlePayInvoice = async(id) => {
+    // handlePayInvoice = async(id) => {
 
-        this.setState({
-            loading: true,
-        });
-        try {
-            await payMyInvoice(id);
-            message.success("Your payment has been recived!");
-            await this.loadData();
-        } catch (error) {
-            message.error(error.message);
-        } finally {
-            this.setState({
-                loading: false,
-            });
-        }
-    }
+    //     this.setState({
+    //         loading: true,
+    //     });
+    //     try {
+    //         await payMyInvoice(id);
+    //         message.success("Your payment has been recived!");
+    //         await this.loadData();
+    //     } catch (error) {
+    //         message.error(error.message);
+    //     } finally {
+    //         this.setState({
+    //             loading: false,
+    //         });
+    //     }
+    // }
     
     handleFilterClick = (e) => {
         console.log('click', e.key);
-        if (e.key === 'all') {
-            // this.loadData()
-            this.setState({
-                filter: 'all'
-            })
-        } else {
+        // if (e.key === 'all') {
+        //     // this.loadData()
+        //     this.setState({
+        //         filter: 'all'
+        //     })
+        // } else {
             this.changeData(e.key)
-        }
+        // }
         
     }
     render(){
@@ -165,18 +173,12 @@ class MyInvoiceList extends React.Component {
                                 <h4 id="center">{record.description} for Room {record.unit.id}.</h4>
                             </Col>
                             <Col span={8}>
-                                {record.paymentDate === null && (<Button className="cancel-button" onClick={()=> this.handlePayInvoice(record.id)} >Pay Now</Button>)}
+                                {/* {record.paymentDate === null && (<Button className="cancel-button" onClick={()=> this.handlePayInvoice(record.id)} >Pay Now</Button>)} */}
                             </Col>
                         </Row>),}}
-                            // <div style={{ margin: 0 }}>
-                            //     <div>{record.description}</div>
-                            //     <div align="right">
-                            //     {record.paymentDate === null && (<Button className="cancel-button" onClick={()=> this.handlePayInvoice(record.id)} >Pay Now</Button>)}
-                            //     </div>
-                            // </div>
                     dataSource = {this.state.data} />
             </div>  
         )
     }
 }
-export default MyInvoiceList;
+export default InvoiceList;

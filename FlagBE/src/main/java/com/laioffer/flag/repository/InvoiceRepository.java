@@ -18,6 +18,12 @@ public interface InvoiceRepository extends  JpaRepository<Invoice, Long> {
 
     List<Invoice> findByUnitAndStatus(Unit unit, String status, Sort due_date);
 
+    List<Invoice> findByStatusAndDueDateBefore(String status, LocalDate today,Sort due_date);
+
+//    List<Invoice> findByPaymentDateAfterDueDate(Sort due_date);
+//
+//    @Query(value = "SELECT invoice FROM Invoice WHERE invoice.payment_date IN ?1 AND srd.id.date BETWEEN ?2 AND ?3 GROUP BY srd.id.stay_id")
+//    List<Invoice> findByStatusAndDueDateBefore(String status, Sort due_date);
     List<Invoice> findByStatus(String status, Sort due_date);
 //
 //    Invoice findInvoicesById(Long id);

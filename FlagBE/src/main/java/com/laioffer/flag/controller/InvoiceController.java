@@ -38,10 +38,7 @@ public class InvoiceController {
     public List<Invoice> listInvoiceByStatus(@RequestParam("status") String status) {
         return invoiceService.listInvoiceByStatus(status);
     }
-//    @GetMapping("/invoice/list/overdue")
-//    public List<Invoice> listInvoiceByOverdue() {
-////        return invoiceService.listInvoiceByStatusAnd(status);
-//    }
+
     @PostMapping("/invoice/myPayment")
     public void payInvoice(@RequestParam Long id) {
         invoiceService.updateInvoiceStatus(id, "paid");

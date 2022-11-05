@@ -37,11 +37,11 @@ public class RegisterService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
-        Long unitId = (long)5020;
-        if (unitRepository.findById(unitId).orElse(null) == null) {
-            unitRepository.save(new Unit.Builder().setId(unitId).build());
-        }
-        user.setUnit(unitRepository.findById(unitId).orElse(null));
+//        Long unitId = (long)5020;
+//        if (unitRepository.findById(unitId).orElse(null) == null) {
+//            unitRepository.save(new Unit.Builder().setId(unitId).build());
+//        }
+//        user.setUnit(unitRepository.findById(unitId).orElse(null));
         userRepository.save(user);
         authorityRepository.save(new Authority(user.getUsername(), role.name()));
     }

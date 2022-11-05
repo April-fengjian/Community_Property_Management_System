@@ -41,11 +41,16 @@ public class InvoiceService {
     }
 
     public List<Invoice> listInvoiceByStatus(String status) {
-        return invoiceRepository.findByStatus(status, Sort.by("dueDate").ascending());
+        if (status.equals("all")) {
+            return invoiceRepository.findAll(Sort.by("dueDate").ascending());
+        } else if ( status.equals("overdue")) {
+            return invoiceRepository.findByStatusAndDueDateBefore("unpaid", LocalDate.now(), Sort.by("dueDate").ascending());
+//        } else if ( status.equals(("late"))) {
+//            return invoiceRepository.findByStatusAndPaymentDateAfterDueDate("paid", Sort.by("dueDate").ascending());
+        } else {
+            return invoiceRepository.findByStatus(status, Sort.by("dueDate").ascending());
+        }
     }
-//    public List<Invoice> listInvoiceByOverdue() {
-//        return invoiceRepository.findByStatus(status, Sort.by("dueDate").ascending());
-//    }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void postInvoice(Invoice invoice) {

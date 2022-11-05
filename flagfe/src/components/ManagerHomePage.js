@@ -6,6 +6,7 @@ import {
   import ServiceTasks from "./ServiceTasks";
   import PostMessage from './PostMessage';
   import RoomCalendar from "./RoomCalendar";
+  import InvoiceList from "./InvoiceList";
 
    
   const { TabPane } = Tabs;  
@@ -23,6 +24,9 @@ import {
           <TabPane tab="Book Room" key="3">
             <RoomCalendar />
           </TabPane>
+          <TabPane tab="Payment" key="4">
+           <InvoiceList />
+        </TabPane>
           <TabPane tab="Message Forum" key="5">
             <PostMessage />
           </TabPane>

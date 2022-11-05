@@ -1,5 +1,20 @@
 const domain = '';
 
+export const getInvoiceByStatus = (status) => {
+  const authToken = localStorage.getItem("authToken");
+  const getMyInvoiceByStatusUrl = `${domain}/invoice/list?status=${status}`;
+
+  return fetch(getMyInvoiceByStatusUrl, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Fail to get invoice!");
+    }
+    return response.json();
+  });
+};
 export const getMyInvoice = () => {
     const authToken = localStorage.getItem("authToken");
     const getMyInvoiceUrl = `${domain}/invoice/myList/all`;
