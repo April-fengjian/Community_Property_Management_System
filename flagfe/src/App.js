@@ -4,38 +4,42 @@ import React from "react";
 import LoginPage from "./components/LoginPage";
 import TenantHomePage from "./components/TenantHomePage";
 import ManagerHomePage from "./components/ManagerHomePage";
-import ProviderHomePage from './components/ProviderHomePage';
-import picture from './resources/picture.jpg';
+import ServiceRequest from './components/ServiceRequest';
+import picture from './picture.jpg';
+const items = [{label: "Service Request", key: "service-request"},
+               {label: "Book Room", key: "book-room"},
+               {label: "Payment", key: "payment"},
+               {label: "Message", key:"message"}]
  
 const { Header, Content } = Layout; 
  
 class App extends React.Component {
   state = {
     authed: false,
-    role: undefined,
+    asManager: false,
   };
  
   componentDidMount() {
     const authToken = localStorage.getItem("authToken");
-    const role = localStorage.getItem("role");
+    const asManager = localStorage.getItem("asManager") === "true";
     this.setState({
       authed: authToken !== null,
-      role : role,
+      asManager,
     });
   }
  
-  handleLoginSuccess = (token, role) => {  
+  handleLoginSuccess = (token, asManager) => {  
     localStorage.setItem("authToken", token);  
-    localStorage.setItem("role", role);
+    localStorage.setItem("asManager", asManager);
     this.setState({
       authed: true,
-      role : role,
+      asManager,
     });
   };
  
   handleLogOut = () => {
     localStorage.removeItem("authToken");
-    localStorage.removeItem("role");
+    localStorage.removeItem("asManager");
     this.setState({
       authed: false,
     });
@@ -46,11 +50,10 @@ class App extends React.Component {
       return <LoginPage handleLoginSuccess={this.handleLoginSuccess} />;
     }
  
-    if (this.state.role === "manager") {
+    if (this.state.asManager) {
       return <ManagerHomePage />;
-    } else if (this.state.role === "provider") {
-      return <ProviderHomePage />;
     }
+ 
     return <TenantHomePage />;
   };
  
@@ -65,7 +68,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-      <div style={{ backgroundImage: `url(${picture})`, opacity: 0.05, width:"100%", height:"100%", position: "absolute", top: "0px", left: "0px"}}></div>
+      <div style={{ backgroundImage: `url(${picture})`, opacity: 0.15, width:"100%", height:"100%", position: "absolute", top: "0px", left: "0px"}}></div>
       <Layout style={{ height: "100vh" }}>
         <Header style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{ fontSize: 24, fontWeight: 600, color: "white" }}>
@@ -89,6 +92,49 @@ class App extends React.Component {
     );
   }
 
+// class App extends React.Component{
+//   state = {
+//     authed: true,
+//     asTenant: true,
+//   };
+
+//   renderContent = () => {
+//     if (!this.state.authed) {
+//       return;
+//     }
+ 
+//     if (this.state.asTenant) {
+//       return <ServiceRequest />;
+//     }
+ 
+//     // return <GuestHomePage />;
+//   };
+//   render(){
+//     return (
+//       <Layout>
+//           <Header>
+//           <div className="logo" />
+//           <Menu
+//               theme="dark"
+//               mode="horizontal"
+//               defaultSelectedKeys={['2']}
+//               items={items}
+//           />
+//           </Header>
+//           <Content
+//               className="site-layout-background"
+//               style={{
+//               padding: 24,
+//               minHeight: 480
+//               }}
+//           >
+//             {this.renderContent()}
+//           </Content>
+          
+//       </Layout>
+//     );
+//   }
+  
 }
  
 export default App;

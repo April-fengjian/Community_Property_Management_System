@@ -50,13 +50,6 @@ text-align: center;
 #right{
 text-align: right;
 }
-#high{
-  height: 760px;
-}
-.myCalendarHeight{
-  height: 350px;
-  width: 100%;
-}
 
 #extra{
   height: 600px;
@@ -66,16 +59,3 @@ text-align: right;
 .message-content {
 white-space: pre-line;
 }
-
-.site-calendar-customize-header-wrapper {
-  width: 300px;
-  border: 1px solid #f0f0f0;
-  border-radius: 2px;
-}
-.site-calendar-demo-card {
-  width: "100%";
-  border: 1px solid #f0f0f0;
-  border-radius: 2px;
-  background-color: transparent;
-}
-

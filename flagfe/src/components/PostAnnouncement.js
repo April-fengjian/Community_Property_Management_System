@@ -15,7 +15,7 @@ const CommentList = ({comments, handleDelete}) => (
 // “id":xx
 // "importance"
   <List
-    className="comment-list" style={{height : 550, overflow: "auto", padding: '0 16px',}}
+    className="comment-list"
     footer={`${comments.length} ${comments.length > 1 ? 'Active Announcements' : 'Active Announcement'}`}
     itemLayout="horizontal"
     dataSource={comments}

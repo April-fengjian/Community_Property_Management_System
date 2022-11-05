@@ -1,7 +1,7 @@
 const domain = '';
 
-export const login = (credential) => {
-  const loginUrl = `${domain}/authenticate/${credential.role}`;
+export const login = (credential, asManager) => {
+  const loginUrl = `${domain}/authenticate/${asManager ? "manager" : "tenant"}`;
   return fetch(loginUrl, {
     method: 'POST',
     headers: {
@@ -16,8 +16,8 @@ export const login = (credential) => {
   });
 };
 
-export const register = (credential) => {
-    const registerUrl = `${domain}/register/${credential.role}`;
+export const register = (credential, asManager) => {
+    const registerUrl = `${domain}/register/${asManager ? "manager" : "tenant"}`;
     return fetch(registerUrl, {
       method: "POST",
       headers: {

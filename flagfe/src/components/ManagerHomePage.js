@@ -2,10 +2,10 @@ import {
     Tabs,
   } from "antd";
   import React from "react";
+  import ManagerStayPage from "./BookRoom_Manager";
   import PostAnnouncement from "./PostAnnouncement";
   import ServiceTasks from "./ServiceTasks";
   import PostMessage from './PostMessage';
-  import RoomCalendar from "./RoomCalendar";
 
    
   const { TabPane } = Tabs;  
@@ -20,8 +20,8 @@ import {
           <TabPane tab="Post Announcement" key="2">
             <PostAnnouncement />
           </TabPane>
-          <TabPane tab="Book Room" key="3">
-            <RoomCalendar />
+          <TabPane tab="Stay upload" key="3">
+            <ManagerStayPage />
           </TabPane>
           <TabPane tab="Message Forum" key="5">
             <PostMessage />

@@ -4,9 +4,9 @@ import {
 } from "antd";
 import DashBoard from './DashBoard';
 import ServiceRequest from './ServiceRequest';
+import BookRoom from './BookRoom';
 import Payment from './Payment';
 import PostMessage from './PostMessage';
-import RoomCalendar from "./RoomCalendar";
  
 const { TabPane } = Tabs;
   
@@ -21,7 +21,7 @@ class TenantHomePage extends React.Component {
             <ServiceRequest />
         </TabPane>
         <TabPane tab="Book Room" key="3">
-            <RoomCalendar />
+            <BookRoom />
         </TabPane>
         <TabPane tab="Payment" key="4">
             <Payment />

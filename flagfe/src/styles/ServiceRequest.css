@@ -5,19 +5,18 @@ head {
 }
 .request-list {
     width: 60%;
-<<<<<<< Updated upstream
-    background-color: white;
-=======
     /* height: 550px; */
->>>>>>> Stashed changes
+    background-color: white;
     margin-right: 5px;
     display: inline;
     position:absolute;
     left: 5px;
+    overflow: scroll;
 }
 
 .send-request {
     width: 35%;
+    background-color: white;
     margin-left: 5px;
     padding: 5px;
     display: inline;
@@ -52,6 +51,5 @@ head {
 .filter{
     margin-top: 15px;
     margin-bottom: 15px;
-    margin-right: 15px;
-    /* left: 300px; */
+    left: 400px;
 }
