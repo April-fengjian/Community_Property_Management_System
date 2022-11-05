@@ -6,6 +6,7 @@ import com.laioffer.flag.model.ServiceRequest;
 import com.laioffer.flag.model.User;
 import com.laioffer.flag.repository.ServiceRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,15 +28,15 @@ public class ServiceRequestService {
     }
 
     public List<ServiceRequest> listByTenant(String username) {
-        return serviceRequestRepository.findByTenant(new User.Builder().setUsername(username).build());
+        return serviceRequestRepository.findByTenant(new User.Builder().setUsername(username).build(), Sort.by("time").descending());
     }
 
     public List<ServiceRequest> listByProvider(String username) {
-        return serviceRequestRepository.findByProvider(new User.Builder().setUsername(username).build());
+        return serviceRequestRepository.findByProvider(new User.Builder().setUsername(username).build(), Sort.by("time").ascending());
     }
 
     public List<ServiceRequest> listByStatus(String category) {
-        return serviceRequestRepository.findServiceRequestsByStatusContaining(category);
+        return serviceRequestRepository.findServiceRequestsByStatusContaining(category, Sort.by("time").ascending());
     }
 
     public List<ServiceRequest> listByAll() {

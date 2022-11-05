@@ -1,8 +1,10 @@
 import React from "react";
-import { Form, Menu, Input, Button, Dropdown, Space, Select, message, List, Typography, Table } from 'antd';
+import { Form, Menu, Input, Button, Dropdown, Row, Col, message, List, Typography, Table } from 'antd';
 import {getRequestByProvider,getRequestByStatus,assignRequest, finishRequest} from "../utils/serviceUtils";
+
+
 class AllRequests extends React.Component{
-  columns = [
+ columns = [
     {
       title: 'Title',
       dataIndex: 'title',
@@ -20,8 +22,8 @@ class AllRequests extends React.Component{
     },
     {
       title: 'Room',
-      dataIndex: 'room',
-      key: 'room',
+      dataIndex: 'tenant_id',
+      key: 'tenant_id',
     },
     {
       title: 'Upload Time',
@@ -29,16 +31,61 @@ class AllRequests extends React.Component{
       key: 'time',
     },
   ];
+  render(){
+    return (
+      <div>
+          <Table columns={this.columns} size='small'
+            expandable={{expandedRowRender: (record) => (
+                    <div style={{ margin: 0 }}>
+                        <div>{record.description}</div>
+                        <div align="right">
+                        <Button onClick={()=> this.props.handleMarking(record.id,record.status)} >Mark as Processing</Button>
+                        </div>
+                        
+                        {/* <Button className="cancel-button" onClick={()=> this.props.handleCancel(record.id)} >Cancel Request</Button> */}
+                    </div>),}}
+            dataSource = {this.props.data} />
+      </div>  
+    )
+  }
+}
+class MyRequest extends React.Component{
+  columns = [
+    {
+      title: 'My Claimed Requests',
+      dataIndex: 'title',
+      key: 'title',
+    },
+  ]
+
+  render(){
+    return (
+      <div>
+          <Table columns={this.columns} size='small'
+            expandable={{expandedRowRender: (record) => (
+                    <div style={{ margin: 0 }}>
+                        <div>{record.description}</div>
+                        <div align="right">
+                        <Button onClick={()=> this.props.handleMarking(record.id)} >Mark as Finish</Button>
+                        </div>
+
+                    </div>),}}
+            dataSource = {this.props.data} />
+      </div>  
+    )
+  }
+}
+class ServiceTasks extends React.Component{
   state = {
     loading: false,
-    data : [],
-    filter: 'Filter'
+    submittedData : [],
+    processingData: [],
   }
-
   componentDidMount() {
-    this.loadData();
+    this.loadSubmittedData();
+    this.loadProcessingData();
   }
-  loadData = async () => {
+  loadSubmittedData = async () => {
     this.setState({
         loading: true,
     });
@@ -51,7 +98,7 @@ class AllRequests extends React.Component{
                 
         }
         this.setState({
-            data: resp,
+          submittedData: resp,
         }); 
     } catch (error) {
         message.error(error.message);
@@ -61,7 +108,7 @@ class AllRequests extends React.Component{
         });
     }
   };
-  handleMarking = async (id,status) => {
+  handleMarkingToProcessing = async (id,status) => {
     console.log(id)
     this.setState({
       loading: true,
@@ -69,8 +116,10 @@ class AllRequests extends React.Component{
 
     try {
       await assignRequest(id)
-      message.success("Your have mark this request");
-      this.loadData();
+      message.success("Your have claimed this request to your processing list!");
+      this.loadSubmittedData()
+      this.loadProcessingData()
+      message.success("Your lists have been updated");
     } catch (error) {
         message.error(error.message);
     } finally {
@@ -79,42 +128,7 @@ class AllRequests extends React.Component{
       });
     }
   };
-  render(){
-    return (
-      <div>
-          <Table columns={this.columns} size='small'
-            expandable={{expandedRowRender: (record) => (
-                    <div style={{ margin: 0 }}>
-                        <div>{record.description}</div>
-                        <div align="right">
-                        <Button onClick={()=> this.handleMarking(record.id,record.status)} >Mark as Processing</Button>
-                        </div>
-                        
-                        {/* <Button className="cancel-button" onClick={()=> this.handleCancel(record.id)} >Cancel Request</Button> */}
-                    </div>),}}
-            dataSource = {this.state.data} />
-      </div>  
-    )
-  }
-}
-class MyRequest extends React.Component{
-  columns = [
-    {
-      title: 'My Request',
-      dataIndex: 'title',
-      key: 'title',
-    },
-  ]
-  state = {
-    loading: false,
-    data : [],
-  }
-
-  componentDidMount() {
-    this.loadData();
-  }
-
-  loadData = async () => {
+  loadProcessingData = async () => {
     this.setState({
         loading: true,
     });
@@ -131,7 +145,7 @@ class MyRequest extends React.Component{
         }
         console.log(list)
         this.setState({
-            data: list,
+            processingData: list,
         }); 
     } catch (error) {
         message.error(error.message);
@@ -141,7 +155,7 @@ class MyRequest extends React.Component{
         });
     }
   };
-  handleMarking = async (id) => {
+  handleMarkingToFinish = async (id) => {
     console.log(id)
     this.setState({
       loading: true,
@@ -150,7 +164,7 @@ class MyRequest extends React.Component{
     try {
       await finishRequest(id)
       message.success("Your have finish this request");
-      this.loadData();
+      this.loadProcessingData()
     } catch (error) {
         message.error(error.message);
     } finally {
@@ -159,40 +173,29 @@ class MyRequest extends React.Component{
       });
     }
   };
-  render(){
-    return (
-      <div>
-          <Table columns={this.columns} size='small'
-            expandable={{expandedRowRender: (record) => (
-                    <div style={{ margin: 0 }}>
-                        <div>{record.description}</div>
-                        <div align="right">
-                        <Button onClick={()=> this.handleMarking(record.id)} >Mark as Finish</Button>
-                        </div>
-                        
-                        {/* <Button className="cancel-button" onClick={()=> this.handleCancel(record.id)} >Cancel Request</Button> */}
-                    </div>),}}
-            dataSource = {this.state.data} />
-      </div>  
-    )
-  }
-}
-class ServiceTasks extends React.Component{
   render() {
       return (
-          <div>
-              {/* <div>
-                  <Filter />
-              </div> */}
-              <div className="request-list">
-              <h4 id="center">All submitted Requests</h4>
-                  <AllRequests />
-              </div>
-              <div className="send-request">
-              <h4 id="center">My tasks</h4>
-                  <MyRequest />
-              </div>
-          </div>
+                  <Row className='main'>
+                  <Col span={15} className="left-side">
+                      <h1 id="center"> All submitted Requests </h1>
+                      <AllRequests 
+                      data={this.state.submittedData}
+                      loadSubmittedData={this.loadSubmittedData}
+                      loadProcessingData={this.loadProcessingData}
+                      handleMarking={this.handleMarkingToProcessing}
+                      />
+                  </Col>
+                  <Col span={1}></Col>
+                  <Col span={8} className="right-side" id="high">
+                      <h1 id="center"> My tasks </h1>
+                      <MyRequest 
+                      data={this.state.processingData}
+                      loadSubmittedData={this.loadSubmittedData}
+                      loadProcessingData={this.loadProcessingData}
+                      handleMarking={this.handleMarkingToFinish}
+                      />
+                  </Col>
+                </Row>
           
       );
   }

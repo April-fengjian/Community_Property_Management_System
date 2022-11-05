@@ -1,5 +1,5 @@
 import React, { useState }from "react";
-import { Form, Menu, Input, Button, Dropdown, Space, Select, message, List, Typography, Table } from 'antd';
+import { Form, Menu, Input, Button, Dropdown, Space, Select, message, Row, Col, Table } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { PoweroffOutlined } from '@ant-design/icons';
 import '../styles/ServiceRequest.css'
@@ -30,6 +30,7 @@ const columns = [
     },
 ];
 class SendRequest extends React.Component{
+
     state = {
         loading: false
     }
@@ -37,11 +38,7 @@ class SendRequest extends React.Component{
         console.log('click', label);
     }
     handleSubmit = async (values) => {
-        console.log(values)
-        // const requestData = new FormData()
-        // requestData.append("title",values.title)
-        // requestData.append("category",values.category)
-        // requestData.append("description",values.description)
+        // this.props.form.resetFields();
         const requestData = {
             "title": values.title,
             "category": values.category,
@@ -54,6 +51,8 @@ class SendRequest extends React.Component{
         try {
             await sendRequest(requestData);
             message.success("Your request has been sent");
+            await this.props.loadData();
+            message.success("Your request list has been updated");
         } catch (error) {
             message.error(error.message);
         } finally {
@@ -77,7 +76,7 @@ class SendRequest extends React.Component{
     render() {
         return (
             <div>
-                <div className="request-title">Send a Request</div>
+                {/* <div className="request-title">Send a Request</div> */}
                 <Form name="request-form" layout="vertical" onFinish={this.handleSubmit}>
                     <Form.Item className="input-title" name="title" label="Title: ">
                         <Input placeholder="Click to type the title of the request"></Input>
@@ -115,16 +114,10 @@ class SendRequest extends React.Component{
     }
 }
 class RequestList extends React.Component {
-    state = {
-        loading: false,
-        data : [],
-        allRequest: [],
-        filter: 'Filter'
-    }
 
     menu = (
         <Menu
-          onClick={(e)=>this.handleFilterClick(e)}
+          onClick={(e)=>this.props.handleFilterClick(e)}
           items={[
             {
                 label: 'show all request',
@@ -145,6 +138,47 @@ class RequestList extends React.Component {
           ]}
         />
     );
+
+    render(){
+        return (
+            <div>
+                <div align='right' className="filter">
+                    <Dropdown overlay={this.menu}>
+                        <Button>
+                            <Space>
+                            {this.props.filter}
+                            <DownOutlined />
+                            </Space>
+                        </Button>
+                    </Dropdown>
+                </div>
+                
+                <Table columns={columns} size='small'
+                    expandable={{expandedRowRender: (record) => (
+                            <div style={{ margin: 0 }}>
+                                <div>{record.description}</div>
+                                <div align="right">
+                                    <Button onClick={()=> this.props.handleCancel(record.id)} >Cancel Request</Button>
+                                </div>
+                            </div>),}}
+                    dataSource = {this.props.data} />
+            </div>  
+        )
+    }
+
+}
+
+class ServiceRequest extends React.Component{
+    // state = {
+    //     reload: false
+    // }
+    state = {
+        loading: false,
+        data : [],
+        allRequest: [],
+        filter: 'Filter'
+    }
+
     
     componentDidMount() {
         this.loadData();
@@ -174,30 +208,6 @@ class RequestList extends React.Component {
             });
         }
     };
-    // changeData = async(key) => {
-    //     this.setState({
-    //         loading: true,
-    //     });
-
-    //     try {
-            
-    //         const resp = await getRequestByStatus(key)
-    //         for (let i = 0; i< resp.length; i++) {
-    //             resp[i]["key"] = i
-                    
-    //         }
-    //         this.setState({
-    //             data: resp,
-    //             filter: key
-    //         }); 
-    //     } catch (error) {
-    //         message.error(error.message);
-    //     } finally {
-    //         this.setState({
-    //             loading: false,
-    //         });
-    //     }
-    // }
     changeData = (newStatus) => {
         const newData = [];
         const oldData = this.state.allRequest;
@@ -211,6 +221,7 @@ class RequestList extends React.Component {
             filter: newStatus,
         });
     }
+
     handleCancel = async(id) => {
         // e.preventDefault()
         // console.log(id)
@@ -221,7 +232,7 @@ class RequestList extends React.Component {
         try {
             await cancelRequest(id);
             await this.loadData();
-            message.success("Your request has been cancel");
+            message.success("Your request has been canceled!");
         } catch (error) {
             message.error(error.message);
         } finally {
@@ -243,113 +254,49 @@ class RequestList extends React.Component {
         }
         
     }
-    render(){
-        return (
-            <div>
-                <div align='right' className="filter">
-                    <Dropdown overlay={this.menu}>
-                        <Button>
-                            <Space>
-                            {this.state.filter}
-                            <DownOutlined />
-                            </Space>
-                        </Button>
-                    </Dropdown>
-                </div>
-                
-                <Table columns={columns} size='small'
-                    expandable={{expandedRowRender: (record) => (
-                            <div style={{ margin: 0 }}>
-                                <div>{record.description}</div>
-                                {/* <Button className="cancel-button" onClick={this.handleCancel.bind(this, record.id)} >Cancel Request</Button> */}
-                                <div align="right">
-                                    <Button onClick={()=> this.handleCancel(record.id)} >Cancel Request</Button>
-                                </div>
-                            </div>),}}
-                    dataSource = {this.state.data} />
-            </div>  
-        )
-    }
-
-}
-class Filter extends React.Component{
-    menu = (
-        <Menu
-          onClick={this.handleFilterClick}
-          items={[
-            {
-              label: 'show only submitted request',
-              key: 'submitted',
-            },
-            {
-              label: 'show only processing request',
-              key: 'processing',
-            },
-            {
-              label: 'show only finish request',
-              key: 'finish',
-            },
-          ]}
-        />
-    );
-    // changeData = async (status) => {
-    //     this.setState({
-    //         loading: true,
-    //     });
-
-    //     try {
-            
-    //         const resp = await getRequestByStatus(status)
-    //         for (let i = 0; i< resp.length; i++) {
-    //             resp[i]["key"] = i
-                    
-    //         }
-    //         this.setState({
-    //             data: resp,
-    //         }); 
-    //     } catch (error) {
-    //         message.error(error.message);
-    //     } finally {
-    //         this.setState({
-    //             loading: false,
-    //         });
-    //     }
-    // };
-    handleFilterClick(e){
-        console.log('click', e.key);
-        // this.changeData(e.key)
-    }
-    render(){
-        return (
-            <Dropdown overlay={this.menu} className="filter">
-                <Button>
-                    <Space>
-                    Filter
-                    <DownOutlined />
-                    </Space>
-                </Button>
-            </Dropdown>
-        );   
-    }
-}
-
-class ServiceRequest extends React.Component{
-    state = {
-        reload: false
-    }
-
     render() {
         return (
             <div>
                 {/* <div>
                     <Filter />
                 </div> */}
-                <div className="request-list">
-                    <RequestList />
+                {/* <div className="request-list">
+                    <RequestList 
+                    data={this.state.data}
+                    loadData={this.loadData}
+                    allRequest={this.state.allRequest}
+                    filter={this.state.filter}
+                    changeData={this.changeData}
+                    handleCancel={this.handleCancel}
+                    handleFilterClick={this.handleFilterClick}
+                    />
                 </div>
                 <div className="send-request">
-                    <SendRequest />
-                </div>
+                    <SendRequest 
+                    loadData={this.loadData}
+                    />
+                </div> */}
+        <Row className='main'>
+          <Col span={15} className="left-side">
+              <h1 id="center"> Your Service Requests </h1>
+              <RequestList 
+                    data={this.state.data}
+                    loadData={this.loadData}
+                    allRequest={this.state.allRequest}
+                    filter={this.state.filter}
+                    changeData={this.changeData}
+                    handleCancel={this.handleCancel}
+                    handleFilterClick={this.handleFilterClick}
+                    />
+          </Col>
+          <Col span={1}></Col>
+          <Col span={8} className="right-side" id="high">
+          <h1 id="center"> Submit A New Request </h1>
+                    <SendRequest 
+                    loadData={this.loadData}
+                    />
+          </Col>
+        </Row>
             </div>
             
         );

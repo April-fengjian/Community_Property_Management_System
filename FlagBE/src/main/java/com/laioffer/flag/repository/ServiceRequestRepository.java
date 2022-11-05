@@ -7,13 +7,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 @Repository
 public interface ServiceRequestRepository extends JpaRepository<ServiceRequest, Long> {
-    List<ServiceRequest> findByTenant(User tenant);
-    List<ServiceRequest> findByProvider(User provider);
-    List<ServiceRequest> findServiceRequestsByStatusContaining(String status);
+    List<ServiceRequest> findByTenant(User tenant, Sort sort);
+    List<ServiceRequest> findByProvider(User provider, Sort sort);
+    List<ServiceRequest> findServiceRequestsByStatusContaining(String status, Sort sort);
     ServiceRequest findByIdAndTenant(Long id, User tenant);
 
     @Modifying(clearAutomatically = true)
