@@ -15,6 +15,8 @@ public interface ServiceRequestRepository extends JpaRepository<ServiceRequest, 
     List<ServiceRequest> findByTenant(User tenant, Sort sort);
     List<ServiceRequest> findByProvider(User provider, Sort sort);
     List<ServiceRequest> findServiceRequestsByStatusAndTenant(String status, User tenant, Sort sort);
+
+    List<ServiceRequest> findServiceRequestsByStatus(String status, Sort sort);
     ServiceRequest findByIdAndTenant(Long id, User tenant);
 
     @Modifying(clearAutomatically = true)

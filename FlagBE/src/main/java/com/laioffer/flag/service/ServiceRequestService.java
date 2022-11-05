@@ -35,11 +35,15 @@ public class ServiceRequestService {
         return serviceRequestRepository.findByProvider(new User.Builder().setUsername(username).build(), Sort.by("time").ascending());
     }
 
-    public List<ServiceRequest> listByStatus(String category, String username) {
+    public List<ServiceRequest> listByStatus(String category) {
+        return serviceRequestRepository.findServiceRequestsByStatus(category, Sort.by("time").ascending());
+//        return serviceRequestRepository.findServiceRequestsByStatusAndTenant(category, new User.Builder().setUsername(username).build(), Sort.by("time").ascending());
+    }
+
+    public List<ServiceRequest> listByStatusByTenant(String category, String username) {
 //        return serviceRequestRepository.findServiceRequestsByStatusContaining(category, Sort.by("time").ascending());
         return serviceRequestRepository.findServiceRequestsByStatusAndTenant(category, new User.Builder().setUsername(username).build(), Sort.by("time").ascending());
     }
-
     public List<ServiceRequest> listByAll() {
         return serviceRequestRepository.findAll();
     }

@@ -41,11 +41,18 @@ public class ServiceRequestController {
     }
 
     @GetMapping("/serviceRequest/getAllByStatus/{status}")
+    public List<ServiceRequest> getAllByStatus(@PathVariable String status) {
+        if (status.isEmpty()) {
+            return serviceRequestService.listByAll();
+        }
+        return serviceRequestService.listByStatus(status);
+    }
+    @GetMapping("/serviceRequest/getMyByStatus/{status}")
     public List<ServiceRequest> getAllByStatus(@PathVariable String status,Principal principal) {
         if (status.isEmpty()) {
             return serviceRequestService.listByAll();
         }
-        return serviceRequestService.listByStatus(status, principal.getName());
+        return serviceRequestService.listByStatusByTenant(status, principal.getName());
     }
 
 

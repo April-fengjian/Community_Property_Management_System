@@ -64,6 +64,23 @@ export const getRequestByStatus = (status) => {
     });
 
 }
+
+export const getMyRequestByStatus = (status) => {
+    const authToken = localStorage.getItem("authToken");
+    const getRequestUrl = `${domain}/serviceRequest/getMyByStatus/${status}`;
+
+    return fetch(getRequestUrl, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        },
+    }).then((response) => {
+        if (response.status !== 200){
+            throw Error("Fail to get your request list")
+        }
+        return response.json();
+    });
+
+}
 export const getAllRequest = () => {
     const authToken = localStorage.getItem("authToken");
     const getRequestUrl = `${domain}/serviceRequest/getAllRequest`;

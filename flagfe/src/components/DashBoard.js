@@ -2,7 +2,7 @@ import Announcement from "./Announcement";
 import { Row, Col, Typography } from 'antd';
 import MyCalendar from "./MyCalendar";
 import { message, List } from 'antd';
-import { getRequestByStatus } from "../utils/serviceUtils";
+import { getMyRequestByStatus } from "../utils/serviceUtils";
 import React from "react";
 
 const { Text } = Typography;
@@ -22,7 +22,7 @@ class ShowRequest extends React.Component{
     });
 
     try {
-        const resp = await getRequestByStatus("processing")
+        const resp = await getMyRequestByStatus("processing")
         const title = []
         for (let i = 0; i< resp.length; i++) {
             title[i] = resp[i].title
