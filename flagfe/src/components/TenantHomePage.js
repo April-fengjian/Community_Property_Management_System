@@ -7,6 +7,7 @@ import ServiceRequest from './ServiceRequest';
 import Payment from './Payment';
 import PostMessage from './PostMessage';
 import RoomCalendar from "./RoomCalendar";
+import MyInvoiceList from "./MyInvoiceList";
  
 const { TabPane } = Tabs;
   
@@ -24,7 +25,8 @@ class TenantHomePage extends React.Component {
             <RoomCalendar />
         </TabPane>
         <TabPane tab="Payment" key="4">
-            <Payment />
+           <MyInvoiceList />
+            {/* <Payment /> */}
         </TabPane>
         <TabPane tab="Message Forum" key="5">
             <PostMessage />
