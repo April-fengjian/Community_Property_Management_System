@@ -162,6 +162,7 @@ class MyInvoiceList extends React.Component {
                             <div style={{ margin: 0 }}>
                                 <div>{record.description}</div>
                                 <Button className="cancel-button" onClick={()=> this.handlePayInvoice(record.id)} >Pay Now</Button>
+                                {/* {record.paymentDate !== null ?  */}
                             </div>),}}
                     dataSource = {this.state.data} />
             </div>  
