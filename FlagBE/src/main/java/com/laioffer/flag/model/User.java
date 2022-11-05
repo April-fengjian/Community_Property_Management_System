@@ -14,10 +14,9 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     private String username;
-    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "room_id")
-    private Room room;
+    @JoinColumn(name = "unit_id")
+    private Unit unit;
     @JsonIgnore
     private String password;
     @JsonIgnore
@@ -35,12 +34,12 @@ public class User implements Serializable {
 
     public User(Builder builder) {
         this.username = builder.username;
-        this.room = builder.room;
         this.password = builder.password;
         this.email = builder.email;
         this.phone = builder.phone;
         this.enabled = builder.enabled;
         this.avatar = builder.avatar;
+        this.unit = builder.unit;
     }
 
     public String getUsername() {
@@ -51,13 +50,11 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public Room getRoom() {
-        return room;
+
+    public Unit getUnit() {
+        return unit;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
-    }
 
     public String getPassword() {
         return password;
@@ -65,6 +62,10 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 
     public String getEmail() {
@@ -98,8 +99,6 @@ public class User implements Serializable {
     public static class Builder {
         @JsonProperty("username")
         private String username;
-        @JsonProperty("room")
-        private Room room;
         @JsonProperty("password")
         private String password;
         @JsonProperty("email")
@@ -108,16 +107,14 @@ public class User implements Serializable {
         private Long phone;
         @JsonProperty("enabled")
         private boolean enabled;
+
+        @JsonProperty("unit")
+        private Unit unit;
         
         private String avatar;
 
         public Builder setUsername(String username) {
             this.username = username;
-            return this;
-        }
-
-        public Builder setRoom(Room room) {
-            this.room = room;
             return this;
         }
 
@@ -141,10 +138,15 @@ public class User implements Serializable {
             return this;
         }
 
+        public Builder setUnit(Unit unit) {
+            this.unit = unit;
+            return this;
+        }
 
         public User build() {
             return new User(this);
         }
+
 
     }
 }

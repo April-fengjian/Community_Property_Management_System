@@ -20,9 +20,13 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
+    @GetMapping(value = "/bookings/user")
+    public List<Booking> listBookingsByUser(Principal principal) {
+        return bookingService.listByUser(principal.getName());
+    }
     @GetMapping(value = "/bookings")
     public List<Booking> listBookings(Principal principal) {
-        return bookingService.listByUser(principal.getName());
+        return bookingService.listAll();
     }
 
     @PostMapping("/bookings")

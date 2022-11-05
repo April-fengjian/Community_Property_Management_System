@@ -26,6 +26,10 @@ public class ServiceRequestController {
         serviceRequestService.addRequest(serviceRequest);
     }
 
+    @GetMapping("/serviceRequest/getAllRequest")
+    public List<ServiceRequest> getAllRequest(Principal principal) {
+        return serviceRequestService.listByAll();
+    }
     @GetMapping("/serviceRequest/getTenantRequest")
     public List<ServiceRequest> getRequestByTenant(Principal principal) {
         return serviceRequestService.listByTenant(principal.getName());
@@ -47,6 +51,15 @@ public class ServiceRequestController {
     @DeleteMapping("/serviceRequest/cancelRequest")
     public void cancelRequest(@RequestBody Long requestId, Principal principal) {
         serviceRequestService.cancelRequest(requestId);
+    }
+    @PostMapping("/serviceRequest/assignRequest")
+    public void assignRequest(@RequestBody Long id, Principal principal) {
+        serviceRequestService.assignRequest(id, principal.getName() );
+    }
+
+    @PostMapping("/serviceRequest/finishRequest")
+    public void finishRequest(@RequestBody Long id, Principal principal) {
+        serviceRequestService.finishRequest(id);
     }
 
 }
