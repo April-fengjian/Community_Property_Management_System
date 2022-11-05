@@ -185,9 +185,11 @@ class ServiceTasks extends React.Component{
                   <Filter />
               </div> */}
               <div className="request-list">
+              <h4 id="center">All submitted Requests</h4>
                   <AllRequests />
               </div>
               <div className="send-request">
+              <h4 id="center">My tasks</h4>
                   <MyRequest />
               </div>
           </div>

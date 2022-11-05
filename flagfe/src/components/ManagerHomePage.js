@@ -15,9 +15,9 @@ import {
     render() {
       return (
         <Tabs defaultActiveKey="1" destroyInactiveTabPane={true}> 
-          <TabPane tab="ServiceTasks" key="1">
+          {/* <TabPane tab="ServiceTasks" key="1">
             <ServiceTasks />
-          </TabPane>
+          </TabPane> */}
           <TabPane tab="Post Announcement" key="2">
             <PostAnnouncement />
           </TabPane>
