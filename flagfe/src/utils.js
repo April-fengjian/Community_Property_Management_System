@@ -1,4 +1,4 @@
-const domain = '';
+const domain = 'https://communitymanagementsystem.ue.r.appspot.com';
 
 export const login = (credential) => {
   const loginUrl = `${domain}/authenticate/${credential.role}`;
